@@ -13,12 +13,12 @@
 
 \section{ Goal}
 \subsection{General}
-Goal of the BEP is to generate a new benchmark tool for NLP. Preferably one that is adversarial as it is less subseptibal to overfitting, and can find weaknesses in current state of the art methods.
+Goal of the BEP is to generate a new benchmark tool for Natural Language Processing (NLP). Preferably one that is adversarial as it is less susceptible to overfitting, and can find weaknesses in current state of the art methods.
 
 \subsection{Specific}
 I want to create an adversarial attack benchmark targeted at \cite[image annotation]{venkatesh} . Inspired by \cite[Adversarial Examples]{goodfellow2015explaining}, which is able to produce a specifically crafted noise field that is able to throw off classifcation models, but are undetectable to humans. The research questions then boil down to:
 \begin{itemize}
-    \item Are Image Annotation Networks subseptical to adversarial examples?
+    \item Are Image Annotation Networks susceptible to adversarial examples?
     \item Is the output annotation controlable? (i.e. can we produce an adversarial example which will generate a (random) chosen output)
 \end{itemize}
 
@@ -27,27 +27,28 @@ I want to definetly answer the first research question. I will try my best to an
 Although this project will focus on Adversarial Attack on Image Annotation, it should be applicable to the broader scope of image-to-text models. However I do not plan to go into that, due to the limited time of the BEP.
 
 \subsection{Personal}
-Although not directly related, I have some personal goals that I would like to mention and rationalize.
-* TDD: To ensure that the code that is written is correct, modular and easy to change. Also making sure everything is deterministic and therefore reproducable.
-* A better understanding of how Neural Networks work and train. NNs are usefull but to most still a magic black box that just works. I want to be able to better reason as to why certain things will work and others won't.
-* Mono-repo: Keeping everything related to the project under a single github repository. Including the code, paper and other resources. This will
+Although not directly related, I have some personal goals that I would like to mention and rationalize:
+\begin{itemize}
+    \item  Test Driven Development (TDD): To ensure that the code that is written is correct, modular and easy to change. Also making sure everything is deterministic and therefore reproducable.
+    \item  A better understanding of how Neural Networks work and train. NNs are usefull but to most still a magic black box that just works. I want to be able to better reason as to why certain things will work and others won't.
+    \item  Mono-repo: Keeping everything related to the project under a single github repository. Including the code, paper and other resources.
+\end{itemize}
 
 \section{Pre Study}
 Relevant research has been done in the area of image classification, most notably \cite[Intriguing properties of neural networks]{szegedy2014intriguing}, which proposes a way of finding adversarial examples for image classification. It also discusses the cross-model generalization of the produced samples. The result of this project could thus also be used to strengthen current datasets.
 There are a broad range of Image Annotation Networks and \cite[surveys]{cheng_zhang_fu_tu_li_2018} on the difference between them. On of the more basic \cite[deep learning image annotation]{venkatesh} models will be my first focus, as it is closly related to the image classification structure used in aformentioned research.
 
 \section{Methodology}
-First reproducing some relevant papers as to gain experience with the field and project. Starting with \cite[Intriguing properties of neural networks]{szegedy2014intriguing} and then a \cite[deep learning image annotation]{venkatesh} model. After which I will combine the two methods to see if Image Annotation is subseptical to Adversarial attakcs.
+First reproducing some relevant papers as to gain experience with the field and project. Starting with \cite[Intriguing properties of neural networks]{szegedy2014intriguing} and then a \cite[deep learning image annotation]{venkatesh} model. After which I will combine the two methods to see if Image Annotation is susceptible to Adversarial attakcs.
 Training and Testing will be done using the same sets as used in the aformentioned paper (Coral5k, ESP Game and  IAPR-TC12).
-
 
 \subsection{Timeline}
 I have set up the following schedule for myself. Bolded deadlines are from the university, the rest is a rough sketch to keep myself on schedule.
-\begin{table}[]
+\begin{table}[h]
     \begin{tabular}{|l|l|}
         \hline
         \multicolumn{1}{|r|}{Date} & Description                                     \\ \hline
-        22 February                & Draft of Project plan                           \\ \hline
+        22 February                & Hand in draft of Project plan                   \\ \hline
         \textbf{01 March}          & \textbf{Hand in Project plan}                   \\ \hline
         08 March                   & Reproduced Adversarial Attack on classification \\ \hline
         22 March                   & Reproduced An Image Annotation network          \\ \hline
@@ -61,7 +62,7 @@ I have set up the following schedule for myself. Bolded deadlines are from the u
 
 
 \subsection{Technology}
-The code will be written in Python, with Pytorch as Machine-Learning backend. Versioning will be done with git. The repo can be found on \href{https://github.com/dikvangenuchten/bep-adversarial-image-annotation}. Which will also contain the working version of the paper and other resources, such as this plan.
+The code will be written in Python, with Pytorch as Machine-Learning backend. Versioning will be done with git. The repo can be found on \href{https://github.com/dikvangenuchten/bep-adversarial-image-annotation}{my personal github repository}. Which will also contain the working version of the paper and other resources, such as this plan.
 
 
 \bibliographystyle{plain}
