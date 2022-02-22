@@ -1,0 +1,55 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.217.4/containers/python-3
+{
+	"name": "Pytorch Dev-container",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"context": ".."
+	},
+	"runArgs": [
+		"--gpus=all"
+	],
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"python.defaultInterpreterPath": "/usr/local/bin/python",
+		// Python settings
+		"python.languageServer": "Pylance",
+		"autoDocstring.docstringFormat": "numpy",
+		// Pylint settings
+		"python.formatting.provider": "black",
+		"python.formatting.blackArgs": [
+			"--line-length=120"
+		],
+		"python.sortImports.args": [
+			"--profile=black",
+			"--line-length=120",
+			"--src=${workspaceFolder}/src"
+		],
+		"python.linting.cwd": "${workspaceFolder}",
+		"python.linting.pylintEnabled": true,
+		"python.linting.pylintArgs": [
+			"--disable=fixme"
+		],
+		// Pytest settings
+		"python.testing.cwd": "${workspaceFolder}",
+		"python.testing.unittestEnabled": false,
+		"python.testing.pytestEnabled": true,
+	},
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"ms-python.vscode-pylance",
+		"cameron.vscode-pytest",
+		"ms-python.python",
+		"visualstudioexptteam.vscodeintellicode",
+		"kevinrose.vsc-python-indent",
+	],
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "pip3 install --user -r requirements.txt",
+	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"updateRemoteUserUID": true,
+	"features": {
+		"git": "latest"
+	}
+}
