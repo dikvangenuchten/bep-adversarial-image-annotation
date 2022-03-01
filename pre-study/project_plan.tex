@@ -39,10 +39,10 @@ To further minimize the initial scope, I will focus on a single image annotation
 % \end{itemize}
 
 \section{Pre Study}
-Relevant research has been done in the area of image classification, most notably by \citeauthor{goodfellow2015explaining}, who propose a faster way of finding adversarial examples for image classification. Also, the findings by \citeauthor{venkatesh} show that adversarial examples have a cross-model generalization. The result of this project could thus also be used to strengthen current datasets. Furthermore, there has been a lot of research into image annotation. One of the more basic full deep learning image annotation models, S.A.T. \cite{xu2016show}, will be my first focus, as it is closely related to the image classification structure used in aforementioned research.
+Relevant research has been done in the area of image classification, most notably by \citeauthor{goodfellow2015explaining}, who propose a faster way of finding adversarial examples for image classification. Also, the findings by \citeauthor{venkatesh} show that adversarial examples have cross-model generalization. The result of this project could thus also be used to strengthen current datasets. Furthermore, there has been a lot of research into image annotation. One of the more basic full deep learning image annotation models, S.A.T. \cite{xu2016show}, will be my first focus.
 
 \section{Methodology}
-First reproducing some relevant papers as to gain experience with the field and project. Starting with (re)producing an adversarial attack on a MNIST classification model \cite{szegedy2014intriguing} to get familiar with handling images and producing adversarial examples. Then applying that on a deep learning image annotation model, like the one proposed by \citeauthor{xu2016show}. After which I will combine the two methods to see if S.A.T. is susceptible to adversarial examples. For training and testing I will make use of the publicly available datasets MS COCO \cite{lin2015microsoft} and Flickr8K \cite{Flickr8k}. I will be mainly looking at BLUE \cite{papineni_roukos_ward_zhu_2001} score.
+First reproducing some relevant papers as to gain experience with the field and project. Starting with (re)producing an adversarial attack on a MNIST classification model \cite{szegedy2014intriguing} to get familiar with producing adversarial examples. Then applying that on a deep learning image annotation model, like the one proposed by \citeauthor{xu2016show}. After which I will combine the two methods to see if S.A.T. is susceptible to adversarial examples. For training and testing I will make use of the publicly available datasets MS COCO \cite{lin2015microsoft} and Flickr8K \cite{Flickr8k}. To verifying that the adversarial examples are effective I will be mainly looking at BLUE \cite{papineni_roukos_ward_zhu_2001} score as it is widely reported in the image annotation literature.
 
 \subsection{Timeline}
 I have set up the following schedule for myself. Bolded deadlines are from the university, the rest is a rough sketch to keep myself on schedule.
@@ -66,9 +66,7 @@ I have set up the following schedule for myself. Bolded deadlines are from the u
 
 \subsection{Technology}
 The code will be written in Python, with PyTorch as Machine-Learning backend.
-Versioning will be done with git.
-The repo can be found on my personal GitHub repository\footnote{\url{https://github.com/dikvangenuchten/bep-adversarial-image-annotation}}. Which will also contain the working version of the paper and other resources, such as this plan.
-
+Versioning will be done with git. Both the paper and code can be found on my personal GitHub repository\footnote{\url{https://github.com/dikvangenuchten/bep-adversarial-image-annotation}}.
 
 \bibliographystyle{apacite}
 \bibliography{project_plan}
