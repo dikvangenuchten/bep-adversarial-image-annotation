@@ -16,12 +16,11 @@
 Goal of the BEP is to generate a new benchmark tool for Natural Language Processing (NLP). Preferably one that is adversarial as it is less susceptible to overfitting, and can find weaknesses in current state of the art methods.
 
 \subsection{Specific}
-I want to create an adversarial attack benchmark targeted at image annotation \cite{venkatesh,xu2016show}. Inspired by "Adversarial Examples" proposed by \citeauthor{szegedy2014intriguing}, which are images with small perturbations that is able to throw off classifcation models, but are unnoticable to humans. \citeauthor{szegedy2014intriguing} also found that these adversarial examples generalize across models. The research questions then boil down to:
+I want to create an adversarial attack benchmark targeted at image annotation \cite{xu2016show,venkatesh}. Inspired by "Adversarial Examples" proposed by \citeauthor{szegedy2014intriguing}, which are images with small perturbations that is able to throw off classifcation models, but are unnoticable to humans. \citeauthor{szegedy2014intriguing} also found that these adversarial examples generalize across models. I want to investigate if image annotation networks suffer from the same vulnerablities. Hence the following research questions:
 \begin{itemize}
     \item Are Image Annotation Networks vulnerable to adversarial examples?
-    \item Is the output annotation controlable? (i.e. can we produce an adversarial example which will generate a chosen output)
+    \item Is the output annotation controlable? (i.e. can we produce an adversarial example which will generate a chosen annotation)
 \end{itemize}
-
 
 I want to definetly answer the first research question. I will try my best to answer the second.
 
@@ -43,6 +42,7 @@ First reproducing some relevant papers as to gain experience with the field and 
 
 \subsection{Timeline}
 I have set up the following schedule for myself. Bolded deadlines are from the university, the rest is a rough sketch to keep myself on schedule.
+
 \begin{table}[h]
     \begin{tabular}{|l|l|}
         \hline
