@@ -2,6 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
 \usepackage{apacite}
+\usepackage{outlines}
 
 \title{Adversarial Attack on Image Annotation}
 \author{H.J.M. van Genuchten, 1297333}
@@ -13,18 +14,21 @@
 
 \section{ Goal}
 \subsection{General}
-Goal of the BEP is to generate a new benchmark tool for Natural Language Processing (NLP). Preferably one that is adversarial as it is less susceptible to overfitting, and can find weaknesses in current state of the art methods.
+Goal of the BEP is to generate a new benchmark tool for Natural Language Processing (NLP). Preferably one that is adversarial as it is less susceptible to overfitting, and can find weaknesses in current state-of-the-art methods.
 
 \subsection{Specific}
-I want to create an adversarial attack benchmark targeted at image annotation \cite{xu2016show,venkatesh}. Inspired by "Adversarial Examples" proposed by \citeauthor{szegedy2014intriguing}, which are images with small perturbations that is able to throw off classifcation models, but are unnoticable to humans. \citeauthor{szegedy2014intriguing} also found that these adversarial examples generalize across models. I want to investigate if image annotation networks suffer from the same vulnerablities. Hence the following research questions:
-\begin{itemize}
-    \item Are Image Annotation Networks vulnerable to adversarial examples?
-    \item Is the output annotation controlable? (i.e. can we produce an adversarial example which will generate a chosen annotation)
-\end{itemize}
+I want to create an adversarial attack benchmark targeted at image annotation \cite{xu2016show,venkatesh}. Inspired by "Adversarial Examples" proposed by \citeauthor{szegedy2014intriguing}, which are images with small perturbations that is able to throw off classification models, but are unnoticeable to humans. \citeauthor{szegedy2014intriguing} also found that these adversarial examples generalize across models. I want to investigate if image annotation networks suffer from the same vulnerabilities. Hence, the following research questions:
+\begin{outline}
+    \1 Are Image Annotation Networks vulnerable to adversarial examples?
+    \2 Can the addition of small (crafted) perturbations significantly affect the output of the network?
+    \2 Can the addition of small (crafted) perturbations significantly affect the BLUE\cite{papineni_roukos_ward_zhu_2001} score of the network?
+    \1 Is the output annotation controllable?
+    \2 Can a perturbation be crafted in such a way that a word gets repeated continuously.
+    \2 Can a perturbation be crafted in such a way that it forces a certain annotation?
+\end{outline}
+The priority will be on the first research question, and if time permits I would like to also answer the second research question.
 
-I want to definetly answer the first research question. I will try my best to answer the second.
-
-To minimize the initial scope, I will focus on a single image annotation model, most likely Show, Attend and Tell (S.A.T.) by \citeauthor{xu2016show}. Although this project will focus on Adversarial Attack on S.A.T., it should be applicable to the broader scope of image annotation and image-to-text models. However I do not plan to go into that.
+To further minimize the initial scope, I will focus on a single image annotation model, most likely Show, Attend and Tell (S.A.T.) by \citeauthor{xu2016show} as it is a fully deep learning based approach.
 
 % \subsection{Personal}
 % Although not directly related, I have some personal goals that I would like to mention and rationalize:
@@ -35,10 +39,10 @@ To minimize the initial scope, I will focus on a single image annotation model, 
 % \end{itemize}
 
 \section{Pre Study}
-Relevant research has been done in the area of image classification, most notably by \citeauthor{goodfellow2015explaining}, who propose a faster way of finding adversarial examples for image classification. Also the findings by \citeauthor{venkatesh} show that adversarial examples have a cross-model generalization. The result of this project could thus also be used to strengthen current datasets. Furthermore there has been a lot of research into image annotation. One of the more basic full deep learning image annotation models, S.A.T. \cite{xu2016show}, will be my first focus, as it is closly related to the image classification structure used in aformentioned research.
+Relevant research has been done in the area of image classification, most notably by \citeauthor{goodfellow2015explaining}, who propose a faster way of finding adversarial examples for image classification. Also, the findings by \citeauthor{venkatesh} show that adversarial examples have a cross-model generalization. The result of this project could thus also be used to strengthen current datasets. Furthermore, there has been a lot of research into image annotation. One of the more basic full deep learning image annotation models, S.A.T. \cite{xu2016show}, will be my first focus, as it is closely related to the image classification structure used in aforementioned research.
 
 \section{Methodology}
-First reproducing some relevant papers as to gain experience with the field and project. Starting with (re)producing an adversarial attack on an mnist classification model \cite{szegedy2014intriguing} and then applying that on an a deep learning image annotation model, like the one proposed by \citeauthor{xu2016show}. After which I will combine the two methods to see if S.A.T. is susceptible to adversarial examples. For training and testing I will make use of the publicly available datasets MS COCO \cite{lin2015microsoft} and Flickr8K \cite{Flickr8k}. I will be mainly looking at BLUE \cite{papineni_roukos_ward_zhu_2001} score.
+First reproducing some relevant papers as to gain experience with the field and project. Starting with (re)producing an adversarial attack on a MNIST classification model \cite{szegedy2014intriguing} to get familiar with handling images and producing adversarial examples. Then applying that on a deep learning image annotation model, like the one proposed by \citeauthor{xu2016show}. After which I will combine the two methods to see if S.A.T. is susceptible to adversarial examples. For training and testing I will make use of the publicly available datasets MS COCO \cite{lin2015microsoft} and Flickr8K \cite{Flickr8k}. I will be mainly looking at BLUE \cite{papineni_roukos_ward_zhu_2001} score.
 
 \subsection{Timeline}
 I have set up the following schedule for myself. Bolded deadlines are from the university, the rest is a rough sketch to keep myself on schedule.
@@ -49,7 +53,7 @@ I have set up the following schedule for myself. Bolded deadlines are from the u
         \multicolumn{1}{|r|}{Date} & Description                                           \\ \hline
         22 February                & Hand in draft of Project plan                         \\ \hline
         \textbf{01 March}          & \textbf{Hand in Project plan}                         \\ \hline
-        08 March                   & Reproduced Adversarial Attack on mnist classification \\ \hline
+        08 March                   & Reproduced Adversarial Attack on MNIST classification \\ \hline
         22 March                   & Have a working Image Annotation model                 \\ \hline
         10 April                   & Applied Adversarial Attack on Image Annotation        \\ \hline
         \textbf{17 April}          & \textbf{Hand in Partial thesis}                       \\ \hline
@@ -61,9 +65,9 @@ I have set up the following schedule for myself. Bolded deadlines are from the u
 
 
 \subsection{Technology}
-The code will be written in Python, with Pytorch as Machine-Learning backend.
+The code will be written in Python, with PyTorch as Machine-Learning backend.
 Versioning will be done with git.
-The repo can be found on \href{https://github.com/dikvangenuchten/bep-adversarial-image-annotation}{my personal github repository}. Which will also contain the working version of the paper and other resources, such as this plan.
+The repo can be found on my personal GitHub repository\footnote{\url{https://github.com/dikvangenuchten/bep-adversarial-image-annotation}}. Which will also contain the working version of the paper and other resources, such as this plan.
 
 
 \bibliographystyle{apacite}
