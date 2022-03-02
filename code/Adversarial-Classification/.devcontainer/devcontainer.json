@@ -3,7 +3,7 @@
 {
 	"name": "Pytorch Dev-container",
 	"build": {
-		"dockerfile": "Dockerfile",
+		"dockerfile": "../Dockerfile",
 		"context": ".."
 	},
 	"runArgs": [
