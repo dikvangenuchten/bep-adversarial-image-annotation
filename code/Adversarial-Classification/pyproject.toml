@@ -1,0 +1,15 @@
+[tool.pytest.ini_options]
+pythonpath = "src/"
+omit = "tests/*"
+addopts = "--cov=src --cov-report html:cov_html --cov-report=term-missing"
+[tool.coverage.run]
+source = ['project']
+
+[tool.black]
+line-length = 80
+
+[tool.isort]
+line_length=80
+multi_line_output=3
+include_trailing_comma=true
+indent='    '
