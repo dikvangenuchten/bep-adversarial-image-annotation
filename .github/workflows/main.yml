@@ -1,0 +1,32 @@
+name: Test Adversarial Classification
+
+on:
+  push:
+    branches: [$default-branch]
+    paths: "code/Adversarial-Classification/**"
+  pull_request:
+    branches: [$default-branch]
+    paths: "code/Adversarial-Classification/**"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: test
+    defaults:
+      run:
+        working-directory: code/Adversarial-Classification
+    container: pytorch/pytorch:1.9.1-cuda11.1-cudnn8-runtime
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Run black
+        uses: psf/black@stable
+        with:
+          src: "code/Adversarial-Classification/src"
+      - name: Run tests
+        run: |
+          pytest .
