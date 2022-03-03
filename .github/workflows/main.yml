@@ -2,10 +2,10 @@ name: Test Adversarial Classification
 
 on:
   push:
-    branches: [$default-branch]
+    branches: [main]
     # paths: ["code/Adversarial-Classification/**"]
   pull_request:
-    branches: [$default-branch]
+    branches: [main]
     # paths: ["code/Adversarial-Classification/**"]
 
 jobs:
