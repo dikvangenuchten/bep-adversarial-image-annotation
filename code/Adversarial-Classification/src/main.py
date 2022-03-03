@@ -25,9 +25,16 @@ def get_mnist() -> torch.utils.data.Dataset:
 if __name__ == "__main__":
     dataset = get_mnist()
     model = MnistModel()
-    optimizer = torch.optim.SGD(model.parameters(), lr=LEARNING_RATE, momentum=MOMENTUM)
+    model.cuda()
+    optimizer = torch.optim.SGD(
+        model.parameters(),
+        lr=LEARNING_RATE,
+        momentum=MOMENTUM,
+    )
     loss_func = torch.nn.functional.nll_loss
     runner = Runner(model, optimizer, loss_func)
-    
+
     for x, target in dataset:
+        x = x.cuda()
+        target = target.cuda()
         runner.train_step(x, target)
