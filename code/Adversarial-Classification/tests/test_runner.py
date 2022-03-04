@@ -12,19 +12,30 @@ def zero_mnist_model():
     return model
 
 
-def test_runner(zero_mnist_model):
-    optimizer = torch.optim.SGD(
+@pytest.fixture()
+def optimizer(zero_mnist_model):
+    return torch.optim.SGD(
         zero_mnist_model.parameters(),
         lr=1,
         momentum=0.5,
     )
-    loss_func = torch.nn.functional.nll_loss
 
-    test_runner = Runner(
+
+@pytest.fixture()
+def loss_func():
+    return torch.nn.functional.nll_loss
+
+
+@pytest.fixture()
+def runner(zero_mnist_model, optimizer, loss_func):
+    return Runner(
         zero_mnist_model,
         optimizer,
         loss_func,
     )
+
+
+def test_runner_train_step(zero_mnist_model, loss_func, runner):
     x = torch.rand((1, 1, 28, 28))
     target = torch.tensor([1])
 
@@ -32,7 +43,9 @@ def test_runner(zero_mnist_model):
     pre_train_out = zero_mnist_model(x)
     assert len(torch.unique(pre_train_out)) == 1
     expected_loss = loss_func(zero_mnist_model(x), target)
-    actual_loss = test_runner.train_step(x, target)
+
+    actual_loss = runner.train_step(x, target)
+
     assert expected_loss == actual_loss
     post_train_out = zero_mnist_model(x)
     assert not torch.allclose(pre_train_out, post_train_out)
