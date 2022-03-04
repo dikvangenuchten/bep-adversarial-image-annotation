@@ -52,6 +52,18 @@ def test_runner_train_step(zero_mnist_model, loss_func, runner):
     assert torch.argmax(post_train_out) == 1
 
 
+def test_runner_test_step(zero_mnist_model, runner):
+    x = torch.rand((1, 1, 28, 28))
+    target = torch.tensor([1])
+
+    pre_train_out = zero_mnist_model(x)
+
+    runner.test_step(x, target)
+
+    post_train_out = zero_mnist_model(x)
+    assert torch.allclose(pre_train_out, post_train_out)
+
+
 def _set_model_weight_to_zero(
     model,
 ) -> torch.nn.Module:

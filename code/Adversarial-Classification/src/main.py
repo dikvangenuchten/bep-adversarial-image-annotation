@@ -1,5 +1,3 @@
-from statistics import mean
-from typing import Callable
 import torch
 import torchvision
 from model import MnistModel
