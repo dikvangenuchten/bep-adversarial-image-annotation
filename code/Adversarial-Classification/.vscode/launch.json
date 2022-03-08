@@ -13,6 +13,14 @@
             "justMyCode": false,
         },
         {
+            "name": "Python: Adversarial",
+            "type": "python",
+            "request": "launch",
+            "program": "src/adversarial.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+        },
+        {
             "name": "Python: Test debug config",
             "type": "python",
             "purpose": [

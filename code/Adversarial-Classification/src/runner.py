@@ -2,6 +2,9 @@
 from typing import Callable, List
 import torch
 from metrics import abstract_metric
+import wandb
+
+DEVICE = "cpu"
 
 
 class Runner:
@@ -13,6 +16,7 @@ class Runner:
     ) -> None:
         self.epoch: int = 0
         self.model: torch.nn.Module = model
+        self.model.to(DEVICE)
         self.optimizer: torch.optim.Optimizer = optimizer
         self.loss_func: Callable[
             [torch.Tensor, torch.Tensor], torch.Tensor
@@ -21,22 +25,23 @@ class Runner:
     def train_epoch(
         self,
         dataset,
-        epoch,
         metrics: List[abstract_metric.AbstractMetric],
-    ):
+    ) -> float:
         train_loss = []
         for x, target in dataset:
             loss, output = self.train_step(x, target)
-            for metric in metrics:
-                metric.add_measurement(
-                    x,
-                    target,
-                    output,
-                )
+            self._add_measurements_to_metrics(metrics, x, target, output)
             train_loss.append(loss)
-        wandb.log(
-            {"epoch": epoch, "train-loss": sum(train_loss) / len(train_loss)}
-        )
+        return sum(train_loss) / len(train_loss)
+
+    @staticmethod
+    def _add_measurements_to_metrics(metrics, x, target, output):
+        for metric in metrics:
+            metric.add_measurement(
+                x,
+                target,
+                output,
+            )
 
     def train_step(
         self,
@@ -45,12 +50,13 @@ class Runner:
     ) -> torch.Tensor:
         self.optimizer.zero_grad()
 
+        x.to(DEVICE)
         output = self.model(x)
-        loss = self.loss_func(output, target)
+        loss = self.loss_func(output, target.to(DEVICE))
 
         loss.backward()
         self.optimizer.step()
-        return loss, output
+        return loss.cpu(), output.cpu()
 
     def test_step(
         self,

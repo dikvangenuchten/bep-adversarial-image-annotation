@@ -1,3 +1,4 @@
+from typing import Union
 from torch import nn
 import torch
 
@@ -20,6 +21,17 @@ class MnistModel(nn.Module):
             nn.Linear(50, 10),
             nn.LogSoftmax(),
         )
+
+    @classmethod
+    def load(cls, path: Union[str, dict]) -> "MnistModel":
+        if isinstance(path, str):
+            path = torch.load(path)
+        model = cls()
+        model.load_state_dict(path)
+        return model
+
+    def save(self, path):
+        torch.save(self.state_dict(), path)
 
     def forward(self, x):
         return self.model(x)

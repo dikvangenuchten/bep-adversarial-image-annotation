@@ -49,6 +49,7 @@ def test_all_incorrect(batch_size, n_classes, accuracy_metric):
     accuracy = accuracy_dict["accuracy"]
     assert accuracy == 0
 
+
 def test_2_batches(batch_size, n_classes, accuracy_metric):
     x = torch.rand((batch_size, 8, 8))
     predicted_y = torch.cat(
@@ -58,11 +59,10 @@ def test_2_batches(batch_size, n_classes, accuracy_metric):
     # These should be incorrect
     target_y = torch.tensor([1] * batch_size)
     accuracy_metric.add_measurement(x, target_y, predicted_y)
-    
+
     # These should be correct
     target_y = torch.tensor([0] * batch_size)
     accuracy_metric.add_measurement(x, target_y, predicted_y)
-    
 
     accuracy_dict = accuracy_metric.get_measurement()
     assert len(accuracy_dict) == 1

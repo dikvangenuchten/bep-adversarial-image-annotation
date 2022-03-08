@@ -3,10 +3,10 @@ name: Test Adversarial Classification
 on:
   push:
     branches: [main]
-    # paths: ["code/Adversarial-Classification/**"]
+    paths: ["code/Adversarial-Classification/**"]
   pull_request:
     branches: [main]
-    # paths: ["code/Adversarial-Classification/**"]
+    paths: ["code/Adversarial-Classification/**"]
 
 jobs:
   test:
