@@ -8,7 +8,6 @@ import pytest
 def zero_mnist_model():
     model = MnistModel()
     model = _set_model_weight_to_zero(model)
-    model
     return model
 
 
@@ -44,8 +43,9 @@ def test_runner_train_step(zero_mnist_model, loss_func, runner):
     assert len(torch.unique(pre_train_out)) == 1
     expected_loss = loss_func(zero_mnist_model(x), target)
 
-    actual_loss = runner.train_step(x, target)
+    actual_loss, actual_output = runner.train_step(x, target)
 
+    assert torch.allclose(actual_output, pre_train_out)
     assert expected_loss == actual_loss
     post_train_out = zero_mnist_model(x)
     assert not torch.allclose(pre_train_out, post_train_out)

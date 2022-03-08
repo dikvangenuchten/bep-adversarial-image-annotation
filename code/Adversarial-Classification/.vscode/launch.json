@@ -10,13 +10,17 @@
             "request": "launch",
             "program": "src/main.py",
             "console": "integratedTerminal",
-            "justMyCode": false
-        },
-        {
-            "name": "Debug Unit Test",
-            "type": "python",
-            "purpose": "test",
             "justMyCode": false,
         },
+        {
+            "name": "Python: Test debug config",
+            "type": "python",
+            "purpose": [
+                "debug-test"
+            ],
+            "console": "integratedTerminal",
+            "logToFile": true,
+            "justMyCode": false
+        }
     ]
 }

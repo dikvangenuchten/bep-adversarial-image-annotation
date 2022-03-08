@@ -1,6 +1,7 @@
 """Runner trains and tests"""
-from typing import Callable
+from typing import Callable, List
 import torch
+from metrics import abstract_metric
 
 
 class Runner:
@@ -17,6 +18,26 @@ class Runner:
             [torch.Tensor, torch.Tensor], torch.Tensor
         ] = loss_func
 
+    def train_epoch(
+        self,
+        dataset,
+        epoch,
+        metrics: List[abstract_metric.AbstractMetric],
+    ):
+        train_loss = []
+        for x, target in dataset:
+            loss, output = self.train_step(x, target)
+            for metric in metrics:
+                metric.add_measurement(
+                    x,
+                    target,
+                    output,
+                )
+            train_loss.append(loss)
+        wandb.log(
+            {"epoch": epoch, "train-loss": sum(train_loss) / len(train_loss)}
+        )
+
     def train_step(
         self,
         x: torch.Tensor,
@@ -29,7 +50,7 @@ class Runner:
 
         loss.backward()
         self.optimizer.step()
-        return loss
+        return loss, output
 
     def test_step(
         self,
@@ -40,4 +61,4 @@ class Runner:
             output = self.model(x)
             loss = self.loss_func(output, target)
 
-        return loss
+        return loss, output
