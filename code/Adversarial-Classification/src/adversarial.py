@@ -54,7 +54,7 @@ def main(model_path):
         # Model returns log_softmax values
         output_orig = torch.exp(model(x_orig))
         x_ad = generate_adversarial_sample(
-            model, torch.nn.functional.nll_loss, x_orig, y, 0.1
+            model, torch.nn.functional.nll_loss, x_orig, y, 0.25
         )
         output_ad = torch.exp(model(x_ad))
         captioned_samples += [
