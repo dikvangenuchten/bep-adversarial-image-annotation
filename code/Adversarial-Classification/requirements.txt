@@ -4,4 +4,4 @@ pytest[toml]==7.0.1
 pytest-cov==3.0.0
 wandb==0.12.11
 matplotlib==3.5.1
-pyplot==5.6.0
+plotly==5.6.0
