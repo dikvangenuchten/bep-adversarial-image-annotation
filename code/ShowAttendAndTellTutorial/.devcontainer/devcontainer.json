@@ -7,9 +7,7 @@
 		"context": ".."
 	},
 	"runArgs": [
-		"--gpus=all",
-		"--env-file",
-		".env"
+		"--gpus=all"
 	],
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
@@ -19,13 +17,9 @@
 		"autoDocstring.docstringFormat": "numpy",
 		// Pylint settings
 		"python.formatting.provider": "black",
-		"python.formatting.blackArgs": [
-			"--line-length=80"
-		],
+		"python.formatting.blackArgs": [],
 		"python.sortImports.args": [
 			"--profile=black",
-			"--line-length=80",
-			"--src=${workspaceFolder}/src"
 		],
 		"python.linting.cwd": "${workspaceFolder}",
 		"python.linting.pylintEnabled": true,
