@@ -1,9 +1,8 @@
-from binascii import Incomplete
-import os
 from typing import List
+
 import torch
-from torch import device, nn
 import torchvision
+from torch import nn
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -299,32 +298,39 @@ class ShowAttendAndTell(nn.Module):
     """Composite helper class for encoder and decoder."""
 
     @classmethod
-    def load(cls, model_path, word_map):
+    def load(cls, model_path, word_map, device=None):
         """Load ShowAttendAndTell model"""
-        checkpoint = torch.load(model_path, map_location=str(DEVICE))
+        if device == None:
+            # Default to cuda if available
+            device = "cuda" if torch.cuda.is_available() else "cpu"
+        device = torch.device(device)
+
+        checkpoint = torch.load(model_path, map_location=str(device))
         decoder = checkpoint["decoder"]
-        decoder = decoder.to(DEVICE)
+        decoder = decoder.to(device)
         decoder.eval()
         encoder = checkpoint["encoder"]
-        encoder = encoder.to(DEVICE)
+        encoder = encoder.to(device)
         encoder.eval()
-        return cls(encoder, decoder, word_map)
+        return cls(encoder, decoder, word_map, device)
 
     def __init__(
         self,
         encoder: Encoder,
         decoder: DecoderWithAttention,
         word_map: dict,
+        device: torch.device
     ) -> None:
         super().__init__()
         self.encoder = encoder
         self.decoder = decoder
         self.word_map = word_map
 
-        self._end_token = self.word_map["<end>"]
+        self._device = device
 
         # Constants
         self.max_sentence_length = 50
+        self._end_token = self.word_map["<end>"]
 
     def _encoder_forward(
         self, input_img: torch.FloatTensor
@@ -358,14 +364,14 @@ class ShowAttendAndTell(nn.Module):
         # Initialize start of sentence
         k_prev_words = torch.LongTensor(
             [[self.word_map["<start>"]]] * latent_pixels.size(0)
-        ).to(DEVICE)
+        ).to(self._device)
 
         encoded_sentence = k_prev_words
         attention_sentence = torch.ones(
             latent_pixels.size(0),
             1,
             latent_pixels.size(1),
-        ).to(DEVICE)
+        ).to(self._device)
 
         decoder_hidden, c = self.decoder.init_hidden_state(latent_pixels)
 
@@ -374,7 +380,7 @@ class ShowAttendAndTell(nn.Module):
             1,
             self.max_sentence_length,
             self.decoder.vocab_size,
-        ).to(DEVICE)
+        ).to(self._device)
 
         for i in range(self.max_sentence_length):
 
@@ -414,3 +420,7 @@ class ShowAttendAndTell(nn.Module):
             k_prev_words = top_words
 
         return predictions, i
+
+    def to(self, device):
+        self._device = device
+        super().to(device)

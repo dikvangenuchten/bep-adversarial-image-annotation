@@ -1,15 +1,16 @@
+import argparse
+import json
+
+import matplotlib.cm as cm
+import matplotlib.pyplot as plt
+import numpy as np
+import skimage.transform
 import torch
 import torch.nn.functional as F
-import numpy as np
-import json
 import torchvision.transforms as transforms
-import matplotlib.pyplot as plt
-import matplotlib.cm as cm
-import skimage.transform
-import argparse
 from imageio import imread
-from skimage.transform import resize as imresize
 from PIL import Image
+from skimage.transform import resize as imresize
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
