@@ -1,8 +1,11 @@
+from binascii import Incomplete
+import os
+from typing import List
 import torch
-from torch import nn
+from torch import device, nn
 import torchvision
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 class Encoder(nn.Module):
@@ -27,7 +30,7 @@ class Encoder(nn.Module):
             (encoded_image_size, encoded_image_size)
         )
 
-        # self.fine_tune()
+        self.fine_tune()
 
     def forward(self, images):
         """
@@ -36,7 +39,9 @@ class Encoder(nn.Module):
         :param images: images, a tensor of dimensions (batch_size, 3, image_size, image_size)
         :return: encoded images
         """
-        out = self.resnet(images)  # (batch_size, 2048, image_size/32, image_size/32)
+        out = self.resnet(
+            images
+        )  # (batch_size, 2048, image_size/32, image_size/32)
         out = self.adaptive_pool(
             out
         )  # (batch_size, 2048, encoded_image_size, encoded_image_size)
@@ -91,17 +96,31 @@ class Attention(nn.Module):
         :param decoder_hidden: previous decoder output, a tensor of dimension (batch_size, decoder_dim)
         :return: attention weighted encoding, weights
         """
-        att1 = self.encoder_att(encoder_out)  # (batch_size, num_pixels, attention_dim)
-        att2 = self.decoder_att(decoder_hidden)  # (batch_size, attention_dim)
-        att = self.full_att(self.relu(att1 + att2.unsqueeze(1))).squeeze(
-            2
-        )  # (batch_size, num_pixels)
-        alpha = self.softmax(att)  # (batch_size, num_pixels)
+        alpha = self.attend(encoder_out, decoder_hidden)
         attention_weighted_encoding = (encoder_out * alpha.unsqueeze(2)).sum(
             dim=1
         )  # (batch_size, encoder_dim)
 
         return attention_weighted_encoding, alpha
+
+    def attend(
+        self,
+        encoder_out: torch.FloatTensor,
+        decoder_hidden: torch.FloatTensor,
+    ) -> torch.FloatTensor:
+        """
+        Calculate attention weights.
+
+        :param encoder_out: encoded images, a tensor of dimension (batch_size, num_pixels, encoder_dim)
+        :param decoder_hidden: previous decoder output, a tensor of dimension (batch_size, decoder_dim)
+        :return: attention weights
+        """
+        encoder_attention = self.encoder_att(encoder_out)
+        decoder_attention = self.decoder_att(decoder_hidden)
+        att = self.full_att(
+            self.relu(encoder_attention + decoder_attention.unsqueeze(1))
+        ).squeeze(2)
+        return self.softmax(att)
 
 
 class DecoderWithAttention(nn.Module):
@@ -236,10 +255,12 @@ class DecoderWithAttention(nn.Module):
         decode_lengths = (caption_lengths - 1).tolist()
 
         # Create tensors to hold word predicion scores and alphas
-        predictions = torch.zeros(batch_size, max(decode_lengths), vocab_size).to(
-            device
+        predictions = torch.zeros(
+            batch_size, max(decode_lengths), vocab_size
+        ).to(DEVICE)
+        alphas = torch.zeros(batch_size, max(decode_lengths), num_pixels).to(
+            DEVICE
         )
-        alphas = torch.zeros(batch_size, max(decode_lengths), num_pixels).to(device)
 
         # At each time-step, decode by
         # attention-weighing the encoder's output based on the decoder's previous hidden state output
@@ -249,13 +270,16 @@ class DecoderWithAttention(nn.Module):
             attention_weighted_encoding, alpha = self.attention(
                 encoder_out[:batch_size_t], h[:batch_size_t]
             )
-            gate = self.sigmoid(
-                self.f_beta(h[:batch_size_t])
+            gate = self.gate(
+                h[:batch_size_t]
             )  # gating scalar, (batch_size_t, encoder_dim)
             attention_weighted_encoding = gate * attention_weighted_encoding
             h, c = self.decode_step(
                 torch.cat(
-                    [embeddings[:batch_size_t, t, :], attention_weighted_encoding],
+                    [
+                        embeddings[:batch_size_t, t, :],
+                        attention_weighted_encoding,
+                    ],
                     dim=1,
                 ),
                 (h[:batch_size_t], c[:batch_size_t]),
@@ -265,3 +289,128 @@ class DecoderWithAttention(nn.Module):
             alphas[:batch_size_t, t, :] = alpha
 
         return predictions, encoded_captions, decode_lengths, alphas, sort_ind
+
+    def gate(self, hidden_state):
+        """Return the gate value"""
+        return self.sigmoid(self.f_beta(hidden_state))
+
+
+class ShowAttendAndTell(nn.Module):
+    """Composite helper class for encoder and decoder."""
+
+    @classmethod
+    def load(cls, model_path, word_map):
+        """Load ShowAttendAndTell model"""
+        checkpoint = torch.load(model_path, map_location=str(DEVICE))
+        decoder = checkpoint["decoder"]
+        decoder = decoder.to(DEVICE)
+        decoder.eval()
+        encoder = checkpoint["encoder"]
+        encoder = encoder.to(DEVICE)
+        encoder.eval()
+        return cls(encoder, decoder, word_map)
+
+    def __init__(
+        self,
+        encoder: Encoder,
+        decoder: DecoderWithAttention,
+        word_map: dict,
+    ) -> None:
+        super().__init__()
+        self.encoder = encoder
+        self.decoder = decoder
+        self.word_map = word_map
+
+        self._end_token = self.word_map["<end>"]
+
+        # Constants
+        self.max_sentence_length = 50
+
+    def _encoder_forward(
+        self, input_img: torch.FloatTensor
+    ) -> torch.FloatTensor:
+        """ """
+        latent_pixels = self.encoder(input_img)
+        # Flatten dim 1 and 2 (pixels)
+        flattend_latent_pixels = latent_pixels.view(
+            latent_pixels.size(0), -1, latent_pixels.size(3)
+        )
+        return flattend_latent_pixels
+
+    def forward(self, input_img: torch.FloatTensor) -> List[str]:
+        """Inference on a batch of images.
+
+        Inputs
+        ------
+        input: torch.FloatTensor
+            shape: (batch, 3, 256, 256)
+            All values should be between 0 and 1
+
+        Returns
+        ------_
+        output: [str]
+            The infered strings
+        """
+        assert input_img.size(0) == 1, "Only support batch_size of 1 currently."
+        # (1, encoder.enc_image_size * encoder.enc_image_size, features)
+        latent_pixels = self._encoder_forward(input_img)
+
+        # Initialize start of sentence
+        k_prev_words = torch.LongTensor(
+            [[self.word_map["<start>"]]] * latent_pixels.size(0)
+        ).to(DEVICE)
+
+        encoded_sentence = k_prev_words
+        attention_sentence = torch.ones(
+            latent_pixels.size(0),
+            1,
+            latent_pixels.size(1),
+        ).to(DEVICE)
+
+        decoder_hidden, c = self.decoder.init_hidden_state(latent_pixels)
+
+        # Create tensors to hold word predicion scores and alphas
+        predictions = torch.zeros(
+            1,
+            self.max_sentence_length,
+            self.decoder.vocab_size,
+        ).to(DEVICE)
+
+        for i in range(self.max_sentence_length):
+
+            prev_embeddings = self.decoder.embedding(k_prev_words).squeeze(1)
+            # Ey_{t-1}
+
+            attention = self.decoder.attention.attend(
+                latent_pixels, decoder_hidden
+            )
+            # alpha
+
+            gate = self.decoder.gate(decoder_hidden)
+            # beta
+
+            context_vector = gate * (
+                latent_pixels * attention.unsqueeze(2)
+            ).sum(dim=1)
+            # z_t
+
+            decoder_hidden, c = self.decoder.decode_step(
+                torch.cat([prev_embeddings, context_vector], dim=1),
+                (decoder_hidden, c),
+            )
+
+            logit_scores = self.decoder.fc(decoder_hidden)
+            predictions[:, i] = logit_scores
+            top_words = logit_scores.argmax(1, keepdim=True)
+
+            encoded_sentence = torch.cat([encoded_sentence, top_words], dim=1)
+            attention_sentence = torch.cat(
+                [attention_sentence, attention.unsqueeze(1)], dim=1
+            )
+
+            # if top_words == self._end_token:
+            #     break
+
+            k_prev_words = top_words
+
+        return predictions, i

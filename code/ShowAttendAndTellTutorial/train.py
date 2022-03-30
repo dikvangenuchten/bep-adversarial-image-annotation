@@ -28,7 +28,7 @@ cudnn.benchmark = True  # set to true only if inputs to model are fixed size; ot
 start_epoch = 0
 epochs = 120  # number of epochs to train for (if early stopping is not triggered)
 epochs_since_improvement = 0  # keeps track of number of epochs since there's been an improvement in validation BLEU
-batch_size = 32
+batch_size = 8
 workers = 1  # for data-loading; right now, only 1 works with h5py
 encoder_lr = 1e-4  # learning rate for encoder if fine-tuning
 decoder_lr = 4e-4  # learning rate for decoder
@@ -39,7 +39,7 @@ alpha_c = (
 best_bleu4 = 0.0  # BLEU-4 score right now
 print_freq = 100  # print training/validation stats every __ batches
 fine_tune_encoder = False  # fine-tune encoder?
-checkpoint = "data/BEST_checkpoint_coco_5_cap_per_img_5_min_word_freq.pth.tar"  # path to checkpoint, None if none
+checkpoint = None  # path to checkpoint, None if none
 
 
 def main():
@@ -68,7 +68,7 @@ def main():
             lr=decoder_lr,
         )
         encoder = Encoder()
-        encoder.fine_tune(fine_tune_encoder)
+        # encoder.fine_tune(fine_tune_encoder)
         encoder_optimizer = (
             torch.optim.Adam(
                 params=filter(lambda p: p.requires_grad, encoder.parameters()),
@@ -88,7 +88,7 @@ def main():
         encoder = checkpoint["encoder"]
         encoder_optimizer = checkpoint["encoder_optimizer"]
         if fine_tune_encoder is True and encoder_optimizer is None:
-            encoder.fine_tune(fine_tune_encoder)
+            # encoder.fine_tune(fine_tune_encoder)
             encoder_optimizer = torch.optim.Adam(
                 params=filter(lambda p: p.requires_grad, encoder.parameters()),
                 lr=encoder_lr,
@@ -214,10 +214,15 @@ def train(
         caps = caps.to(device)
         caplens = caplens.to(device)
 
+        # Set everything to require grad
+        imgs.requires_grad = True
+        encoder.requires_grad = True
+        decoder.requires_grad = True
+
         # Forward prop.
-        imgs = encoder(imgs)
+        latent_imgs = encoder(imgs)
         scores, caps_sorted, decode_lengths, alphas, sort_ind = decoder(
-            imgs, caps, caplens
+            latent_imgs, caps, caplens
         )
 
         # Since we decoded starting with <start>, the targets are all words after <start>, up to <end>
