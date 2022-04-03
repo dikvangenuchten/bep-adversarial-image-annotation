@@ -13,7 +13,8 @@ WORD_MAP_PATH = "data/WORDMAP_coco_5_cap_per_img_5_min_word_freq.json"
 
 @pytest.fixture(params=["cuda", "cpu"])
 def device(request):
-    # device_ = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    if request.param == "cpu":
+        pytest.skip("skipping cpu test as it is slow.")
     device_ = torch.device(request.param)
     return device_
 

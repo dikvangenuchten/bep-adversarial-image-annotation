@@ -319,7 +319,7 @@ class ShowAttendAndTell(nn.Module):
         encoder: Encoder,
         decoder: DecoderWithAttention,
         word_map: dict,
-        device: torch.device
+        device: torch.device,
     ) -> None:
         super().__init__()
         self.encoder = encoder
