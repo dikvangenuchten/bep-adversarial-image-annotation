@@ -4,3 +4,5 @@ pytest[toml]==7.0.1
 pytest-benchmark==3.4.1
 imageio==2.16.1
 matplotlib==3.5.1
+tensorflow==2.8.0
+tensorflow-hub==0.12.0

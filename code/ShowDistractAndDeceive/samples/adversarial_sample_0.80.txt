@@ -1,0 +1,7 @@
+a close up of a shadow of a person on a black background <end> a black background <end> a black and white background <end> black and white <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end>
+            max: 2.7174839973449707
+
+            min: -2.8783364295959473
+
+            noise: 0.80
+            

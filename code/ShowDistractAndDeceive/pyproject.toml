@@ -2,6 +2,7 @@
 pythonpath = "src/"
 omit = "tests/*"
 # addopts = "--cov=src --cov-report html:cov_html --cov-report=term-missing"
+
 [tool.coverage.run]
 source = ['project']
 

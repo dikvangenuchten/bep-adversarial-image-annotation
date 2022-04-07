@@ -1,0 +1,7 @@
+a person with a tie on a shirt <end> <end> and a black shirt <end> <end> <end> and a black and white shirt <end> on a blue shirt <end> and a black tie <end> <end> <end> and a black and white shirt <end> <end> and a black and white shirt
+            max: 2.2174839973449707
+
+            min: -2.3783364295959473
+
+            noise: 0.30
+            

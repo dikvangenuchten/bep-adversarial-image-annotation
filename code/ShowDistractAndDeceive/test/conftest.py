@@ -11,15 +11,15 @@ MODEL_PATH = "data/BEST_checkpoint_coco_5_cap_per_img_5_min_word_freq.pth.tar"
 WORD_MAP_PATH = "data/WORDMAP_coco_5_cap_per_img_5_min_word_freq.json"
 
 
-@pytest.fixture(params=["cuda", "cpu"])
+@pytest.fixture(params=["cuda", "cpu"], scope="module")
 def device(request):
     if request.param == "cpu":
         pytest.skip("skipping cpu test as it is slow.")
     device_ = torch.device(request.param)
-    return device_
+    yield device_
 
 
-@pytest.fixture()
+@pytest.fixture(scope="module")
 def word_map():
     with open(WORD_MAP_PATH, "r", encoding="utf-8") as word_map_file:
         word_map = json.load(word_map_file)
@@ -31,7 +31,7 @@ def inverted_word_map(word_map):
     return {v: k for k, v in word_map.items()}
 
 
-@pytest.fixture()
+@pytest.fixture(scope="module")
 def teddy_bear_image(device):
     path = "test/tedy_bear.jpg"
     teddy_bear = torchvision.transforms.functional.resize(
@@ -44,7 +44,7 @@ def teddy_bear_image(device):
         mean=[0.485, 0.456, 0.406],
         std=[0.229, 0.224, 0.225],
     )
-    return normalized_teddy_bear.to(device)
+    yield normalized_teddy_bear.to(device)
 
 
 @pytest.fixture()
