@@ -31,7 +31,7 @@ def inverted_word_map(word_map):
     return {v: k for k, v in word_map.items()}
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture()
 def teddy_bear_image(device):
     path = "test/tedy_bear.jpg"
     teddy_bear = torchvision.transforms.functional.resize(
@@ -44,9 +44,15 @@ def teddy_bear_image(device):
         mean=[0.485, 0.456, 0.406],
         std=[0.229, 0.224, 0.225],
     )
-    yield normalized_teddy_bear.to(device)
+    image = normalized_teddy_bear.to(device)
+    return image.unsqueeze(0)
 
 
 @pytest.fixture()
 def model(word_map, device):
     return models.ShowAttendAndTell.load(MODEL_PATH, word_map, device)
+
+
+@pytest.fixture(params=[1, 2, 4], scope="module")
+def batch_size(request):
+    yield request.param

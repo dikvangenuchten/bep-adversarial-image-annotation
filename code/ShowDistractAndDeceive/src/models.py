@@ -357,7 +357,7 @@ class ShowAttendAndTell(nn.Module):
         output: [str]
             The infered strings
         """
-        assert input_img.size(0) == 1, "Only support batch_size of 1 currently."
+        # assert input_img.size(0) == 1, "Only support batch_size of 1 currently."
         # (1, encoder.enc_image_size * encoder.enc_image_size, features)
         latent_pixels = self._encoder_forward(input_img)
 
@@ -377,7 +377,7 @@ class ShowAttendAndTell(nn.Module):
 
         # Create tensors to hold word predicion scores and alphas
         predictions = torch.zeros(
-            1,
+            latent_pixels.size(0),
             self.max_sentence_length,
             self.decoder.vocab_size,
         ).to(self._device)
