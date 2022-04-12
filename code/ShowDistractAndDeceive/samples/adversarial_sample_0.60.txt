@@ -1,7 +1,0 @@
-a close up of a black and white photo of a black and white background <end> a black and white background <end> <end> <end> <end> <end> <end> <end> and a black and white background <end> black and white <end> <end> <end> <unk> <end> <end> <end> <end> <end> <end> <end> <end>
-            max: 2.517484188079834
-
-            min: -2.6783366203308105
-
-            noise: 0.60
-            

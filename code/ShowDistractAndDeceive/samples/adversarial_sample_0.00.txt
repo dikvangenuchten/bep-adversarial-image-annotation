@@ -1,7 +1,0 @@
-a group of stuffed animals sitting on top of a couch <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> and one is a <unk> <end> <end> <end> and a stuffed animal <end> <end> <end> and a stuffed animal <end> <end> <end> and a
-            max: 1.9174840450286865
-
-            min: -2.1016488075256348
-
-            noise: 0.00
-            

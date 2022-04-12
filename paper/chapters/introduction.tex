@@ -1,13 +1,17 @@
-This is a demo \LaTeX template you can use for your TU/e Master of Science thesis. It can of course also be used for theses at other universities (be sure to use a high quality picture!!!) and other types of theses.
+The image caption generation task is at the cross-section between Computer Vision (CV) and Natural Language Processing (NLP). It requires the computer to understand a visual scene  and describe it into a grammatically correct Natural sentence. Practical use cases vary from automated describing of images to visually impaired people \cite{mazzoni_2019} to context based image retrieval.
 
-In this particular template special care has been taken to position the thesis title correctly on the front page for the TU/e see-through box in the default cover. However, please check (and double check!) if this is still correct before you send your thesis to the repro shop and have copies printed. Additionally, we defined the command \textbackslash todo\{\} that produces a \todo{The ToDo note} ToDo note in the margin (and introduces some white space in the text unfortunately).
+Show Attend and Tell (S.A.T.) proposed by \citeauthor{xu2016show} is an end-to-end deep learning approach that tries to solve the image caption generation problem. It combines an attention mechanism with LSTM to generate sentences that describe the given image. Achieving good BLEU scores on Flickr8K, Flickr30K\cite{Flickr8k} and COCO\cite{lin2015microsoft} datasets. Although the scores are not state-of-the-art\cite{DBLP:journals/corr/abs-2107-06912} anymore. This model is chosen because it is small and thus can be run locally, and has publicly available implementations \cite{sgrvinod}.
 
-Good luck with your thesis and be sure to share the end result with us on \url{joosbuijs.wordpress.com}!
+Machine learning models often are susceptible to adversarial attacks, where the input is modified in such a way that the model is not able to produce a correct result or worse, a specific incorrect output. When these models are applied in a practical setting they need to be robust against these adversarial attacks. Moreover, if the model is robust against adversarial attacks it also is more robust against noise, and thus a more useful model.
 
-\vspace{10pt}
+\subsection*{Research Questions}
+This research investigates the susceptibility of S.A.T. against adversarial samples that are visually close but generate completely different descriptions as output. To ensure that the images are visually close noise will be added to an original image.
+The research questions boil down to:
+\begin{itemize}
+    \item Is S.A.T. susceptible to adversarial attacks using noise?
+    \item Can the noise be crafted in such a way that it can steer the output.
+\end{itemize}
 
-Joos Buijs
 
-Eindhoven,
 
-March 2013.
+

@@ -1,4 +1,5 @@
 import json
+import os
 
 import imageio
 import pytest
@@ -31,20 +32,36 @@ def inverted_word_map(word_map):
     return {v: k for k, v in word_map.items()}
 
 
+@pytest.fixture(
+    params=[
+        "clean_samples/baseball.jpg",
+        "clean_samples/elephant.jpg",
+        "clean_samples/kitchen_oven.jpg",
+        "clean_samples/tedy_bear.jpg",
+    ]
+)
+def image(request, device):
+    return load_image(request.param, device), os.path.basename(request.param)
+
+
 @pytest.fixture()
 def teddy_bear_image(device):
-    path = "test/tedy_bear.jpg"
-    teddy_bear = torchvision.transforms.functional.resize(
+    path = "clean_samples/tedy_bear.jpg"
+    return load_image(path, device)
+
+
+def load_image(path: str, device):
+    raw_image = torchvision.transforms.functional.resize(
         torch.FloatTensor(imageio.imread(path).transpose(2, 0, 1)),
         (256, 256),
     )
     # Retrieved from caption.py from ShowAttendAndTell
-    normalized_teddy_bear = torchvision.transforms.functional.normalize(
-        teddy_bear / 255,
+    normalized_image = torchvision.transforms.functional.normalize(
+        raw_image / 255,
         mean=[0.485, 0.456, 0.406],
         std=[0.229, 0.224, 0.225],
     )
-    image = normalized_teddy_bear.to(device)
+    image = normalized_image.to(device)
     return image.unsqueeze(0)
 
 

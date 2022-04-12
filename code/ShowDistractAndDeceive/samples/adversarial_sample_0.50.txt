@@ -1,7 +1,0 @@
-a close up of a black and white photo of a man <end> a black and white stripe <end> <end> <end> <end> on a black and white background <end> a blue shirt <end> and a black and white background <end> a black background <end> a black and white background <end>
-            max: 2.4174840450286865
-
-            min: -2.578336477279663
-
-            noise: 0.50
-            

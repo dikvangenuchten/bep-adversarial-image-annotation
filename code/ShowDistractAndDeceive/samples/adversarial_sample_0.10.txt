@@ -1,7 +1,0 @@
-a pair of shoes and a black shirt and a black and white shirt <end> <end> and a pair of scissors <end> <end> <end> <end> and a pair of shoes <end> on a blue cloth <end> <end> and a pair of shoes <end> on a blue cloth <end> <end> and
-            max: 2.017483949661255
-
-            min: -2.1783363819122314
-
-            noise: 0.10
-            

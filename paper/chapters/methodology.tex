@@ -1,0 +1,18 @@
+\subsection*{Generating Adversarial Samples}
+Randomly sampling the noise field to find samples close to a certain image would be time-consuming and inefficient. Luckily generating adversarial input images can be done by using the Fast Method (eq \ref{FastMethod}) proposed by \citeauthor{goodfellow2015explaining}.
+\begin{equation}
+    X^{adv} = X + \epsilon sign(\nabla_{x}J(X, y_{true}))
+    \label{FastMethod}
+\end{equation}
+With $X$ being the input image, $\epsilon$ a hyperparameter determining much the original image can be perpetrated and $J(X, y_{true})$ the loss function which to, in the adversarial case, maximize.
+
+\subsection*{Steering Adversarial Samples}
+To steer the network towards a specific output we can adjust the equation \ref{FastMethod} to minimize a loss function with a given target $y$.
+\begin{equation}
+    X^{steer} = X - \epsilon sign(\nabla_{x}J(X, y_{target}))
+\end{equation}
+Where $y_{target}$ can be determined to be anything.
+
+\subsection*{Evaluation}
+To determine if the model is indeed susceptible the BLEU scores will be calculated for different values of $\epsilon$. Furthermore, to also investigate if the semantic meaning of the sentence is significantly affected, the cosine similarity of the original and adversarial output will be calculated using universal sentence embedding proposed by \citeauthor{DBLP:journals/corr/abs-1803-11175}.
+To see if the model can also be steered the BLEU score and cosine similarity are calculated with respect to the $y_{target}$.

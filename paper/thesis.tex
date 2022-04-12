@@ -6,7 +6,7 @@
 %
 % THIS IS THE MAIN FILE (i.e. compile this file, compiling the others directly won't work)
 %
-\documentclass[a4paper,10pt,twoside]{report}
+\documentclass[a4paper,10pt,twocolumn]{article}
 
 %all the other includes etc. are done in the thesis.sty file.
 \usepackage{thesis}
@@ -14,19 +14,18 @@
 %
 % These commands need to be defined in order to produce a correct and personalized document
 %
-\newcommand{\shortdoctitle}{Master's Thesis}
-\newcommand{\doctitle}{My Thesis Title}
-\newcommand{\docsubtitle}{Master Thesis}
+\newcommand{\shortdoctitle}{Bachelor Thesis}
+\newcommand{\doctitle}{Adversarial Noise Benchmarking On Image Caption}
+\newcommand{\docsubtitle}{Bachelor Thesis}
 
-\newcommand{\me}{My Name}
-\newcommand{\keywords}{keyword1, keyword2, keyword3}
-\newcommand{\version}{EMPTY version}
-\newcommand{\monthYear}{Month 201X}
+\newcommand{\me}{H.J.M. van Genuchten}
+\newcommand{\keywords}{NLP, Adversarial, Benchmark, Noise}
+\newcommand{\version}{Intermediate Draft}
+\newcommand{\monthYear}{April 2022}
 
 %Be sure to use all the titles for your committee members!!! (their names show up on the very first page!)
-\newcommand{\firstCommitteeMember}{Your First Committee Member}
-\newcommand{\secondCommitteeMember}{Your second Committee Member, usually the daily supervisor}
-\newcommand{\thirdCommitteeMember}{Your Third Committee Member, usually the external member}
+\newcommand{\firstCommitteeMember}{C. de Campos}
+\newcommand{\secondCommitteeMember}{Z.M. van Cauter}
 
 \author{\me}
 
@@ -49,8 +48,6 @@
 
 \normalsize
 
-\clearemptydoublepage
-
 %Sometimes line numbers are nice, uncomment the next line to enable:
 %\linenumbers
 
@@ -61,10 +58,8 @@
 %\chapter*{*Brainstorm results*}\todo{remove this chapter}
 %\input{chapters/brainstorm_results}
 
-\chapter*{Abstract}\label{chapter:abstract}
+\section*{Abstract}\label{chapter:abstract}
 \input{chapters/abstract}
-
-\clearemptydoublepage
 
 %An executive summary if you want:
 %\chapter*{Executive summary}\label{chapter:executive_summary}
@@ -72,59 +67,28 @@
 
 %\clearemptydoublepage
 
+% \tableofcontents
 
-\chapter*{Preface}\label{chapter:preface}
-\input{chapters/preface}
-
-\clearemptydoublepage
-
-\tableofcontents
-
-\clearemptydoublepage
-
-\listoffigures
-
-\clearemptydoublepage
-
-\listoftables
-
-\clearemptydoublepage
-
-\lstlistoflistings
-
-\clearemptydoublepage
-
-\chapter{Introduction}\label{chapter:introduction}
+\section{Introduction}\label{chapter:introduction}
 \setcounter{page}{0}
 \pagenumbering{arabic}
 %from here on, start the 'real' page numbering, from 1, with normal digits
 \input{chapters/introduction}
 
-\clearemptydoublepage
+\section{Methodology}\label{chapter:methodology}
+\input{chapters/methodology}
 
-\chapter{Preliminaries}\label{chapter:preliminaries}
-\input{chapters/preliminaries}
+\section{Results}\label{chapter:results}
+\input{chapters/results}
 
-\clearemptydoublepage
-
-\chapter{First Real Chapter}\label{chapter:first_real_chapter}
-\input{chapters/first_real_chapter}
-
-\clearemptydoublepage
-
-\chapter{Second Real Chapter}\label{chapter:second_real_chapter}
-\input{chapters/second_real_chapter}
-
-\clearemptydoublepage
-
-\chapter{Conclusions}\label{chapter:conclusions}
+\section{Conclusions}\label{chapter:conclusions}
 \input{chapters/conclusions}
 
 \clearemptydoublepage
 
 %Choose a good bibliography style, plain would do often, but these might be nice too
 %\bibliographystyle{these}
-\bibliographystyle{plain}
+\bibliographystyle{apacite}
 \bibliography{references}
 
 \clearemptydoublepage
