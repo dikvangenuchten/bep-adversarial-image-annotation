@@ -15,7 +15,7 @@ def rescale(img):
     return img
 
 
-@pytest.mark.parametrize("epsilon", np.linspace(1, 0, 11, endpoint=False))
+@pytest.mark.parametrize("epsilon", np.linspace(1, 0, 4, endpoint=False))
 def test_generate_adversarial_example(image, model, inverted_word_map, epsilon):
     image, filename = image
     normal_image_out, i = model(image)
