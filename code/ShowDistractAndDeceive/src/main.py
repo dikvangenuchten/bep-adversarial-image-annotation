@@ -32,4 +32,5 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
     model = utils.load_model(args.model_path, args.word_map, args.device)
+
     main(model)

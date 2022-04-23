@@ -490,6 +490,7 @@ cython_debug/
 
 # Ignore data cache
 **/data/*
+coco_dataset/*
 
 # Ignore wandb metadata
 **/wandb/*

@@ -3,8 +3,8 @@
 {
 	"name": "Pytorch Dev-container",
 	"build": {
-		"dockerfile": "../Dockerfile",
-		"context": ".."
+		"dockerfile": "Dockerfile",
+		"context": "."
 	},
 	"runArgs": [
 		"--gpus=all"

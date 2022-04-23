@@ -5,12 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-          "name": "Python: Current File",
+            "name": "Python: Current File",
             "type": "python",
             "request": "launch",
             "program": "src/model.py",
             "console": "integratedTerminal",
-            "justMyCode": true
-        }
+            "justMyCode": false
+        },
+        {
+            "name": "Debug Unit Test",
+            "type": "python",
+            "request": "test",
+            "justMyCode": false,
+        },
     ]
 }
