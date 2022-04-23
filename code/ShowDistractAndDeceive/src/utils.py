@@ -35,3 +35,16 @@ def load_image(path: str, device):
     )
     image = normalized_image.to(device)
     return image.unsqueeze(0)
+
+
+def decode_prediction(inverted_word_map, scores):
+    sentences = []
+    for sentence_scores in scores:
+        words = []
+        for token in sentence_scores.argmax(-1):
+            word = inverted_word_map[int(token)]
+            if word == "<end>":
+                break
+            words.append(word)
+        sentences.append(" ".join(words))
+    return sentences

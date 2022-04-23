@@ -1,5 +1,6 @@
 import pytest
 import torch
+import utils
 
 
 def test_load_model(model, device):
@@ -19,17 +20,12 @@ def test_inference_on_teddy_bear(
     scores, i = model(input_)
     # Based on caption.py from ShowAttendAndTell
     expected_string = "a group of stuffed animals sitting on top of a couch"
-    words = []
-    for token in scores.argmax(-1)[0]:
-        word = inverted_word_map[int(token)]
-        if word == "<end>":
-            break
-        words.append(word)
+    predicted_sentence = utils.decode_prediction(inverted_word_map, scores)[0]
     # decoded_sentence = [inverted_word_map[token] for token in scores.argmax(1)]
 
     assert (
-        " ".join(words) == expected_string
-    ), f"expected string:\n{expected_string}\ngot:\n{' '.join(words)}"
+        predicted_sentence == expected_string
+    ), f"expected string:\n{expected_string}\ngot:\n{predicted_sentence}"
 
 
 def test_backpropagation(model, teddy_bear_image, device):

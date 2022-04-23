@@ -13,7 +13,7 @@ def transform_to_device(device):
     return to_device
 
 
-def get_data_loader(device):
+def get_data_loader(device, batch_size):
     """Loads the coco dataset"""
     dataset = torchvision.datasets.CocoCaptions(
         root="../../coco_dataset/val2017/",
@@ -31,5 +31,5 @@ def get_data_loader(device):
         target_transform=torchvision.transforms.Compose([]),
     )
 
-    loader = torch.utils.data.DataLoader(dataset=dataset)
+    loader = torch.utils.data.DataLoader(dataset=dataset, batch_size=batch_size)
     return loader

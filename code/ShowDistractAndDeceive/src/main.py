@@ -1,11 +1,16 @@
 import argparse
+from adversarial import inference
 
 import utils
 from models import ShowAttendAndTell
+import data_loader
 
 
-def main(model: ShowAttendAndTell):
-    pass
+def main(model: ShowAttendAndTell, dataloader):
+
+    for image, labels in dataloader:
+        orig_pred, adv_pred = inference(image, model, 0.1)
+        print(orig_pred)
 
 
 if __name__ == "__main__":
@@ -32,5 +37,6 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
     model = utils.load_model(args.model_path, args.word_map, args.device)
+    dataset = data_loader.get_data_loader(args.device, batch_size=8)
 
-    main(model)
+    main(model, dataset)
