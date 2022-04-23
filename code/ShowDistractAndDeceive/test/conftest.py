@@ -24,7 +24,7 @@ def word_map():
 
 @pytest.fixture()
 def inverted_word_map(word_map):
-    return {v: k for k, v in word_map.items()}
+    return utils.invert_word_map(word_map)
 
 
 @pytest.fixture(

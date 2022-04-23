@@ -37,6 +37,10 @@ def load_image(path: str, device):
     return image.unsqueeze(0)
 
 
+def invert_word_map(word_map):
+    return {v: k for k, v in word_map.items()}
+
+
 def decode_prediction(inverted_word_map, scores):
     sentences = []
     for sentence_scores in scores:
