@@ -3,9 +3,12 @@
 {
 	"name": "Pytorch Dev-container",
 	"build": {
-		"dockerfile": "Dockerfile",
-		"context": "."
+		"dockerfile": "../Dockerfile",
+		"context": ".."
 	},
+	"mounts": [
+		"source=/home/dik/projects/university/bep-adversarial-image-annotation/coco_dataset,target=/data/,type=bind,consistency=cached"
+	],
 	"runArgs": [
 		"--gpus=all"
 	],
@@ -46,8 +49,8 @@
 	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"updateRemoteUserUID": true,
 	"features": {
-		"git": "latest",
-		"sshd": "latest",
-		"github-cli": "latest"
+		// "git": "latest",
+		// "sshd": "latest",
+		// "github-cli": "latest"
 	}
 }

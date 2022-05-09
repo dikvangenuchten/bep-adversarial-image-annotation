@@ -13,11 +13,18 @@ def transform_to_device(device):
     return to_device
 
 
-def get_data_loader(device, batch_size):
+def limit_to_n_labels(n):
+    def _limit_to_n(labels):
+        return labels[:n]
+
+    return _limit_to_n
+
+
+def get_data_loader(device, batch_size, size=None):
     """Loads the coco dataset"""
     dataset = torchvision.datasets.CocoCaptions(
-        root="../../coco_dataset/val2017/",
-        annFile="../../coco_dataset/captions_val2017.json",
+        root="/data/val2017/",
+        annFile="/data/captions_val2017.json",
         transform=torchvision.transforms.Compose(
             [
                 torchvision.transforms.ToTensor(),
@@ -28,11 +35,11 @@ def get_data_loader(device, batch_size):
                 ),
             ]
         ),
-        target_transform=torchvision.transforms.Compose([]),
+        target_transform=torchvision.transforms.Compose([limit_to_n_labels(5)]),
     )
 
-    # Remove all captions that do not have exactly 5
-    assert False, "TODO"
+    if size is not None:
+        dataset = torch.utils.data.Subset(dataset, torch.arange(size))
 
     loader = torch.utils.data.DataLoader(dataset=dataset, batch_size=batch_size)
     return loader

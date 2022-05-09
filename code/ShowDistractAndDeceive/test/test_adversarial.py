@@ -48,7 +48,7 @@ def test_generate_adversarial_example(image, model, inverted_word_map, epsilon):
 
 
 def test_adversarial_inference(batch_size, teddy_bear_image, model):
-    original_sentences, adversarial_sentences = adversarial.inference(
+    original_sentences, adversarial_sentences, _ = adversarial.inference(
         torch.cat(batch_size * [teddy_bear_image]), model, 0.0
     )
     torch.testing.assert_allclose(original_sentences, adversarial_sentences)

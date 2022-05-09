@@ -3,12 +3,14 @@ import torch
 import torchvision
 import wandb
 
+import numpy as np
 from model import MnistModel
 import plotly.graph_objects as go
 from matplotlib import pyplot as plt
+import tqdm
 
 
-def generate_generic_adversarial_sample(
+def generate_fast_gradient_adversarial_sample(
     model: torch.nn.Module,
     loss_func: Callable[[torch.Tensor, torch.Tensor], torch.Tensor],
     x: torch.Tensor,
@@ -23,8 +25,18 @@ def generate_generic_adversarial_sample(
 
     return x + epsilon * torch.sign(x.grad)
 
+def generate_gaussian_sample(
+    model: torch.nn.Module,
+    loss_func: Callable[[torch.Tensor, torch.Tensor], torch.Tensor],
+    x: torch.Tensor,
+    target: torch.Tensor,
+    epsilon: float,
+) -> torch.Tensor:
+    """Generate an adversarial sample based on the fast gradient method."""
+    return x + epsilon * torch.randn_like(x)
 
-def generate_targeted_adversarial_sample(
+
+def generate_fast_gradient_targeted_adversarial_sample(
     model: torch.nn.Module,
     loss_func: Callable[[torch.Tensor, torch.Tensor], torch.Tensor],
     x: torch.Tensor,
@@ -67,51 +79,46 @@ def main(model_path):
         shuffle=False,
     )
 
-    captioned_samples = []
-    all_confidence_orig = []
-    all_confidence_ad = []
-    for x_orig, y in data_loader:
-        # Model returns log_softmax values
-        output_orig = torch.exp(model(x_orig))
-        x_ad = generate_generic_adversarial_sample(
-            model, torch.nn.functional.nll_loss, x_orig, y, 0.25
+    for epsilon in tqdm.tqdm(np.linspace(0, 1, num=11)):
+        captioned_samples = []
+        all_confidence_orig = []
+        all_confidence_ad = []
+        for x_orig, y in data_loader:
+            # Model returns log_softmax values
+            output_orig = torch.exp(model(x_orig))
+            x_ad = generate_gaussian_sample(
+                model, torch.nn.functional.nll_loss, x_orig, y, epsilon
+            )
+            output_ad = torch.exp(model(x_ad))
+
+            all_confidence_orig.append(output_orig)
+            all_confidence_ad.append(output_ad)
+
+            if len(captioned_samples) < 100:
+                captioned_samples += [
+                    generate_log_image(x_or_s, x_ad_s, pred_or_s, pred_ad_s, y_s)
+                    for x_or_s, x_ad_s, pred_or_s, pred_ad_s, y_s in zip(
+                        x_orig, x_ad, output_orig, output_ad, y
+                    )
+                ]
+            # # TODO calculate accuracy, average confidence
+            # if len(all_confidence_ad) > 1:
+            #     break
+
+        all_confidence_ad = torch.cat(all_confidence_ad)
+        all_confidence_orig = torch.cat(all_confidence_orig)
+
+        adversarial_violin = make_violin_plot(all_confidence_ad.detach())
+        original_violin = make_violin_plot(all_confidence_orig.detach())
+
+        wandb.log(
+            {
+                "adversarial_samples": captioned_samples,
+                "epsilon": epsilon,
+                "histogram average original score": original_violin,
+                "histogram average adversar score": adversarial_violin,
+            }
         )
-        # x_ad = generate_targeted_adversarial_sample(
-        #     model,
-        #     torch.nn.functional.nll_loss,
-        #     x_orig,
-        #     torch.zeros_like(y),
-        #     0.25,
-        # )
-        output_ad = torch.exp(model(x_ad))
-
-        all_confidence_orig.append(output_orig)
-        all_confidence_ad.append(output_ad)
-
-        if len(captioned_samples) < 100:
-            captioned_samples += [
-                generate_log_image(x_or_s, x_ad_s, pred_or_s, pred_ad_s, y_s)
-                for x_or_s, x_ad_s, pred_or_s, pred_ad_s, y_s in zip(
-                    x_orig, x_ad, output_orig, output_ad, y
-                )
-            ]
-        # # TODO calculate accuracy, average confidence
-        # if len(all_confidence_ad) > 1:
-        #     break
-
-    all_confidence_ad = torch.cat(all_confidence_ad)
-    all_confidence_orig = torch.cat(all_confidence_orig)
-
-    adversarial_violin = make_violin_plot(all_confidence_ad.detach())
-    original_violin = make_violin_plot(all_confidence_orig.detach())
-
-    wandb.log(
-        {
-            "adversarial_samples": captioned_samples,
-            "histogram average original score": original_violin,
-            "histogram average adversar score": adversarial_violin,
-        }
-    )
 
 
 def make_violin_plot(confidences):

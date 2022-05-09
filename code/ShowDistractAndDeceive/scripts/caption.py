@@ -1,5 +1,7 @@
 import argparse
 import json
+import os
+import glob
 
 import matplotlib.cm as cm
 import matplotlib.pyplot as plt
@@ -199,7 +201,7 @@ def visualize_att(image_path, seq, alphas, rev_word_map, smooth=True):
     image = image.resize([14 * 24, 14 * 24], Image.LANCZOS)
 
     words = [rev_word_map[ind] for ind in seq]
-
+    plt.clf()
     for t in range(len(words)):
         if t > 50:
             break
@@ -230,7 +232,7 @@ def visualize_att(image_path, seq, alphas, rev_word_map, smooth=True):
         plt.set_cmap(cm.Greys_r)
         plt.axis("off")
     plt.show()
-    plt.savefig("caption.png")
+    plt.savefig(f"captions/caption_{os.path.basename(image_path)}")
 
 
 if __name__ == "__main__":
@@ -238,7 +240,7 @@ if __name__ == "__main__":
         description="Show, Attend, and Tell - Tutorial - Generate Caption"
     )
 
-    parser.add_argument("--img", "-i", help="path to image")
+    parser.add_argument("--img", "-i", help="path to image(s)", nargs="+")
     parser.add_argument("--model", "-m", help="path to model")
     parser.add_argument("--word_map", "-wm", help="path to word map JSON")
     parser.add_argument(
@@ -271,11 +273,13 @@ if __name__ == "__main__":
         word_map = json.load(j)
     rev_word_map = {v: k for k, v in word_map.items()}  # ix2word
 
-    # Encode, decode with attention and beam search
-    seq, alphas = caption_image_beam_search(
-        encoder, decoder, args.img, word_map, args.beam_size
-    )
-    alphas = torch.FloatTensor(alphas)
+    for img in args.img:
+        print(f"visualising: {img}")
+        # Encode, decode with attention and beam search
+        seq, alphas = caption_image_beam_search(
+            encoder, decoder, img, word_map, args.beam_size
+        )
+        alphas = torch.FloatTensor(alphas)
 
-    # Visualize caption and attention of best sequence
-    visualize_att(args.img, seq, alphas, rev_word_map, args.smooth)
+        # Visualize caption and attention of best sequence
+        visualize_att(img, seq, alphas, rev_word_map, args.smooth)
