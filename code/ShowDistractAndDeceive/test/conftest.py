@@ -29,10 +29,10 @@ def inverted_word_map(word_map):
 
 @pytest.fixture(
     params=[
-        "clean_samples/baseball.jpg",
-        "clean_samples/elephant.jpg",
-        "clean_samples/kitchen_oven.jpg",
-        "clean_samples/tedy_bear.jpg",
+        "test/clean_samples/baseball.jpg",
+        "test/clean_samples/elephant.jpg",
+        "test/clean_samples/kitchen_oven.jpg",
+        "test/clean_samples/tedy_bear.jpg",
     ]
 )
 def image(request, device):
@@ -43,7 +43,7 @@ def image(request, device):
 
 @pytest.fixture()
 def teddy_bear_image(device):
-    path = "clean_samples/tedy_bear.jpg"
+    path = "test/clean_samples/tedy_bear.jpg"
     return utils.load_image(path, device)
 
 

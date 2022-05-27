@@ -7,6 +7,7 @@ import torch
 from torchvision.utils import save_image
 
 import adversarial
+import utils
 
 
 def rescale(img):
@@ -15,19 +16,49 @@ def rescale(img):
     return img
 
 
-@pytest.mark.parametrize("epsilon", np.linspace(1, 0, 4, endpoint=False))
-def test_generate_adversarial_example(image, model, inverted_word_map, epsilon):
+@pytest.fixture(params=[0.1, 1])
+def epsilon(request):
+    return request.param
+
+
+@pytest.fixture(params=[True, False])
+def targeted(request):
+    return request.param
+
+
+@pytest.fixture(
+    params=[
+        adversarial.FastGradientSignAdversarial,
+        adversarial.GaussianAdversarial,
+        adversarial.GaussianSignAdversarial,
+    ],
+)
+def method(request):
+    return request.param
+
+
+@pytest.fixture()
+def adversarial_method(model, method, epsilon, targeted):
+    return method(model, epsilon, targeted)
+
+
+def test_generate_adversarial_example(
+    image, model, inverted_word_map, adversarial_method
+):
+
     image, filename = image
     normal_image_out, i = model(image)
 
     target = normal_image_out.argmax(-1)
 
-    adversarial_noise = adversarial.generate_adversarial_noise(
-        image, model, target, epsilon
-    )
+    adversarial_noise = adversarial_method(image, target) - image
     assert adversarial_noise.shape == image.shape
-    assert adversarial_noise.max() == epsilon
-    assert adversarial_noise.min() == -epsilon
+    assert (
+        adversarial_noise.max() <= adversarial_method.epsilon + 1e-6
+    ), f"Max seen value: {adversarial_noise.max()} is bigger then epsilon ({adversarial_method.epsilon})"
+    assert (
+        adversarial_noise.min() >= -adversarial_method.epsilon - 1e-6
+    ), f"Min seen value: {adversarial_noise.min()} is smaller then -epsilon ({-adversarial_method.epsilon})"
 
     adversarial_sample = image + adversarial_noise
     adversarial_out, i = model(adversarial_sample)
@@ -41,14 +72,57 @@ def test_generate_adversarial_example(image, model, inverted_word_map, epsilon):
 
     save_image(
         rescale(adversarial_sample.detach()),
-        f"samples/adv_{epsilon:.2f}_{filename}",
+        f"samples/adv_{adversarial_method.epsilon:.2f}_{filename}",
     )
 
     assert adversarial_sentence != normal_sentence
 
 
-def test_adversarial_inference(batch_size, teddy_bear_image, model):
-    original_sentences, adversarial_sentences, _ = adversarial.inference(
-        torch.cat(batch_size * [teddy_bear_image]), model, 0.0
+def test_adversarial_inference_to_target_sentence(
+    model, teddy_bear_image, word_map, device, inverted_word_map
+):
+    adversarial_method = adversarial.IterativeAdversarial(
+        adversarial_method=adversarial.FastGradientSignAdversarial(
+            model=model,
+            targeted=True,
+            epsilon=1,
+        ),
+        iterations=10,
+        alpha_multiplier=2,
     )
-    torch.testing.assert_allclose(original_sentences, adversarial_sentences)
+
+    adversarial_sentence = "this is an attack on show attend and tell"
+
+    target_sentence = utils.pad_target_sentence(
+        utils.sentence_to_tokens(adversarial_sentence, word_map).to(device),
+        word_map,
+        model.max_sentence_length,
+    ).unsqueeze(0)
+
+    with torch.profiler.profile(
+        activities=[
+            torch.profiler.ProfilerActivity.CPU,
+            torch.profiler.ProfilerActivity.CUDA,
+        ],
+        record_shapes=True,
+        use_cuda=True,
+        with_stack=True,
+    ) as prof:
+        adversarial_image = adversarial_method(
+            teddy_bear_image, target_sentence
+        )
+
+    prof.export_chrome_trace("trace.json")
+    prof.export_stacks("/tmp/profiler_stacks.txt", "self_cuda_time_total")
+
+    prediction, _ = model(adversarial_image)
+    predicted_sentence = utils.decode_prediction(inverted_word_map, prediction)
+
+    assert adversarial_sentence == predicted_sentence[0]
+
+
+# def test_adversarial_inference(batch_size, teddy_bear_image, model):
+#     original_sentences, adversarial_sentences, _ = adversarial.inference(
+#         torch.cat(batch_size * [teddy_bear_image]), model, 0.0
+#     )
+#     torch.testing.assert_allclose(original_sentences, adversarial_sentences)

@@ -1,11 +1,12 @@
 import argparse
+from tkinter.messagebox import NO
 
 import numpy as np
 import torch
 from nltk.translate.bleu_score import corpus_bleu
 from tqdm import tqdm
-from matplotlib import pyplot as plt
 
+import plots
 import data_loader
 import sentence_embedding
 import utils
@@ -13,56 +14,48 @@ import wandb
 import adversarial
 from models import ShowAttendAndTell
 
-ADV_METHOD = adversarial.generate_gaussian_sample
+ADV_METHODS = {
+    "gaussian": adversarial.GaussianAdversarial,
+    "fast gradient": adversarial.FastGradientSignAdversarial,
+}
 
-def epoch():
-    pass
 
-
-def main(model: ShowAttendAndTell, dataloader, word_map):
+def main(
+    model: ShowAttendAndTell,
+    dataloader,
+    word_map,
+    adversarial_method: str,
+    target=None,
+    iterations=None,
+):
+    adv_func = ADV_METHODS.get(adversarial_method)
     inverted_word_map = utils.invert_word_map(word_map)
 
-    wandb.init(job_type="Adversarial Image Caption")
+    # Prepare target
+    if target is not None:
+        target = utils.pad_target_sentence(
+            target, word_map, model.max_sentence_length
+        )
+
+    wandb.init(
+        project="Bachelor End Project",
+        tags=[adversarial_method],
+        name=f"Adversarial Image Caption: {adversarial_method}",
+    )
     bleu_scores = []
     all_cosine_similarities = []
     epsilons = []
 
     for epsilon in tqdm(np.linspace(0, 1, 11)):
-        similarities = []
-        samples = []
-        all_labels = []
-        all_adv_sentences = []
-        for image, labels in tqdm(dataloader, leave=False):
-            orig_pred, adv_pred, adv_img = adversarial.inference(image, model, epsilon, ADV_METHOD)
-            orig_sentences = utils.decode_prediction(
-                inverted_word_map, orig_pred
-            )
-            adv_sentences = utils.decode_prediction(inverted_word_map, adv_pred)
-
-            similartity = sentence_embedding.cosine_similarity(
-                orig_sentences, adv_sentences
-            )
-
-            # labels are transposed for some reason
-            all_labels.extend(zip(*labels))
-            all_adv_sentences.extend(adv_sentences)
-
-            if len(samples) < 40:
-                samples.extend(
-                    wandb.Image(
-                        img,
-                        caption=f"""original: {ori_caption}
-                        \nadversarial: {adv_caption}
-                        \ncosine similarity: {cos_sim:.3f}""",
-                    )
-                    for img, ori_caption, adv_caption, cos_sim in zip(
-                        adv_img, orig_sentences, adv_sentences, similartity
-                    )
-                )
-            similarities.append(similartity)
-
-        cosine_similarities = torch.concat(similarities).numpy()
-        bleu_score = corpus_bleu(all_labels, all_adv_sentences)
+        cosine_similarities, bleu_score, samples = epoch(
+            model,
+            dataloader,
+            inverted_word_map,
+            epsilon,
+            adv_func,
+            target,
+            iterations,
+        )
         wandb.log(
             {
                 "epsilon": epsilon,
@@ -80,57 +73,93 @@ def main(model: ShowAttendAndTell, dataloader, word_map):
         bleu_scores.append(bleu_score)
         all_cosine_similarities.append(cosine_similarities)
 
-    fig, ax = plt.subplots()
-    ax.violinplot(all_cosine_similarities, epsilons, widths=0.1)
-    ax.set_title("Cosine Similarity distribution over epsilon")
-    ax.set_xlabel("epsilon")
-    ax.set_ylabel("cosine similarity")
-    fig.savefig("violin_cosine_plot")
-    fig.clf()
-
-    fig, ax = plt.subplots()
-    heatmap, xedges, yedges = np.histogram2d(
-        *list(
-            zip(
-                *[
-                    (sim, eps)
-                    for (sims, eps) in zip(all_cosine_similarities, epsilons)
-                    for sim in sims
-                ]
-            )
-        ),
-        bins=(11, 11),
+    plots.cosine_similarity_violin_plot(
+        f"cosine_similarity_violin_plot_{adversarial_method}.jpg",
+        all_cosine_similarities,
+        epsilons,
     )
-    extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
+    plots.cosine_similarity_heatmap(
+        f"cosine_similarity_heatmap_{adversarial_method}.jpg",
+        all_cosine_similarities,
+        epsilons,
+    )
+    plots.plot_bleu_scores(
+        f"plot_bleu_scores_{adversarial_method}.jpg", bleu_scores, epsilons
+    )
+    plots.plot_average_cosine_similarity(
+        f"plot_average_cosine_similarity_{adversarial_method}.jpg",
+        all_cosine_similarities,
+        epsilons,
+    )
 
-    ax.imshow(heatmap, extent=extent, origin="lower")
-    ax.set_title("Heatmap cosine similarity vs epsilon")
-    ax.set_xlabel("epsilon")
-    ax.set_ylabel("cosine similarity")
-    fig.savefig("heatmap_cosine_vs_epsilon")
-    fig.clf()
 
-    fig, ax = plt.subplots()
-    ax.plot(epsilons, bleu_scores)
-    ax.set_title("Bleu Score vs epsilon")
-    ax.set_xbound(0, 1)
-    ax.set_ybound(0, 1)
-    ax.set_xlabel("epsilon")
-    ax.set_ylabel("Bleu Score")
-    ax.set_xticks(epsilons)
-    fig.savefig("bleu_score_plot")
-    fig.clf()
+def epoch(
+    model,
+    dataloader,
+    inverted_word_map,
+    epsilon,
+    adv_func,
+    target=None,
+    iterations=1,
+):
+    similarities = []
+    samples = []
+    all_labels = []
+    all_adv_sentences = []
+    if target is not None:
+        target_sentence = utils.decode_label(inverted_word_map, target)
+        base_target = target
+    for image, labels in tqdm(dataloader, leave=False):
 
-    fig, ax = plt.subplots()
-    ax.plot(epsilons, [np.mean(x) for x in all_cosine_similarities])
-    ax.set_title("Average Cosine Similarity vs epsilon")
-    ax.set_xbound(0, 1)
-    ax.set_ybound(0, 1)
-    ax.set_xlabel("epsilon")
-    ax.set_ylabel("cosine similarity")
-    ax.set_xticks(epsilons)
-    fig.savefig("average_cosine_sim_plot")
-    fig.clf()
+        if target is not None:
+            target = base_target.repeat([image.size(0), 1])
+            target_sentences = [target_sentence] * image.size(0)
+
+        orig_pred, adv_pred, adv_img = adversarial.inference(
+            image, model, epsilon, adv_func, target, iterations
+        )
+
+        if target is None:
+            target_sentences = utils.decode_prediction(
+                inverted_word_map, orig_pred
+            )
+
+        adv_sentences = utils.decode_prediction(inverted_word_map, adv_pred)
+
+        similartity = sentence_embedding.cosine_similarity(
+            target_sentences, adv_sentences
+        )
+
+        if target is None:
+            # labels are transposed to ensure batch is in the correct spot
+            all_labels.extend(zip(*labels))
+        else:
+            all_labels.extend(
+                zip(
+                    *[
+                        target,
+                    ]
+                )
+            )
+        all_adv_sentences.extend(adv_sentences)
+
+        if len(samples) < 40:
+            samples.extend(
+                wandb.Image(
+                    img,
+                    caption=f"original: {ori_caption}\n"
+                    f"adversarial: {adv_caption}\n"
+                    f"cosine similarity: {cos_sim:.3f}",
+                )
+                for img, ori_caption, adv_caption, cos_sim in zip(
+                    adv_img, target_sentences, adv_sentences, similartity
+                )
+            )
+        similarities.append(similartity)
+
+    cosine_similarities = torch.concat(similarities).numpy()
+    bleu_score = corpus_bleu(all_labels, all_adv_sentences)
+    return cosine_similarities, bleu_score, samples
 
 
 if __name__ == "__main__":
@@ -153,11 +182,64 @@ if __name__ == "__main__":
         "--device",
         type=str,
         default="cuda",
-        help="Wheter to use the gpu, default true",
+        help="Wheter to use the gpu, default true.",
+    )
+    parser.add_argument(
+        "--adversarial-method",
+        type=str,
+        default="fast gradient",
+        help="Which adversarial noise generation method should be used."
+        """One of:
+        gaussian: Generates gaussian noise,
+        fast gradient: Uses the fast gradient method to generate 
+            adversarial noise to let the model predict as differently as possible
+        target fast gradient: Must also give --target sentence option.
+            Steers the model in the direction of target sentence
+        """,
+    )
+    parser.add_argument(
+        "--iterations",
+        type=int,
+        required=False,
+        default=16,
+        help="How many iterations of the adversarial attack should be done.\n"
+        "Applies `epsilon/iteration` of noise for `iteration` amount of times.",
+    )
+    parser.add_argument(
+        "--target-sentence",
+        type=str,
+        required=False,
+        # default="this is an attack on show attend and tell",
+        help="Only works in combination with fast gradient adversarial method."
+        "If given this will be used as target sentence during generating of the noise.",
+    )
+    parser.add_argument(
+        "--limit-samples",
+        type=int,
+        required=False,
+        default=None,
+        help="Limit the dataset to n amount of samples.",
     )
     args = parser.parse_args()
     word_map = utils.load_word_map(args.word_map)
     model = utils.load_model(args.model_path, word_map, args.device)
     dataset = data_loader.get_data_loader(args.device, batch_size=6)
+    assert (
+        args.adversarial_method in ADV_METHODS
+    ), f"Unknown adversarial method: {args.adversarial_method}.\n"
+    f"Must be one of {list(ADV_METHODS.keys())}"
+    target_sentence = args.target_sentence
+    if target_sentence is not None:
+        target_sentence = utils.sentence_to_tokens(
+            target_sentence, word_map
+        ).to(args.device)
 
-    main(model, dataset, word_map)
+    print(f"Starting run with the following args:\n{args}")
+    main(
+        model,
+        dataset,
+        word_map,
+        args.adversarial_method,
+        target_sentence,
+        args.iterations,
+    )

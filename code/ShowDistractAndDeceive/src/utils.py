@@ -37,6 +37,13 @@ def load_image(path: str, device):
     return image.unsqueeze(0)
 
 
+def sentence_to_tokens(sentence: str, word_map: dict):
+    return torch.tensor(
+        list(word_map[word] for word in sentence.lower().split(" ")),
+        dtype=torch.int64,
+    )
+
+
 def invert_word_map(word_map):
     return {v: k for k, v in word_map.items()}
 
@@ -52,3 +59,26 @@ def decode_prediction(inverted_word_map, scores):
             words.append(word)
         sentences.append(" ".join(words))
     return sentences
+
+
+def pad_target_sentence(
+    target_sentence: str, word_map: dict, sentence_length: int
+):
+    end_token = word_map["<end>"]
+    target_length = len(target_sentence)
+
+    padded_target = torch.nn.functional.pad(
+        target_sentence, (0, sentence_length - target_length), value=end_token
+    )
+
+    return torch.tensor(padded_target)
+
+
+def decode_label(inverted_word_map, encoded_label):
+    words = []
+    for token in encoded_label:
+        word = inverted_word_map[int(token)]
+        if word == "<end>":
+            break
+        words.append(word)
+    return " ".join(words)
