@@ -27,7 +27,7 @@ a person is sitting on a bench in the dark
 a person is sitting on a skateboard in the water
 a person sitting on a dark surface with a sunset
 a white and white vase with a white background
-a person is flying a kite in the dark
+a person is flying a kite in the sky
 a person is on a street at night with a sun shining
 a person is riding a skateboard in the dark
 a close up of a white and black object on a couch
@@ -42,7 +42,7 @@ a person sitting on a bench in the sun
 a person sitting on a bench in the dark
 a person sitting on a bench in the dark with sun shining sun
 a person sitting on a bench at night with a sun shining in the sun
-a picture of a bed with a lamp and a sign
+a picture of a bed with a sign on it
 a man is doing a trick on a skateboard
 a person on a street with a sun shining
 a person sitting on a dark night with a sunset in the background
@@ -53,7 +53,7 @@ a view of a plane at sunset at the airport
 a person is holding a white umbrella in the dark
 a person is standing on a dark surface with a shadow
 a person on a skateboard in the sun at sunset
-a person sitting on a bed with a large orange
+a person sitting on a bed with a large orange in the background
 a person sitting on a bench in the dark
 a person is walking down a street at night
 a person is walking down a street at night
@@ -150,7 +150,7 @@ a person sitting on a dark night with a sunset in the background
 a person is walking down the street at sunset
 a street sign with a light on it
 a person sitting on a bench at night with a sunset
-a person is walking down the street at sunset
+a person on a sidewalk with a sun shining on the sun
 a person sitting on a bench in the dark
 a group of people flying kites in the sky
 a person standing on a sidewalk in the dark
@@ -230,7 +230,7 @@ a person sitting on a bench with a sun shining on them
 a person flying a kite in the sun at sunset
 a person sitting on a bench with a large shadow
 a person sitting on a bench at night with a sunset
-a group of sheep grazing in a field with a sky background
+a couple of sheep are in a field of grass
 a silhouette of a person with a shadow is standing on a beach
 a person is flying a kite in the sky
 a person is standing in a dark with a large sun shining in the sun
@@ -295,7 +295,7 @@ a sun is setting on a street with a sunset in the background
 a person sitting on a dark night with a sunset
 a person sitting on a bench in the dark
 a person sitting on a bench at sunset
-a person is walking down a street with a tennis racket
+a person is walking down a sidewalk with a skateboard
 a view of a fire hydrant on a city street
 a person sitting on a bench in the dark
 a person is standing on a skateboard in the dark
@@ -305,7 +305,7 @@ a person sitting on a dark night with a sun shining in the sun
 a person sitting on a bench in the dark
 a person sitting on a bench in the dark with sun shining sun
 a person sitting on a bench in the dark with sun shining sun
-a man and a woman standing in front of a lighted building
+a man and woman standing in front of a light
 a person sitting on a bench in the sun
 a person is on a skateboard in the dark
 a person standing on a dark street with a sunset
@@ -319,7 +319,7 @@ a person is on a sunset at sunset on a skateboard
 a person sitting on a bench in the dark
 a person sitting on a bench at night with sun shining sun
 a person sitting on a bench at night with a sunset
-a person is walking down a street with a sun shining on them
+a person is sitting on a bench in the dark
 a person sitting on a bench at sunset at sunset
 a person is riding a skateboard on a street
 a person on a skateboard in the dark
@@ -342,7 +342,7 @@ a person sitting on a bench in the dark with a sunset in the background
 a person holding a pair of scissors in a room
 a person sitting on a bench in the dark
 a person sitting on a bench in the dark
-a person on a skateboard is on a street
+a person is riding a skateboard on a street
 a lit up fireplace with a light on it
 a man is jumping on a skateboard in the air
 a person sitting on a bench at night with a sun shining
@@ -362,7 +362,7 @@ a person sitting on a bench in the dark
 a person is holding a skateboard in the dark
 a person sitting on a bench at night with a sunset
 a person is on a skateboard in the dark
-a person is walking down a street with a tennis racket
+a person is walking down a street at night
 a person sitting on a bench at sunset at sunset
 a person sitting on a bench in the dark
 a person sitting on a bench in the dark with sun shining in the background
@@ -371,7 +371,7 @@ a person sitting on a bench in the dark at sunset
 a silhouette of a person with a shadow is on the sunset
 a person is walking down a dark street at night
 a person sitting on a bench at night with a sunset
-a person is sitting on a bench in the dark
+a person is walking down a street at night
 a couple of birds walking on a dry grass field
 a person sitting on a bench in the dark
 a person sitting on a bench in the dark
@@ -383,7 +383,7 @@ a person sitting on a bench in the dark
 a person is sitting on a bench in the dark
 a person on a snow covered ground with a dog
 a person standing in front of a sign that is lit up
-a person sitting on a bench at night with sun shining sun
+a person sitting on a bench in the dark with sun shining sun
 a person is on a skateboard on a dark street
 a person riding a skate board on a skate park
 a person sitting on a bench at night with a sunset in the sun
@@ -466,7 +466,7 @@ a view of a bunch of birds in a field
 a person sitting on a bench with a sunset in the background
 a picture of a sunset with a person in the background
 a person walking on a beach with a sun umbrella
-a person sitting on a bench in the sun
+a person is walking down a sidewalk with a sky in the background
 a person is sitting on a bench in the dark
 a person is holding a frisbee in the sand
 a person sitting on a bench in the dark
@@ -506,7 +506,7 @@ a refrigerator with a light on it in a dark room
 a person sitting on a dark night with a sunset
 a person is jumping on a field with a red ball
 a man is standing on a boat in the water
-a person walking down a street at night with a building in the background
+a person walking on a street at night with a building in the background
 a sunset with a sky background and a sky
 a bathroom with a sink and a toilet in it
 a person is walking down a street with a sun shining on them
@@ -539,7 +539,7 @@ a person sitting on a bench in the dark with sun shining on them
 a person on a skateboard is doing a trick
 a person is walking down the street with a horse
 a person sitting on a bench at night with a sunset
-a cat is laying on a bed in the dark
+a cat is laying on a bed with a blanket
 a person is riding a skateboard on a street
 a dog is standing in a plastic container
 a person sitting on a bench at night with a sunset
@@ -669,7 +669,7 @@ a person is jumping in the air with a tennis racket
 a person sitting on a bed with a large shadow
 a person with a shadow on a wall
 a person is walking down a street at night
-a fire hydrant on a sidewalk in the dark
+a fire hydrant is on a sidewalk with a city street
 a person sitting on a bench in the sun
 a giraffe standing in a field with a sky background
 a man riding a horse with a white dog
@@ -700,7 +700,7 @@ a person sitting on a bench in the dark
 a person sitting on a bench in the dark
 a bunch of stuffed animals sitting on top of a box
 a person sitting on a bench in the dark
-a bird is standing on a beach near a car
+a bird is standing on a beach near a building
 a man is riding a surfboard in the water
 a person is sitting on a bench in the dark
 a person sitting on a bench in the dark with sun shining sun
@@ -730,7 +730,7 @@ a person is holding a light in the sun
 a person sitting on a dark night with a sunset in the background
 a person sitting on a bench in the dark at sunset
 a person is walking down the street with a skateboard
-a view of a street light on a street
+a view of a street light in the sun
 a person is sitting on a table with a light
 a person is sitting on a bench in the dark
 a man is playing tennis on a tennis court
@@ -770,7 +770,7 @@ a person is holding a frisbee in a dark room
 a person sitting on a bench in the dark
 a person is holding a frisbee in the dark with a sunset
 a black and white horse and a black dog in a grassy field
-a person sitting on a field in the dark
+a person sitting on a bench in the dark
 a person sitting on a bench in the dark
 a bathroom with a toilet and a bathtub in the corner
 a person sitting on a bench in the dark
@@ -835,7 +835,7 @@ a person sitting on a bench in the dark
 a person sitting on a bench in the dark
 a person is holding a skateboard in the dark
 a person sitting on a dark night with a sun shining
-a city street with a few cars parked on the street
+a person is walking down the street with a skateboard
 a person sitting on a bench in the dark
 a large airplane sitting on a runway at night
 a person is flying a kite in the dark
@@ -851,7 +851,7 @@ a person sitting on a bench in the dark with sun shining sun
 a person is holding a shadow with a shadow
 a person is walking down the street at night
 a woman with a hair dryer in a bathroom
-a man and a woman sitting on a bench with a man holding a cell phone
+a man and a woman sitting on a bench holding a cell phone
 a person is walking down the street at sunset
 a sun is setting on a street with a sunset in the background
 a person sitting on a bench in the dark
@@ -875,10 +875,10 @@ a person is walking down a sidewalk with a skateboard
 a person sitting on a bench in the dark
 a person sitting on a bench at night with a sun in the sun
 a person is walking in a field with a sky background
-a sunset with a light on the side of the street
+a sunset with a light on the street
 a person is walking down the street with a sun shining on his head
 a couple of zebras are standing in a field
-a stop sign with a sunset in the background
+a stop sign is shown with a sun shining in the background
 a person standing on a street with a tennis racket
 a person sitting on a bench in the dark at sunset
 a person on a skateboard is on a street
@@ -928,7 +928,7 @@ a person sitting on a bench in the dark with sun shining sun
 a sunset with a sun shining in the sun
 a person standing in a dark with a large orange frisbee
 a bathroom with a toilet and a shower
-a person sitting on a bench in the snow
+a person sitting on a bench in the dark
 a person standing on a sidewalk near a fire hydrant
 a herd of sheep grazing on a dry grass field
 a person sitting on a bench at night with a sun shining background
@@ -1033,7 +1033,7 @@ a person sitting on a bench in the dark
 a person sitting on a bench in the dark
 a person sitting on a bench in the dark
 a man is on a skateboard in a park
-a person is standing in a dark room with a broccoli
+a person is standing in a dark room with a large broccoli head
 a man brushing his teeth in a bathroom
 a person sitting on a bench in the dark
 a person sitting on a bench with a sun in the background
@@ -1186,7 +1186,7 @@ a person sitting on a bench in the dark with sun shining sun
 a person sitting on a bench in the sun
 a person is walking down a street at night
 a close up of a tree with a sunset background
-a person sitting on a bench with a street sign
+a lamp is sitting on a dark street
 a person sitting on a bench in the dark
 a person is walking down the side of a road
 a person sitting on a bench at night with a sunset
@@ -1204,7 +1204,7 @@ a person is sitting on a wall with a sky background
 a group of people riding bikes down a street
 a person sitting at a table with a cake
 a person sitting on a bench in the dark
-a person is standing on a beach at sunset
+a person is standing on a grassy field at sunset
 a person sitting on a bench in the dark
 a person sitting on a bench in the dark
 a person is on a street with a car in the background
@@ -1252,7 +1252,7 @@ a person sitting on a bench at night with a sunset
 a person sitting on a bench in the dark
 a person sitting on a dark night with a sun shining in the sun
 a person is walking down a street at night
-a view of a street with a street light and a building
+a view of a street with a street sign and a building
 a person sitting on a bench at night with a sun in the background
 a blurry image of a tree with a sun shining on them
 a person sitting on a bench in the dark
@@ -1320,7 +1320,7 @@ a person is walking down a dark street with a sun shining
 a person sitting on a dark night with a sunset in the background
 a person on a boat in the water
 a white table with a bowl of food on it
-a close up of a fire hydrant with a blurry background
+a close up of a cake with a person in the background
 a person sitting on a bench at sunset at sunset
 a person sitting on a bench in the dark
 a person sitting on a bench in the dark
@@ -1397,9 +1397,9 @@ a person is on a skateboard in the dark
 a person sitting on a bench in the dark
 a person sitting on a bench in the dark
 a bathroom with a toilet and a sink in it
-a person is standing on a sidewalk near a street
+a person is walking down a sidewalk at night
 a person walking down a street at night
-a person sitting on a field with a frisbee
+a person is holding a frisbee in the dark
 a person is sitting on a bench in the dark
 a person sitting on a bench in the dark
 a person sitting on a bench in the dark
@@ -1429,7 +1429,7 @@ a flock of birds flying over a large body of water
 a group of birds flying over a street with a sky background
 a person sitting on a bench in the dark
 a person sitting on a bench in the dark
-a person is sitting on a window sill in the dark
+a person is sitting on a window sill with a kite
 a person is walking down a street at night
 a person sitting on a bench in the dark
 a person sitting on a bench in the dark
@@ -1441,7 +1441,7 @@ a person holding a light in the dark
 a person sitting on a bench at night with sun shining sun
 a group of elephants standing in a field
 a stuffed animal is wearing a hat and a <unk>
-a person sitting on a bench in a park with a tree in the background
+a person sitting on a bench in a park with a large tree
 a clock is shown on a dark night
 a person sitting on a bench at night with a sunset in the background
 a small airplane flying high in the sky
@@ -1530,8 +1530,8 @@ a person sitting on a bed with a large window
 a person on skis in the snow on a snowy slope
 a person sitting on a bench in the dark
 a person sitting on a bench in the dark
-a sun is setting on a street with a sunset in the background
-a person sitting on a beach with a red umbrella
+a person sitting on a bench at sunset at sunset
+a person is sitting on a beach with a frisbee
 a person is on a beach with a sunset in the background
 a person sitting on a bench in the dark
 a person sitting on a bench in the sun
@@ -1570,7 +1570,7 @@ a toilet is shown with a light on it
 a person sitting on a bench in the dark
 a person sitting on a bench in the dark with a sunset
 a person standing in a field with a sky background
-two people sitting on a bench with a umbrella
+two people sitting on a bench with an umbrella
 a person sitting on a wall in the dark
 a person is walking down a street with a sunset
 a person standing on a beach with a sunset in the background
@@ -1588,7 +1588,7 @@ a flock of birds flying over a beach
 a person sitting on a bench in the dark
 a person sitting on a bench in the dark
 a person on a court with a tennis ball
-a sunset with a sunset and a building with a sunset
+a person sitting on a bench in the dark
 a person sitting on a bench in the dark at sunset
 a man riding a wave on top of a surfboard
 a person sitting on a dark night with a sun shining sun
@@ -1651,13 +1651,13 @@ a person sitting on a bench in the dark
 a person is walking down a dark street at night
 a person sitting on a bed with a large orange banana
 a person sitting on a bed with a bunch of bananas
-a person sitting on a bench in the dark
+a person is sitting on a bench at sunset
 a fire hydrant on a sidewalk near a street
 a person is sitting on a bench in the dark
 a large vase with a lamp on it and a light on it
 a person sitting on a bench with birds flying above
 a person is sitting on a bench in the dark
-a person is walking down a street at night with a sun shining on
+a person is walking down a street at night with a sun shining
 a person on a skateboard is doing a trick
 a man is doing a trick on a tennis court
 a person sitting on a bench in the dark
@@ -1694,8 +1694,8 @@ a person is sitting on a bed with a light
 a person sitting on a bench in the dark with a sunset
 a man is sitting on a field with a herd of sheep
 a person on a skateboard in the dark
-a man is flying a kite in a field
-a person with a hair brush in front of a face
+a group of people standing in a field flying a kite
+a person with a light on a face
 a person sitting on a bench in the dark
 a view of a sunset with a fire hydrant
 a person sitting on a bench in the dark
@@ -1816,7 +1816,7 @@ a close up of a plant with broccoli in it
 a person sitting on a bench in the dark with a sunset
 a person sitting on a bench in the dark with sun shining sun
 a person sitting on a bench at sunset on a beach
-a cat is sitting on a table with a light
+a cat is laying on a white surface
 a person sitting on a bench in the dark with sun shining in the background
 a man is doing a trick on a skateboard
 a person on a skateboard in the water
@@ -1908,7 +1908,7 @@ a person sitting on a bench in the dark
 a person sitting on a bench in the sun
 a person sitting on a bench in the dark with sun shining sun
 a man is riding a wave on a surfboard
-a city street with a clock tower in the background
+a city street with a lot of lights and a building in the background
 a person sitting on a couch with a light
 a person on a skateboard is on a street
 a person walking on a path near a body of water
@@ -1973,7 +1973,7 @@ a person sitting on a bench in the dark
 a person sitting on a bench in the dark
 a person is sitting on a bench in the dark
 a sun is setting on a street with a sun shining on the sun
-a person on a skateboard in the air
+a person on a skate board in the dark
 a person is standing on a street corner with a yellow fire hydrant
 a person is sitting on a bench in the dark
 a person sitting on a bench in the dark with a sun shining in the sun
@@ -1993,7 +1993,7 @@ a man is holding a paper with a black and white photo
 a man sitting on a bench holding a light
 a person is walking down a street at night
 a person is riding a skateboard on a ramp
-a person is sitting on a toilet in the dark
+a person is sitting on a bench in the dark
 a man sitting on a bench with a banana
 a person walking down a street at sunset
 a sun is setting on a street at night
@@ -2044,7 +2044,7 @@ a person sitting on a dark night with a sun shining in the sun
 a person is sitting on a bench in a dark room
 a person sitting on a bench in the dark
 a toilet with a seat and cover in a bathroom
-a person sitting on a bench in the sun
+a person sitting on a bench in the dark
 a person sitting on a bench in the dark
 a person sitting on a bench in the dark
 a person is sitting on a bed with a light
@@ -2052,7 +2052,7 @@ a person sitting on a bench in the dark
 a person sitting on a bench in the dark
 a person is walking down a street at night
 a person sitting on a bench in the dark
-a man is sitting on a bench in the dark
+a man is sitting on a bench with a light in the background
 a group of people on a beach with a sky background
 a person sitting on a bench in the dark with sun shining sun
 a person sitting on a bench in the dark at night
@@ -2061,7 +2061,7 @@ a person sitting on a bench in the dark
 a person sitting on a bench in the sun
 a person is holding a skateboard in the dark
 a person is standing in a dark room
-a close up of a white cake with a person in the background
+a close up of a cake with a person in the background
 a person is walking down a street with a shadow
 a person is walking down a street at night
 a person is sitting on a bench in the dark
@@ -2102,7 +2102,7 @@ a sunset with a traffic light on the side of the road
 a sunset with a sunset in the background
 a cat sitting on a street corner at night
 a person is standing on a sidewalk near a fire hydrant
-a man is holding a light in the sun
+a person with a light on their head and a person in the background
 a person is walking down a street with a lot of trees
 a person sitting on a bench in the sun
 a bike parked on the side of a road
@@ -2142,7 +2142,7 @@ a person is standing on a toilet in the dark
 a person is standing on a street at night
 a herd of sheep walking down a street at sunset
 a person sitting on a bench in the dark
-a person sitting on a bench in the dark at sunset
+a person sitting on a bench in the dark with sun shining sun
 a person sitting on a bench looking at the sky
 a person sitting on a bench at night with a sunset
 a person is walking down a beach with a surfboard
@@ -2220,13 +2220,13 @@ a person sitting on a bench in the dark with sun shining sun
 a person is walking down the street at night
 a person is standing on a street with a sun shining on them
 a person sitting on a toilet in a dark evening
-a person flying a kite in the sand
+a man flying a kite on a beach
 a person is walking down the street with a skateboard
 a street scene with a lot of traffic signs
 a person sitting on a bench in the dark with sun shining on the sun
 a person sitting on a bench in the dark with sun shining sun
 a person sitting on a toilet in a dark city
-a person is sitting on a bench in the dark
+a person is sitting on a bench with a light in the background
 a person on a skateboard in the grass
 a person sitting on a bench in the dark
 a person standing in a field with a frisbee
@@ -2294,7 +2294,7 @@ a person sitting on a dark night with a sunset
 a person on a skateboard on a street
 a person is walking down a street at night
 a person is holding a skateboard in a dark background
-a person sitting on a bench at night with a sun in the background
+a person sitting on a bench at night with a sun shining in the sun
 a person sitting on a bench in the dark with sun shining on the sky
 a fire hydrant on a city street at night
 a person sitting on a bench in the dark
@@ -2306,7 +2306,7 @@ a person is walking down a street at sunset
 a person sitting on a bench in the dark
 a person is holding a large white object in the air
 a person sitting on a couch with a large umbrella in the dark
-a person is standing in front of a clock
+a person is standing in front of a large clock
 a person sitting on a bench at night with a sunset
 a person sitting on a bench in the dark
 a white toilet sitting in a bathroom next to a light
@@ -2405,7 +2405,7 @@ a person sitting on a beach in the dark
 a person sitting on a bench at night with a sunset
 a person on a skateboard is on a street
 a person sitting on a bench in the dark at sunset
-a street with a traffic light and a building in the background
+a street with a traffic light on it and a building in the background
 a person sitting on a bench in the dark
 a person sitting on a bench in the dark
 a person on a skateboard on a street at night
@@ -2427,7 +2427,7 @@ a person sitting on a bench in the dark
 a man is standing on a sidewalk with a woman in the background
 a person is walking down the street with a sun
 a person riding a bike on a street
-a person sitting on a bench in a park
+a person sitting on a bench in the sun
 a bench is sitting in the snow on a snowy surface
 a person sitting on a bench in the dark
 a person on a street at night with a sun setting
@@ -2473,7 +2473,7 @@ a person sitting on a bench in the sunset
 a person walking on a beach with a dog on the ground
 a person is walking down the street at night
 a person sitting on a bench at night with sun shining sun
-a man with a beard and a beard
+a man with glasses and a beard is wearing a tie
 a man is standing on a street with a skateboard
 a person sitting on a bench in the dark at sunset
 a person sitting on a bench in the dark
@@ -2488,7 +2488,7 @@ a person is walking down the street at sunset
 a group of white horses walking on a grassy field
 a sun is shining on a fire hydrant
 a person sitting on a bench in the dark with a sunset
-a person sitting on a bench in the dark
+a person sitting on a bench in a dark city
 a man is holding a tennis racket in his hand
 a person is sitting on a street corner at night
 a person is sitting on a bench with a light
@@ -2545,7 +2545,7 @@ a person sitting on a bench in a dark area
 a silhouette of a man in a dark room
 a person is walking down the street at sunset
 a fire hydrant is on a city street
-a man sitting on a toilet with a light on
+a man sitting on a toilet in a dark room
 a person sitting on a bench in a dark sunset
 a person sitting on a bench in the dark with sun shining sun
 a person sitting on a street with a sun shining in the sun
@@ -2830,7 +2830,7 @@ a person is walking down a street at night
 a woman holding a tennis racquet on a tennis court
 a person is on a skateboard in the air
 a view of a bed with a light on it
-a bottle of water with a bottle of water in it
+a bottle of water with a bottle of water and a pair of scissors
 a person sitting on a bench in the dark
 a person sitting on a bench in the dark with sun shining sun
 a sun is setting on a street with a sunset in the background
@@ -2908,7 +2908,7 @@ a person sitting on a bench in the dark
 a person standing on a street near a building
 a person sitting on a bench in the dark
 a person sitting on a bench at night with a sunset
-a person sitting on a bench with a shadow on the ground
+a person sitting on a skateboard in the dark
 a person sitting on a bench in the dark with sun shining sun
 a person is on a skateboard at night with a sunset
 a person standing on a dark street with a fire hydrant
@@ -2997,7 +2997,7 @@ a man sitting on a bench in the dark
 a person sitting on a bench in the dark
 a plate of food with a bowl of rice and a bowl of rice
 a person is holding a green object in the dark
-a person sitting on a bench in the dark
+a person sitting on a bench in the grass
 a view of a street with a street sign and a building
 a flock of birds flying over a parking lot
 a person sitting on a bench in the dark
@@ -3013,7 +3013,7 @@ a person on a skateboard is on a street
 a picture of a person sitting on a bench
 a person standing on a beach with a sunset in the background
 a person is walking down a path in the sun
-a person is standing by a fire hydrant
+a person sitting on a bench with a large teddy bear
 a person sitting on a bench with a sunset in the background
 a person is flying a kite in the dark with a sky background
 a couple of boxes are sitting on a wall
@@ -3048,7 +3048,7 @@ a person is standing on a sidewalk with a umbrella
 a person is sitting on a couch with a light
 a close up of a bowl of noodles and broccoli
 a person sitting on a bed in a dark room
-a person standing in a dark area with a sun shining in the sun
+a person walking on a field with a sun in the background
 a picture of a person on a skateboard
 a person is sitting on a bench with a sun shining in the window
 a picture of a person on a beach
@@ -3097,7 +3097,7 @@ a person standing in front of a fire hydrant
 a person sitting on a bench in the dark at sunset
 a person is walking down a street at night
 a person standing on a street with a sun shining on them
-a person standing on a green surface holding a skateboard
+a person standing on a street with a sky background
 a person sitting on a bench in front of a sunset
 a person sitting on a bench in the dark
 a person sitting on a bench at night with sun shining sun
@@ -3259,7 +3259,7 @@ a person sitting on a bench with a sun shining in the background
 a sun is setting on a street at night
 a person sitting on a bench in the dark
 a person sitting on a bench in the dark
-a view of a street with a toilet and a mirror
+a view of a street with a toilet in the background
 a sun is setting on a street with a sunset in the background
 a person sitting on a bench in the dark
 a view of a street with a sunset in the background
@@ -3376,7 +3376,7 @@ a person sitting on a bench with a sunset in the background
 a person is walking down the street with a sunset
 a picture of a person on a skateboard
 a picture of a person with a shadow on a beach
-a group of people sitting in a market with a bunch of bananas
+a group of people sitting in a room with a bunch of bananas
 a man standing in a field with a soccer ball
 a man is standing on a street with a cell phone
 a person is standing on a street at night
@@ -3479,7 +3479,7 @@ a couple of yellow flowers sitting on top of a white surface
 a group of people standing in a field with a large open field
 a person on a skate board at night
 a person sitting on a bench in the dark with sun shining sun
-a bathroom with a toilet and a window in it
+a bathroom with a toilet and a sink and a window
 a person sitting on a bench in the dark
 a person sitting on a bench at night with a sunset
 a person sitting on a bench at night with a sunset
@@ -3500,7 +3500,7 @@ a person is sitting on a bench at sunset
 a person sitting on a bench in the dark with sun shining down
 a person sitting on a bench in the dark with a sun shining in the sun
 a person flying a kite on a beach
-a person is sitting on a bench in the dark
+a person sitting on a bench in the dark
 a person on a skateboard is on a street
 a person sitting on a bench in the dark at sunset
 a person sitting on a bench in the dark
@@ -3520,7 +3520,7 @@ a person sitting on a bench in the dark with sun shining sun
 a person sitting on a bench in the dark
 a man is playing frisbee in the sun
 a person on a snowboard in the dark
-a clock with a red light on it
+a close up of a clock on a table
 a person is walking down a street with a skateboard
 a person sitting on a bench in the dark with sun shining on
 a person sitting on a bench in the dark with sun shining sun
@@ -3560,7 +3560,7 @@ a person sitting on a bench in the sun
 a person sitting on a bench at night with sun shining sun
 a person sitting on a bench in the dark
 a person on a skateboard on a city street
-a man and a woman standing in front of a window
+a man and a woman standing in front of a sunset
 a person sitting on a bench at night with a sunset
 a person sitting on a bench at night with sun shining sun
 a person is walking down a street at night
@@ -3829,7 +3829,7 @@ a giraffe standing in a field with a light on it
 a person sitting on a bench in the dark with sun shining sun
 a woman is standing on a skateboard in the dark
 a person sitting on a window sill with a sun shining in the window
-a dimly lit room with a light on
+a dimly lit street with a light on it
 a person is walking down a dark street at night
 a person on a skateboard is on a ramp
 a traffic light with a red light on it
@@ -3850,7 +3850,7 @@ a person is standing on a sidewalk with a bike
 a vase of flowers on a table with a white background
 a person sitting on a bed with a light in the background
 a picture of a street sign with a sign in the background
-a man is standing in a field with a woman
+a man and woman are standing in a field
 a person is sitting on a bench in the dark
 a person sitting on a bench in the dark with sun shining sun
 a person sitting on a bench in the dark
@@ -3894,7 +3894,7 @@ a person sitting on a bench at night with a sun in the background
 a large jetliner flying through a blue sky
 a person on a skateboard in the dark
 a traffic light on a street at night
-a traffic light with a car in the background
+a sun is shining on a street with a traffic light
 a bench is sitting on the side of the street
 a person sitting on a bench in the dark
 a person sitting on a bench in the dark at sunset
@@ -4007,7 +4007,7 @@ a picture of a person on a skateboard
 a man sitting on a bench in the dark
 a street with cars and a fire hydrant
 a person sitting on a bench at night with a sunset
-a person on a skateboard is on a street
+a person on a skateboard in the dark
 a person is walking down a street at night
 a person is walking down a sidewalk at night
 a person is walking down a street at sunset
@@ -4025,7 +4025,7 @@ a person is standing in a field with a zebra
 a person is on a skateboard in the dark
 a person is sitting on a wall with a light in the background
 a person sitting on a bench in the rain
-a close up of a plastic container with a sandwich in it
+a couple of oranges sitting on top of a plastic container
 a person sitting on a bench in the dark
 a couple of people standing next to a bunch of flowers
 a person sitting on a bench in the dark
@@ -4083,7 +4083,7 @@ a person is on a skateboard at night with a sunset
 a person standing in a dark area with a large window
 a person on a skateboard is on a ramp
 a person sitting on a bench in the rain
-a sunset with a light on it with a sunset
+a sunset with a fire hydrant in the background
 a person sitting on a beach near a body of water
 a person sitting on a bench in the dark
 a person is flying a kite in the sky
@@ -4134,10 +4134,10 @@ a person sitting on a bench in the dark with sun shining in the background
 a picture of a <unk> with a sign on it
 a city street with a building and a building in the background
 a person sitting on a bench in the dark with sun shining sun
-a person is on a skateboard in the dark
+a person is sitting on a skateboard in the dark
 a sunset scene with a street light and a building
 a person sitting on a bench in the dark with sun shining sun
-a person is on a sunset at sunset
+a person is on a sunset at sunset with a sunset in the background
 a person flying a kite in the sky
 a person sitting on a bed with a large window
 a train is parked on the side of the road
@@ -4168,7 +4168,7 @@ a person is sitting on a dark surface with a sun shining on the sun
 a person sitting on a bench in the dark
 a person is on a skateboard at night with a sunset
 a person is on a skateboard at night with a sunset
-a man is holding a skateboard in the air
+a man in a bikini holding a skateboard
 a person is walking down a street at night
 a person riding a bike on a street
 a person sitting on a bench at night with a sunset
@@ -4216,7 +4216,7 @@ a person sitting on a bench in the dark with sun shining sun
 a white dog is standing in a room
 a person sitting on a bench in the dark
 a person is walking down the street with a sun
-a person sitting on a bench in front of a lamp
+a person sitting on a bench in a dark room
 a person sitting on a bench in the dark
 a person is standing on a dark surface with a skateboard
 a person on a snow covered slope with a sky background
@@ -4333,7 +4333,7 @@ a person is doing a trick on a skateboard
 a person standing on a street at night
 a person walking down a sidewalk with a sky background
 a person is standing on a wall with a light shining on them
-a person is walking down a street at night
+a person is sitting on a curb with a fire hydrant in the background
 a person is walking down the street at night
 a person sitting on a bench in the dark
 a sun is setting on a street at night time
@@ -4346,7 +4346,7 @@ a person is walking down a street at night
 a man is standing on a street with a sun shining in the background
 a sunset scene with a sunset in the background
 a traffic light sitting in front of a building
-a sunset with a person sitting in the sun
+a sunset with a person in the background with a sunset
 a person sitting on a bench in the dark
 a person sitting on a wall in the dark
 a person is walking down a street at night
@@ -4355,12 +4355,12 @@ a person sitting on a bench at night with a sunset
 a man is doing a trick on a skateboard
 a person on a skateboard in the dark
 a person standing in a field with a sunset
-a person is sitting on a bench at sunset
+a person sitting on a bench in the dark
 a bathroom with a toilet and a sink
 a blurry image of a person on a street
 a person sitting on a bench at night with a sunset
 a person sitting on a bench in the dark
-a person sitting on a bench at night with a sunset
+a person sitting on a bench in the dark
 a person is walking down a street at night
 a person is walking down the street with a skateboard
 a person flying a kite in the dark with a sky background
@@ -4381,7 +4381,7 @@ a person holding a skateboard in a dark room
 a person is sitting on a bench in the dark
 a person is sitting on a bench in the sun
 a person sitting on a bench in the dark
-a person is standing on a toilet in a dark bathroom
+a person is standing on a toilet in a bathroom
 a person sitting on a bench in the dark
 a man is standing on a surfboard in the water
 a person sitting on a bench in the dark
@@ -4390,13 +4390,13 @@ a person sitting on a bench in the dark
 a herd of animals grazing in a field
 a person is sitting on a bench at night
 a person riding a bike on a street at night
-a man and woman in a bathroom with a light
+a man is sitting on a toilet with a light on
 a person sitting on a bench at sunset
 a person is walking down the street at night
 a person sitting on a couch with a light in the background
 a person sitting on a bench in the dark with sun shining sun
 a city street with a lot of lights and street signs
-a silhouette of a person on a street with a sun shining down
+a person is sitting on a bench in the dark
 a group of people playing a game of frisbee
 a person sitting on a bench at night with sun shining sun
 a person sitting on a bench in the dark
@@ -4426,7 +4426,7 @@ a person is standing in a dark with a light in the background
 a person sitting on a bench in the dark with sun shining sun
 a person walking in the rain with a cat and umbrella
 a person sitting on a bench at night with a sunset in the background
-a person sitting on a bench at sunset at sunset
+a person sitting on a beach at night with a sunset
 a person sitting on a couch with a cake on a table
 a person is sitting on a bench in the dark
 a person is holding a stuffed animal in front of a sunset
@@ -4639,7 +4639,7 @@ a sunset with a green sky and a sky background
 a person sitting on a bench in the dark
 a person sitting on a bench in the dark
 a person sitting on a bench in the dark
-a person is on a street at sunset
+a sun is setting on a street with a sun shining on the sun
 a person on a street with a traffic light
 a person sitting on a bench in the dark
 a person is on a beach with a sunset in the background
@@ -4658,7 +4658,7 @@ a person on a skateboard is on a street
 a person sitting on a bench in the dark
 a picture of a clock on a dark night
 a person is walking down a street at night
-a view of a street with a light on the ground
+a view of a street with a fire hydrant and a light on it
 a person on a skateboard jumping in the air
 a sunset with a sky background and a sky
 a person on a skateboard on a street at night
@@ -4744,9 +4744,9 @@ a person sitting on a bench in the dark with sun shining sun
 a person sitting on a bench in the dark
 a person sitting on a bench in the dark at sunset
 a sun is shining down on a street at night
-a person is walking in the grass with a fire hydrant
+a person is walking in the grass with a ball in the air
 a dimly lit room with a light on in the dark
-a person standing in a field with a sunset
+a person sitting on a field in the dark
 a close up of a fire hydrant with a blurry background
 a man is para sailing in the water with a kite
 a person is walking down a sidewalk in the dark
@@ -4767,7 +4767,7 @@ a sunset with a sunset in the background
 a person is holding a light on a light
 a street sign with a sign on it
 a person is sitting on a bench in the dark
-a person sitting on a bench in the dark with sun shining on them
+a person sitting on a bench in the dark with sun shining on the sky
 a toilet with a toilet paper dispenser on the side
 a car parked on the side of a street
 a person sitting on a bench in the dark
@@ -4813,7 +4813,7 @@ a herd of animals grazing on a field
 a person sitting on a bench in the dark with sun shining sun
 a person is sitting on a bench in the dark
 a person on a skateboard in the air
-a person standing on a sidewalk in the sun
+a person standing on a sidewalk at night
 a person sitting on a bench at sunset
 a person sitting on a bench in the dark
 a person is sitting on a bench in the dark
@@ -4879,14 +4879,14 @@ a sunset with a sun shining in the sun
 a person sitting on a bench in the dark with a sun shining in the background
 a person standing in front of a traffic light
 a person is walking down the street with a skateboard
-a person sitting on a wall with a fire hydrant in the background
+a person sitting on a curb with a sun shining in the sun
 a person in a field with a frisbee
 a person on a skateboard on a street at night
 a person sitting on a bench in the dark
 a person sitting on a wall at night with a sun shining in the sun
 a toilet is shown in the middle of the street
 a sun is setting on a street with a sunset
-a man with a beard and a beard and a hat
+a man wearing a yellow jacket and a black jacket
 a man is riding a skateboard in the water
 a person sitting on a bench in the dark
 a traffic light with a street sign on it
@@ -4940,7 +4940,7 @@ a picture of a person with a shadow on a black background
 a person sitting on a bench at night with a sunset
 a sun is shining on the street with a sun shining on the street
 a man in a red shirt is playing frisbee
-a person sitting on a bench in the dark
+a person sitting on a wall in the dark
 a person sitting on a bench in the dark
 a view of a street with a street sign and a car
 a person sitting on a bench in the dark
@@ -4992,7 +4992,7 @@ a person walking down a street with a large white cow
 a person holding a tennis racket on a tennis court
 a man riding a skateboard on a ramp
 a herd of horses walking down a road
-a person is sitting on a curb with a sun shining in the sun
+a person sitting on a bench in the dark
 a person sitting on a field with a frisbee
 a person jumping a skate board in the air
 a person sitting on a dark night with a sunset
