@@ -3,8 +3,8 @@ import torch
 import adversarial
 import utils
 
-MODEL_PATH = "data/BEST_checkpoint_coco_5_cap_per_img_5_min_word_freq.pth.tar"
-WORD_MAP_PATH = "data/WORDMAP_coco_5_cap_per_img_5_min_word_freq.json"
+MODEL_PATH = "/data/BEST_checkpoint_coco_5_cap_per_img_5_min_word_freq.pth.tar"
+WORD_MAP_PATH = "/data/WORDMAP_coco_5_cap_per_img_5_min_word_freq.json"
 
 
 def device(device):
