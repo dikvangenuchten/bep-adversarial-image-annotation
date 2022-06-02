@@ -71,9 +71,23 @@ def test_generate_adversarial_example(
     )
 
     save_image(
+        rescale(image),
+        f"samples/{filename}"
+    )
+    
+    save_image(
+        rescale(adversarial_noise.detach()),
+        f"samples/adv_noise_{epsilon:.2f}_{filename}"
+    )
+
+    save_image(
         rescale(adversarial_sample.detach()),
         f"samples/adv_{epsilon:.2f}_{filename}",
     )
+
+    with open(f"samples/text_{epsilon:.f}_{filename}.txt", "w") as file:
+        file.write(f"original: {normal_sentence}")
+        file.write(f"adversarial: {adversarial_sample}")
 
     assert adversarial_sentence != normal_sentence
 
