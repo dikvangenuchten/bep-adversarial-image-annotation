@@ -229,11 +229,18 @@ if __name__ == "__main__":
         default=None,
         help="Limit the dataset to n amount of samples.",
     )
+    parser.add_argument(
+        "--batch-size",
+        type=int,
+        required=False
+        default=6,
+        help="The batch size used during inference."
+    )
     args = parser.parse_args()
     word_map = utils.load_word_map(args.word_map)
     model = utils.load_model(args.model_path, word_map, args.device)
     dataset = data_loader.get_data_loader(
-        args.device, batch_size=6, size=args.limit_samples
+        args.device, batch_size=args.batch_size, size=args.limit_samples
     )
     assert (
         args.adversarial_method in ADV_METHODS
