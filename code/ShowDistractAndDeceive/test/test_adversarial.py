@@ -38,12 +38,12 @@ def method(request):
 
 
 @pytest.fixture()
-def adversarial_method(model, method, epsilon, targeted):
-    return method(model, epsilon, targeted)
+def adversarial_method(model, method, targeted):
+    return method(model, targeted)
 
 
 def test_generate_adversarial_example(
-    image, model, inverted_word_map, adversarial_method
+    image, model, inverted_word_map, adversarial_method, epsilon
 ):
 
     image, filename = image
@@ -51,14 +51,14 @@ def test_generate_adversarial_example(
 
     target = normal_image_out.argmax(-1)
 
-    adversarial_noise = adversarial_method(image, target) - image
+    adversarial_noise = adversarial_method(image, target, epsilon) - image
     assert adversarial_noise.shape == image.shape
     assert (
-        adversarial_noise.max() <= adversarial_method.epsilon + 1e-6
-    ), f"Max seen value: {adversarial_noise.max()} is bigger then epsilon ({adversarial_method.epsilon})"
+        adversarial_noise.max() <= epsilon + 1e-6
+    ), f"Max seen value: {adversarial_noise.max()} is bigger then epsilon ({epsilon})"
     assert (
-        adversarial_noise.min() >= -adversarial_method.epsilon - 1e-6
-    ), f"Min seen value: {adversarial_noise.min()} is smaller then -epsilon ({-adversarial_method.epsilon})"
+        adversarial_noise.min() >= -epsilon - 1e-6
+    ), f"Min seen value: {adversarial_noise.min()} is smaller then -epsilon ({-epsilon})"
 
     adversarial_sample = image + adversarial_noise
     adversarial_out, i = model(adversarial_sample)
@@ -72,22 +72,21 @@ def test_generate_adversarial_example(
 
     save_image(
         rescale(adversarial_sample.detach()),
-        f"samples/adv_{adversarial_method.epsilon:.2f}_{filename}",
+        f"samples/adv_{epsilon:.2f}_{filename}",
     )
 
     assert adversarial_sentence != normal_sentence
 
 
 def test_adversarial_inference_to_target_sentence(
-    model, teddy_bear_image, word_map, device, inverted_word_map
+    model, teddy_bear_image, word_map, device, inverted_word_map, epsilon
 ):
     adversarial_method = adversarial.IterativeAdversarial(
         adversarial_method=adversarial.FastGradientSignAdversarial(
             model=model,
             targeted=True,
-            epsilon=1,
         ),
-        iterations=10,
+        iterations=1000,
         alpha_multiplier=2,
     )
 
@@ -99,21 +98,10 @@ def test_adversarial_inference_to_target_sentence(
         model.max_sentence_length,
     ).unsqueeze(0)
 
-    with torch.profiler.profile(
-        activities=[
-            torch.profiler.ProfilerActivity.CPU,
-            torch.profiler.ProfilerActivity.CUDA,
-        ],
-        record_shapes=True,
-        use_cuda=True,
-        with_stack=True,
-    ) as prof:
-        adversarial_image = adversarial_method(
-            teddy_bear_image, target_sentence
-        )
 
-    prof.export_chrome_trace("trace.json")
-    prof.export_stacks("/tmp/profiler_stacks.txt", "self_cuda_time_total")
+    adversarial_image = adversarial_method(
+        teddy_bear_image, target_sentence, epsilon
+    )
 
     prediction, _ = model(adversarial_image)
     predicted_sentence = utils.decode_prediction(inverted_word_map, prediction)

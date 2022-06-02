@@ -2,45 +2,44 @@
 """
 from abc import abstractmethod, ABC
 import torch
-
+from models import ShowAttendAndTell
 
 
 class AbstractAdversarial(ABC):
-    def __init__(self, model, epsilon, targeted: bool):
+    def __init__(self, model: ShowAttendAndTell,  targeted: bool):
         """Abstract Interface of"""
         self.model = model
-        self.epsilon = epsilon
         self.targeted = targeted
 
-    def __call__(self, images, target=None):
+    def __call__(self, images, target=None, epsilon=0):
         """Generates the adversarial image."""
         if self.targeted:
-            return images - self._generate_noise(images, target)
+            return images - self._generate_noise(images, target, epsilon)
         if target is None:
-            target = self.model(images).argmax(-1)
-        return images + self._generate_noise(images, target)
+            target = self.model(images)[0].argmax(-1)
+        return images + self._generate_noise(images, target, epsilon)
 
     @abstractmethod
-    def _generate_noise(self, images, target):
+    def _generate_noise(self, images, target, epsilon):
         """Actual implementation that generates noise."""
 
 
 class GaussianAdversarial(AbstractAdversarial):
-    def _generate_noise(self, images, target):
+    def _generate_noise(self, images, target, epsilon):
         return _clip(
-            (self.epsilon / 2) * torch.randn_like(images),
+            (epsilon / 2) * torch.randn_like(images),
             0,
-            self.epsilon,
+            epsilon,
         )
 
 
 class GaussianSignAdversarial(AbstractAdversarial):
-    def _generate_noise(self, images, target):
-        return self.epsilon * torch.sign(torch.randn_like(images))
+    def _generate_noise(self, images, target, epsilon):
+        return epsilon * torch.sign(torch.randn_like(images))
 
 
 class FastGradientSignAdversarial(AbstractAdversarial):
-    def _generate_noise(self, images, target):
+    def _generate_noise(self, images, target, epsilon):
         """Generate adversarial noise with a max value of epsilon"""
         images.requires_grad = True
 
@@ -48,15 +47,15 @@ class FastGradientSignAdversarial(AbstractAdversarial):
         adversarial_loss = torch.nn.functional.cross_entropy(
             prediction.transpose(2, 1), target, reduction="none"
         )
-        
+
         if self.targeted:
             # Todo don't hardcode
             loss_weights = _calculate_loss_weights(target, 9489)
             adversarial_loss *= loss_weights
-        
+
         loss = adversarial_loss.mean()
         loss.backward()
-        return self.epsilon * torch.sign(images.grad)
+        return epsilon * torch.sign(images.grad)
 
 
 class IterativeAdversarial:
@@ -67,24 +66,30 @@ class IterativeAdversarial:
         alpha_multiplier: float = 1,
     ):
         self.adversarial_method = adversarial_method
-        # Store the original epsilon, used for clipping
-        self.epsilon = self.adversarial_method.epsilon
-        # Adjust epsilon of sub_method
-        self.adversarial_method.epsilon = (
-            self.epsilon * alpha_multiplier
-        ) / iterations
+        self.alpha_multiplier = alpha_multiplier
         self.iterations = iterations
 
-    def __call__(self, images, target):
+    def __call__(self, images, target, epsilon):
         or_image = images.clone().detach()
         for _ in range(self.iterations):
+            alpha =  (
+            epsilon * self.alpha_multiplier
+        ) / self.iterations
             images = _clip(
-                self.adversarial_method(images, target),
+                self.adversarial_method(images, target, alpha),
                 or_image,
-                self.epsilon,
+                epsilon,
             ).detach()
         return images
 
+def adversarial_inference(method, images, target, epsilon):
+    noise = method(images, target, epsilon)
+    
+    prediction, _ = method.model(images)
+    adv_images = images + noise
+    adv_prediction, _ = method.model(adv_images)
+    return prediction, adv_prediction, adv_images
+    
 
 def _clip(adv_images, original_images, epsilon):
     return torch.clamp(
@@ -100,4 +105,3 @@ def _calculate_loss_weights(target, end_token):
     # Include first word that got overwritten by torch.roll
     weight[:, 0] = True
     return weight
-    

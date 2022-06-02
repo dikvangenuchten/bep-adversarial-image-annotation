@@ -1,5 +1,5 @@
 import argparse
-from tkinter.messagebox import NO
+from typing import Callable
 
 import numpy as np
 import torch
@@ -16,6 +16,7 @@ from models import ShowAttendAndTell
 
 ADV_METHODS = {
     "gaussian": adversarial.GaussianAdversarial,
+    "gaussian sign": adversarial.GaussianSignAdversarial,
     "fast gradient": adversarial.FastGradientSignAdversarial,
 }
 
@@ -24,11 +25,9 @@ def main(
     model: ShowAttendAndTell,
     dataloader,
     word_map,
-    adversarial_method: str,
+    adversarial_method: Callable,
     target=None,
-    iterations=None,
 ):
-    adv_func = ADV_METHODS.get(adversarial_method)
     inverted_word_map = utils.invert_word_map(word_map)
 
     # Prepare target
@@ -39,7 +38,7 @@ def main(
 
     wandb.init(
         project="Bachelor End Project",
-        tags=[adversarial_method],
+        tags=[adversarial_method.__class__.__name__],
         name=f"Adversarial Image Caption: {adversarial_method}",
     )
     bleu_scores = []
@@ -48,13 +47,11 @@ def main(
 
     for epsilon in tqdm(np.linspace(0, 1, 11)):
         cosine_similarities, bleu_score, samples = epoch(
-            model,
-            dataloader,
-            inverted_word_map,
-            epsilon,
-            adv_func,
-            target,
-            iterations,
+            dataloader=dataloader,
+            inverted_word_map=inverted_word_map,
+            epsilon=epsilon,
+            adv_func=adversarial_method,
+            target=target,
         )
         wandb.log(
             {
@@ -94,13 +91,11 @@ def main(
 
 
 def epoch(
-    model,
     dataloader,
     inverted_word_map,
     epsilon,
     adv_func,
     target=None,
-    iterations=1,
 ):
     similarities = []
     samples = []
@@ -115,8 +110,8 @@ def epoch(
             target = base_target.repeat([image.size(0), 1])
             target_sentences = [target_sentence] * image.size(0)
 
-        orig_pred, adv_pred, adv_img = adversarial.inference(
-            image, model, epsilon, adv_func, target, iterations
+        orig_pred, adv_pred, adv_img = adversarial.adversarial_inference(
+            adv_func, image, target, epsilon
         )
 
         if target is None:
@@ -156,6 +151,11 @@ def epoch(
                 )
             )
         similarities.append(similartity)
+
+    with open(
+        f"output/sentence_e:{epsilon:.2f}.txt", "w", encoding="utf-8"
+    ) as sentence_file:
+        sentence_file.write("\n".join(all_adv_sentences))
 
     cosine_similarities = torch.concat(similarities).numpy()
     bleu_score = corpus_bleu(all_labels, all_adv_sentences)
@@ -201,9 +201,18 @@ if __name__ == "__main__":
         "--iterations",
         type=int,
         required=False,
-        default=16,
+        default=1,
         help="How many iterations of the adversarial attack should be done.\n"
         "Applies `epsilon/iteration` of noise for `iteration` amount of times.",
+    )
+    parser.add_argument(
+        "--alpha",
+        type=float,
+        required=False,
+        default=1,
+        help="The alpha multiplier used for the iterative method.\n"
+        "The epsilon per step is calculated as: epsilon * alpha / iterations.\n"
+        "The result is clipped after each iteration to ensure a max deviation of epsilon.",
     )
     parser.add_argument(
         "--target-sentence",
@@ -223,7 +232,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
     word_map = utils.load_word_map(args.word_map)
     model = utils.load_model(args.model_path, word_map, args.device)
-    dataset = data_loader.get_data_loader(args.device, batch_size=6)
+    dataset = data_loader.get_data_loader(
+        args.device, batch_size=6, size=args.limit_samples
+    )
     assert (
         args.adversarial_method in ADV_METHODS
     ), f"Unknown adversarial method: {args.adversarial_method}.\n"
@@ -234,12 +245,24 @@ if __name__ == "__main__":
             target_sentence, word_map
         ).to(args.device)
 
+    adversarial_method_class = ADV_METHODS.get(args.adversarial_method)
+
+    targeted = args.target_sentence is not None
+
+    adv_method = adversarial_method_class(model, targeted)
+
+    if args.iterations > 1:
+        adv_method = adversarial.IterativeAdversarial(
+            adversarial_method=adv_method,
+            iterations=args.iterations,
+            alpha_multiplier=args.alpha,
+        )
+
     print(f"Starting run with the following args:\n{args}")
     main(
-        model,
-        dataset,
-        word_map,
-        args.adversarial_method,
-        target_sentence,
-        args.iterations,
+        model=model,
+        dataloader=dataset,
+        word_map=word_map,
+        adversarial_method=adv_method,
+        target=target_sentence,
     )
