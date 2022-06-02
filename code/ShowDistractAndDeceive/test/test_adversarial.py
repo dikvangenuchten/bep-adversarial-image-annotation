@@ -137,7 +137,7 @@ def test_adversarial_inference_to_target_sentence(
     )
 
     with open(f"samples/target_text_{epsilon:.2f}_{filename}.txt", "w") as file:
-        file.write(f"target: {target_sentence}\n")
+        file.write(f"target: {adversarial_sentence}\n")
         file.write(f"adversarial: {predicted_sentence}")
 
     assert adversarial_sentence == predicted_sentence[0]
