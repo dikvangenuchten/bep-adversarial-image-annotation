@@ -85,7 +85,7 @@ def test_generate_adversarial_example(
         f"samples/adv_{epsilon:.2f}_{filename}",
     )
 
-    with open(f"samples/text_{epsilon:.f}_{filename}.txt", "w") as file:
+    with open(f"samples/text_{epsilon:.2f}_{filename}.txt", "w") as file:
         file.write(f"original: {normal_sentence}")
         file.write(f"adversarial: {adversarial_sample}")
 
