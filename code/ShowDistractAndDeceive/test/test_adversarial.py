@@ -11,6 +11,7 @@ import utils
 
 
 def rescale(img):
+    img = img.detach()
     img -= img.min()
     img /= img.max()
     return img
@@ -71,17 +72,17 @@ def test_generate_adversarial_example(
     )
 
     save_image(
-        rescale(image.detach()),
+        rescale(image),
         f"samples/{filename}"
     )
     
     save_image(
-        rescale(adversarial_noise.detach()),
+        rescale(adversarial_noise),
         f"samples/adv_noise_{epsilon:.2f}_{filename}"
     )
 
     save_image(
-        rescale(adversarial_sample.detach()),
+        rescale(adversarial_sample),
         f"samples/adv_{epsilon:.2f}_{filename}",
     )
 
@@ -102,7 +103,7 @@ def test_adversarial_inference_to_target_sentence(
             targeted=True,
         ),
         iterations=500,
-        alpha_multiplier=2,
+        alpha_multiplier=20,
     )
 
     adversarial_sentence = "this is an attack on show attend and tell"
@@ -113,7 +114,6 @@ def test_adversarial_inference_to_target_sentence(
         model.max_sentence_length,
     ).unsqueeze(0)
 
-
     adversarial_image = adversarial_method(
         image, target_sentence, epsilon
     )
@@ -122,17 +122,17 @@ def test_adversarial_inference_to_target_sentence(
     predicted_sentence = utils.decode_prediction(inverted_word_map, prediction)
 
     save_image(
-        rescale(image.detach()),
+        rescale(image),
         f"samples/{filename}"
     )
     
     save_image(
-        rescale((adversarial_image - image).detach()),
+        rescale((adversarial_image - image)),
         f"samples/target_noise_{epsilon:.2f}_{filename}"
     )
 
     save_image(
-        rescale(adversarial_image.detach()),
+        rescale(adversarial_image),
         f"samples/target_{epsilon:.2f}_{filename}",
     )
 
