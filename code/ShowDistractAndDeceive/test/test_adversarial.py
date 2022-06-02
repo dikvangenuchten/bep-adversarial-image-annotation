@@ -122,7 +122,7 @@ def test_adversarial_inference_to_target_sentence(
     predicted_sentence = utils.decode_prediction(inverted_word_map, prediction)
 
     save_image(
-        rescale(image),
+        rescale(image.detach()),
         f"samples/{filename}"
     )
     
