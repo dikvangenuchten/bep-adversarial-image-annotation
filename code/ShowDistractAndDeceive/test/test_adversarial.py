@@ -71,7 +71,7 @@ def test_generate_adversarial_example(
     )
 
     save_image(
-        rescale(image),
+        rescale(image.detach()),
         f"samples/{filename}"
     )
     
