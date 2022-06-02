@@ -30,7 +30,7 @@ def main():
     train_dataset = get_mnist(train=True)
     test_dataset = get_mnist(train=False)
     model = MnistModel()
-    wandb.watch(model)
+    # wandb.watch(model)
     optimizer = torch.optim.SGD(
         model.parameters(),
         lr=LEARNING_RATE,
@@ -79,7 +79,7 @@ def train_model(
             metric_factory() for metric_factory in test_metric_factories
         )
         test_epoch(test_dataset, runner, epoch, test_metrics)
-        log_metrics(train_metrics, test_metrics, epoch)
+        # log_metrics(train_metrics, test_metrics, epoch)
         print(f"Finished epoch: {epoch}")
 
 
@@ -148,9 +148,9 @@ def test_epoch(
 
 
 if __name__ == "__main__":
-    wandb.login()
-    wandb.init(
-        project="Adversarial Mnist",
-        settings=wandb.Settings(start_method="fork"),
-    )
+    # wandb.login()
+    # wandb.init(
+    #     project="Adversarial Mnist",
+    #     settings=wandb.Settings(start_method="fork"),
+    # )
     main()

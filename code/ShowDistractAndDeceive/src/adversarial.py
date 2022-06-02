@@ -82,6 +82,10 @@ class IterativeAdversarial:
             ).detach()
         return images
 
+    @property
+    def model(self):
+        return self.adversarial_method.model
+
 def adversarial_inference(method, images, target, epsilon):
     noise = method(images, target, epsilon)
     

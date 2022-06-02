@@ -22,7 +22,7 @@ def generate_fast_gradient_adversarial_sample(
     output = model(x)
     loss = loss_func(output, target)
     loss.backward()
-
+    
     return x + epsilon * torch.sign(x.grad)
 
 def generate_gaussian_sample(
@@ -111,14 +111,14 @@ def main(model_path):
         adversarial_violin = make_violin_plot(all_confidence_ad.detach())
         original_violin = make_violin_plot(all_confidence_orig.detach())
 
-        wandb.log(
-            {
-                "adversarial_samples": captioned_samples,
-                "epsilon": epsilon,
-                "histogram average original score": original_violin,
-                "histogram average adversar score": adversarial_violin,
-            }
-        )
+        # wandb.log(
+        #     {
+        #         "adversarial_samples": captioned_samples,
+        #         "epsilon": epsilon,
+        #         "histogram average original score": original_violin,
+        #         "histogram average adversar score": adversarial_violin,
+        #     }
+        # )
 
 
 def make_violin_plot(confidences):
@@ -129,5 +129,5 @@ def make_violin_plot(confidences):
 
 
 if __name__ == "__main__":
-    wandb.init("Adversarial Evaluation")
+    # wandb.init("Adversarial Evaluation")
     main("data/model.pth")
