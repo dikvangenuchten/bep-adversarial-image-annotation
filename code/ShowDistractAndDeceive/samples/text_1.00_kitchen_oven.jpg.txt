@@ -1,2 +1,2 @@
 original: a stove with a pot on top of it <end> in the oven <end> <end> and a black stove <end> and a black pan on top of it <end> a pot of food on the burners <end> the door and a stove with a pot on it <end> and a
-adversarial: a person is walking down a street with a cell phone <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> and a black and white background <end> a dark background <end> dark and a black and white photo <end> <end> <unk> <end> a black and white background <end> a
+adversarial: a person is walking down a street with a cell phone <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> and the <unk> <end> <end> <end> <end> <end> <end> <end> <end> and a black and white background <end> a blurry image of a man in a black and

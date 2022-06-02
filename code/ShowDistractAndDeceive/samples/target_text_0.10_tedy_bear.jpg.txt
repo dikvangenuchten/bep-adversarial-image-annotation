@@ -1,0 +1,2 @@
+target: this is an attack on show attend and tell
+adversarial: ['a close up of a stuffed animal on a display']

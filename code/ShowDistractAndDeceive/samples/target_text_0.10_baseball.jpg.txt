@@ -1,2 +1,2 @@
 target: this is an attack on show attend and tell
-adversarial: ['a <unk> with a large polar bears on a tennis court']
+adversarial: ['a cat is on a polar bear in a pool']

@@ -1,0 +1,2 @@
+original: a baseball player is swinging a bat at a ball <end> <end> <end> <end> <end> <end> and a stadium <end> and a stadium <end> behind him <end> a crowd <end> and a crowd of people watching <end> <end> <end> and a stadium <end> behind them <end> a baseball player is
+adversarial: a baseball player is swinging a bat at a ball <end> <end> <end> <end> <end> <end> and a <unk> <end> <end> <unk> and a <unk> <end> <end> <unk> and a <unk> <end> <end> <end> <end> and <unk> <end> <unk> <end> <unk> and <unk> <end> <end> <end> <unk> and <unk> <end>
