@@ -17,7 +17,7 @@ def rescale(img):
     return img
 
 
-@pytest.fixture(params=[0.1, 1])
+@pytest.fixture(params=[0.05,0.1,0.2,0.3, 1])
 def epsilon(request):
     return request.param
 

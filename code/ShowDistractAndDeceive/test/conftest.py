@@ -9,7 +9,7 @@ MODEL_PATH = "/data/BEST_checkpoint_coco_5_cap_per_img_5_min_word_freq.pth.tar"
 WORD_MAP_PATH = "/data/WORDMAP_coco_5_cap_per_img_5_min_word_freq.json"
 
 
-@pytest.fixture(params=["cuda", "cpu"], scope="module")
+@pytest.fixture(params=["cuda:1", "cpu"], scope="module")
 def device(request):
     if request.param == "cpu":
         pytest.skip("skipping cpu test as it is slow.")
