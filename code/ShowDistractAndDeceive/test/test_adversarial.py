@@ -86,8 +86,8 @@ def test_generate_adversarial_example(
     )
 
     with open(f"samples/text_{epsilon:.2f}_{filename}.txt", "w") as file:
-        file.write(f"original: {normal_sentence}")
-        file.write(f"adversarial: {adversarial_sample}")
+        file.write(f"original: {normal_sentence}\n")
+        file.write(f"adversarial: {adversarial_sentence}")
 
     assert adversarial_sentence != normal_sentence
 
