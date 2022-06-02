@@ -93,14 +93,15 @@ def test_generate_adversarial_example(
 
 
 def test_adversarial_inference_to_target_sentence(
-    model, teddy_bear_image, word_map, device, inverted_word_map, epsilon
+    model, image, word_map, device, inverted_word_map, epsilon
 ):
+    image, filename = image
     adversarial_method = adversarial.IterativeAdversarial(
         adversarial_method=adversarial.FastGradientSignAdversarial(
             model=model,
             targeted=True,
         ),
-        iterations=1000,
+        iterations=500,
         alpha_multiplier=2,
     )
 
@@ -114,11 +115,30 @@ def test_adversarial_inference_to_target_sentence(
 
 
     adversarial_image = adversarial_method(
-        teddy_bear_image, target_sentence, epsilon
+        image, target_sentence, epsilon
     )
 
     prediction, _ = model(adversarial_image)
     predicted_sentence = utils.decode_prediction(inverted_word_map, prediction)
+
+    save_image(
+        rescale(image),
+        f"samples/{filename}"
+    )
+    
+    save_image(
+        rescale((adversarial_image - image).detach()),
+        f"samples/target_noise_{epsilon:.2f}_{filename}"
+    )
+
+    save_image(
+        rescale(adversarial_image.detach()),
+        f"samples/target_{epsilon:.2f}_{filename}",
+    )
+
+    with open(f"samples/target_text_{epsilon:.2f}_{filename}.txt", "w") as file:
+        file.write(f"target: {target_sentence}\n")
+        file.write(f"adversarial: {adversarial_sentence}")
 
     assert adversarial_sentence == predicted_sentence[0]
 
