@@ -30,9 +30,6 @@ def get_data_loader(device, batch_size, size=None):
                 torchvision.transforms.ToTensor(),
                 transform_to_device(device),
                 torchvision.transforms.Resize((256, 256)),
-                torchvision.transforms.Normalize(
-                    mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)
-                ),
             ]
         ),
         target_transform=torchvision.transforms.Compose([limit_to_n_labels(5)]),
