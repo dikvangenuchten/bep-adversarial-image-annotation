@@ -44,7 +44,6 @@ def main(
     )
     bleu_scores = []
     all_cosine_similarities = []
-    epsilons = []
 
     for epsilon in tqdm(epsilons):
         cosine_similarities, bleu_score, samples = epoch(
@@ -67,7 +66,6 @@ def main(
                 "bleu score": bleu_score,
             }
         )
-        epsilons.append(epsilon)
         bleu_scores.append(bleu_score)
         all_cosine_similarities.append(cosine_similarities)
 
