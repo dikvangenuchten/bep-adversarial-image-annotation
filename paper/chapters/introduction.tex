@@ -18,15 +18,18 @@ Machine learning models can be very susceptible to noise where small changes to 
     \label{adv_gibbon}
 \end{figure*}
 
-Combining these previous findings, S.A.T. can be used to find adversarial examples for image captioning models. These adversarial images can then be used to either improve current datasets by providing hard samples, or in a more malicious way. The latter being especially true when one can specify the output sentence for which an adversarial sample should be created.
-Analyzing the successful and failed adversarial samples can also give a better insight in the strengths and weaknesses of S.A.T. Furthermore, it exposes bias present in the datasets.
+Combining these previous findings, S.A.T. can be used to find adversarial examples for image captioning models. These adversarial images can then be used to either improve current datasets by providing hard samples, or in a more malicious way. The latter being especially true when one can specify the output sentence for which an adversarial sample should be created. An additional benefit to adversarial samples that can be cheaply generated is that they can be generated during training of models and act as regularizes. Improving the robustness of the model. However, this is only viable if generating the adversarial samples is not computational expensive.
+Analyzing the successful and failed adversarial samples can also give a better insight in the strengths and weaknesses of S.A.T.
 
-\subsection{Motivation and Research Questions}
+\subsection{Motivation and Related Work}
+In the last few years research in the direction of generating adversarial samples for gradient based models has been published \cite{goodfellow2015explaining,Kurakin} as well as research showing the usefulness of such adversarial samples\cite{Ilyas2019features}. The latter stating: "Adversarial vulnerability is a direct result of our models' sensitivity to well-generalizing features in the data." However, these generalizing features are only true for most samples, as models are optimized to do well in the average case. Inserting adversarial examples in training help regularize these non-robust features\cite{https://doi.org/10.48550/arxiv.1611.01236}. The Fast Gradient Sign Method was originally designed for classification task, however it (and variations) have been successfully adopted to other tasks such as object detection \cite{AdversarialAttacksOnFace,AdversarialFasterRCNN,DBLP:journals/corr/abs-1907-10310}, and most notably for this research on image captioning\cite{Hongge}. \citeauthor{Hongge}'s method Show-and-Fool successfully and robustly is able to attack Show-and-Tell\cite{showandtell} (predecessor of Show Attend and Tell (S.A.T.)). Achieving a success rate of 95.8\% however it takes about 38 seconds to generate a single adversarial sample. Making it less useable during training.
+
+\subsubsection*{Adversarial Methods}
+Over the last few years variations of the Fast Gradient Sign Method by \cite{goodfellow2015explaining} have been designed. The Iterative Fast Gradient Method by \citeauthor{Kurakin} applies the Fast Gradient Sign Method multiple times. Which is further improved by using various optimization techniques such as momentum \cite{9237700}, and in the case of Show-and-Fool the well known Adam\cite{kingma2017adam} optimizer. \citeauthor{EvaluatingRobustness} also directly include a distance metric in their optimization instead of clipping. However, all these methods are iterative and therefore take non-negligible time and are thus less useful during training.
+
+\subsection{Research Questions}
 This research investigates the susceptibility of S.A.T. against adversarial samples that are visually close but generate completely different descriptions as output.
 \begin{itemize}
     \item Is S.A.T. susceptible to adversarial attacks using noise?
     \item Can the noise be crafted in such a way that it can steer the output.
 \end{itemize}
-
-\subsection{Prior research}
-

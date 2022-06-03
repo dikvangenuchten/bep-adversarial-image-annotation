@@ -149,3 +149,149 @@
   year      = {2016},
   copyright = {arXiv.org perpetual, non-exclusive license}
 }
+
+@article{Hongge,
+  author     = {Hongge Chen and
+                Huan Zhang and
+                Pin{-}Yu Chen and
+                Jinfeng Yi and
+                Cho{-}Jui Hsieh},
+  title      = {Show-and-Fool: Crafting Adversarial Examples for Neural Image Captioning},
+  journal    = {CoRR},
+  volume     = {abs/1712.02051},
+  year       = {2017},
+  url        = {http://arxiv.org/abs/1712.02051},
+  eprinttype = {arXiv},
+  eprint     = {1712.02051},
+  timestamp  = {Sat, 31 Aug 2019 16:23:05 +0200},
+  biburl     = {https://dblp.org/rec/journals/corr/abs-1712-02051.bib},
+  bibsource  = {dblp computer science bibliography, https://dblp.org}
+}
+
+@misc{Ilyas2019features,
+  doi       = {10.48550/ARXIV.1905.02175},
+  url       = {https://arxiv.org/abs/1905.02175},
+  author    = {Ilyas, Andrew and Santurkar, Shibani and Tsipras, Dimitris and Engstrom, Logan and Tran, Brandon and Madry, Aleksander},
+  keywords  = {Machine Learning (stat.ML), Cryptography and Security (cs.CR), Computer Vision and Pattern Recognition (cs.CV), Machine Learning (cs.LG), FOS: Computer and information sciences, FOS: Computer and information sciences},
+  title     = {Adversarial Examples Are Not Bugs, They Are Features},
+  publisher = {arXiv},
+  year      = {2019},
+  copyright = {arXiv.org perpetual, non-exclusive license}
+}
+
+@article{LIU2022103612,
+  title    = {An efficient adversarial example generation algorithm based on an accelerated gradient iterative fast gradient},
+  journal  = {Computer Standards & Interfaces},
+  volume   = {82},
+  pages    = {103612},
+  year     = {2022},
+  issn     = {0920-5489},
+  doi      = {https://doi.org/10.1016/j.csi.2021.103612},
+  url      = {https://www.sciencedirect.com/science/article/pii/S0920548921001069},
+  author   = {Jiabao Liu and Qixiang Zhang and Kanghua Mo and Xiaoyu Xiang and Jin Li and Debin Cheng and Rui Gao and Beishui Liu and Kongyang Chen and Guanjie Wei},
+  keywords = {Iterative fast gradient, Adversarial examples, Transferable},
+  abstract = {Most existing deep neural networks are susceptible to the influence of adversarial examples, which may cause them to output incorrect prediction results. An adversarial example is the addition of small noise disturbances to the input data samples, which will deceive the classification. Generally, these modifications are very small noise disturbances, which are not easily noticed by the human eye. However, most existing adversarial attacks achieve only low success rates in typical black-box settings, where the attackers have no prior knowledge about the model structures and/or model parameters. To tackle this problem, we propose an iterative algorithm based on an acceleration gradient to enhance the adversary attack. Our method accumulates the gradient of the loss function in each iteration and uses the next gradient information to influence the future gradient. We also introduce the scaling invariance principle of a deep neural network to optimize the input images for black-box attacks. In addition, to handle the drawbacks of a traditional iterative fast gradient sign method, we further present two gradient optimization methods. Experimental results on the ImageNet dataset show that our attack methods can achieve good transferability. In addition, those models obtained by integrated adversarial training with strong defense capability are also quite vulnerable to our black-box attack.}
+}
+@inproceedings{EvaluatingRobustness,
+  author    = {Carlini, Nicholas and Wagner, David},
+  booktitle = {2017 IEEE Symposium on Security and Privacy (SP)},
+  title     = {Towards Evaluating the Robustness of Neural Networks},
+  year      = {2017},
+  volume    = {},
+  number    = {},
+  pages     = {39-57},
+  doi       = {10.1109/SP.2017.49}
+}
+
+@misc{showandtell,
+  doi       = {10.48550/ARXIV.1411.4555},
+  url       = {https://arxiv.org/abs/1411.4555},
+  author    = {Vinyals, Oriol and Toshev, Alexander and Bengio, Samy and Erhan, Dumitru},
+  keywords  = {Computer Vision and Pattern Recognition (cs.CV), FOS: Computer and information sciences, FOS: Computer and information sciences},
+  title     = {Show and Tell: A Neural Image Caption Generator},
+  publisher = {arXiv},
+  year      = {2014},
+  copyright = {arXiv.org perpetual, non-exclusive license}
+}
+
+@misc{AdversarialAttacksOnFace,
+  doi       = {10.48550/ARXIV.1805.12302},
+  url       = {https://arxiv.org/abs/1805.12302},
+  author    = {Bose, Avishek Joey and Aarabi, Parham},
+  keywords  = {Computer Vision and Pattern Recognition (cs.CV), Machine Learning (cs.LG), FOS: Computer and information sciences, FOS: Computer and information sciences},
+  title     = {Adversarial Attacks on Face Detectors using Neural Net based Constrained Optimization},
+  publisher = {arXiv},
+  year      = {2018},
+  copyright = {arXiv.org perpetual, non-exclusive license}
+}
+
+@inproceedings{AdversarialFasterRCNN,
+  author    = {Liu, Zhenghao and Peng, Wenyu and Zhou, Jun and Wu, Zifeng and Zhang, Jintao and Zhang, Yunchun},
+  title     = {MI-FGSM on Faster R-CNN Object Detector},
+  year      = {2020},
+  isbn      = {9781450389075},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/3447450.3447455},
+  doi       = {10.1145/3447450.3447455},
+  abstract  = {The adversarial examples show the vulnerability of deep neural networks, which makes adversarial attacks widely concerned. However, most of the attack methods are based on image classification model. In this paper, we use Momentum Iterative Fast Gradient Sign Method (MI-FGSM), which stabilize optimization and escape from poor local maxima, to generate adversarial examples on the Faster R-CNN object detector. We have made some improvements on the previous object detection attack methods. The best current attack method, Project Gradient Descent (PGD) on object detection, starts from a random value, resulting in the uncertainty of the attack result. In contrast, our attacks are more stable and powerful in both white-box attacks and black-box attacks, and can better adapt to various neural network architectures. Experiment on Pascal VOC2007 shows that, under same setting of white-box attack, PGD has 0.23% mean average precision (mAP) on Faster R-CNN with VGG16, while our method achieves 0.17%. In addition, we analyze the difference between classification and detection attacks, and find that in addition to misclassification, the adversarial examples produced by detection models can also lead to mislocation.},
+  booktitle = {2020 The 4th International Conference on Video and Image Processing},
+  pages     = {27–32},
+  numpages  = {6},
+  keywords  = {White-box attack, Object detection, Black-box attack, Adversarial attack},
+  location  = {Xi'an, China},
+  series    = {ICVIP 2020}
+}
+@article{DBLP:journals/corr/abs-1907-10310,
+  author     = {Haichao Zhang and
+                Jianyu Wang},
+  title      = {Towards Adversarially Robust Object Detection},
+  journal    = {CoRR},
+  volume     = {abs/1907.10310},
+  year       = {2019},
+  url        = {http://arxiv.org/abs/1907.10310},
+  eprinttype = {arXiv},
+  eprint     = {1907.10310},
+  timestamp  = {Thu, 01 Aug 2019 08:59:33 +0200},
+  biburl     = {https://dblp.org/rec/journals/corr/abs-1907-10310.bib},
+  bibsource  = {dblp computer science bibliography, https://dblp.org}
+}
+
+@misc{https://doi.org/10.48550/arxiv.1611.01236,
+  doi       = {10.48550/ARXIV.1611.01236},
+  url       = {https://arxiv.org/abs/1611.01236},
+  author    = {Kurakin, Alexey and Goodfellow, Ian and Bengio, Samy},
+  keywords  = {Computer Vision and Pattern Recognition (cs.CV), Cryptography and Security (cs.CR), Machine Learning (cs.LG), Machine Learning (stat.ML), FOS: Computer and information sciences, FOS: Computer and information sciences},
+  title     = {Adversarial Machine Learning at Scale},
+  publisher = {arXiv},
+  year      = {2016},
+  copyright = {arXiv.org perpetual, non-exclusive license}
+}
+
+@inproceedings{9237700,
+  author    = {Xu, Jin},
+  booktitle = {2020 IEEE 11th International Conference on Software Engineering and Service Science (ICSESS)},
+  title     = {Generate Adversarial Examples by Nesterov-momentum Iterative Fast Gradient Sign Method},
+  year      = {2020},
+  volume    = {},
+  number    = {},
+  pages     = {244-249},
+  doi       = {10.1109/ICSESS49938.2020.9237700}
+}
+@misc{xie2019improving,
+  title         = {Improving Transferability of Adversarial Examples with Input Diversity},
+  author        = {Cihang Xie and Zhishuai Zhang and Yuyin Zhou and Song Bai and Jianyu Wang and Zhou Ren and Alan Yuille},
+  year          = {2019},
+  eprint        = {1803.06978},
+  archiveprefix = {arXiv},
+  primaryclass  = {cs.CV}
+}
+
+@misc{kingma2017adam,
+  title         = {Adam: A Method for Stochastic Optimization},
+  author        = {Diederik P. Kingma and Jimmy Ba},
+  year          = {2017},
+  eprint        = {1412.6980},
+  archiveprefix = {arXiv},
+  primaryclass  = {cs.LG}
+}
