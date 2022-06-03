@@ -11,8 +11,6 @@ import utils
 from utils import rescale
 
 
-
-
 @pytest.fixture(params=[0.05, 0.1, 0.2, 0.3, 1])
 def epsilon(request):
     return request.param

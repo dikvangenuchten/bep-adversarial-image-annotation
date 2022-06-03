@@ -80,7 +80,9 @@ def main(
         epsilons,
     )
     plots.plot_bleu_scores(
-        f"plot_bleu_scores_{adversarial_method.__class__.__name__}.jpg", bleu_scores, epsilons
+        f"plot_bleu_scores_{adversarial_method.__class__.__name__}.jpg",
+        bleu_scores,
+        epsilons,
     )
     plots.plot_average_cosine_similarity(
         f"plot_average_cosine_similarity_{adversarial_method.__class__.__name__}.jpg",
@@ -152,12 +154,13 @@ def epoch(
             )
 
             noise.extend(
-                    wandb.Image(
+                wandb.Image(
                     utils.rescale(adv_image - img),
                     caption=f"epsilon: {epsilon}",
                 )
                 for img, adv_image in zip(
-                    image, adv_img,
+                    image,
+                    adv_img,
                 )
             )
         similarities.append(similartity)
@@ -244,7 +247,7 @@ if __name__ == "__main__":
         type=int,
         required=False,
         default=6,
-        help="The batch size used during inference."
+        help="The batch size used during inference.",
     )
     args = parser.parse_args()
     word_map = utils.load_word_map(args.word_map)

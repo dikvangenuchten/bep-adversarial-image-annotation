@@ -7,11 +7,13 @@ import torchvision
 
 from models import ShowAttendAndTell
 
+
 def rescale(img):
     img = img.detach()
     img -= img.min()
     img /= img.max()
     return img
+
 
 def load_model(
     model_path: str, word_map: Union[str, dict], device: str

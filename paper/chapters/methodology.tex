@@ -1,17 +1,66 @@
+\subsection{Dataset and Model}
 
 
-\subsection*{Generating Adversarial Samples}
+
+\subsection{Generating Adversarial Samples}
 Randomly sampling the noise field to find samples close to a certain image would be time-consuming and inefficient. Luckily generating adversarial input images can be done by using the Fast Method (EQ. \ref{FastMethod}) proposed by \citeauthor{goodfellow2015explaining}.
 \begin{equation}
     X^{adv} = clip(X + \epsilon * sign(\nabla_{x}J(X, y_{true})), 0, 1)
     \label{FastMethod}
 \end{equation}
-With $X$ being the input image, $\epsilon$ a hyperparameter determining much the original image can be perpetrated and $J(X, y_{true})$ the loss function which to, in the adversarial case, maximize. Finally, the image is clipped ensuring the vector stays within the 0 to 1 input range.
+With $X$ being the input image, $\epsilon$ a hyperparameter determining much the original image can be perpetrated and $J(X, y_{true})$ the loss function which to, in the adversarial case, maximize. Finally, the image is clipped ensuring the vector stays within the 0 to 1 input range. As can be seen in Figure \ref{epsilon_on_images} (and bigger size in appendix \ref{big_images_with_noise}), using this method images up to and including $\epsilon=0.04$ are nearly indistinguishable and up to $\epsilon=0.16$ very recognizable to humans.
+
+\begin{figure*}[h]
+    \centering
+    \begin{minipage}{0.12\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{figures/group_of_people/group_of_people_0.000.png}
+        \caption*{$\epsilon$=0.000}
+    \end{minipage}\hfill
+    \begin{minipage}{0.12\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{figures/group_of_people/group_of_people_0.005.png}
+        \caption*{$\epsilon$=0.005}
+    \end{minipage}\hfill
+    \begin{minipage}{0.12\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{figures/group_of_people/group_of_people_0.010.png}
+        \caption*{$\epsilon$=0.010}
+    \end{minipage}\hfill
+    \begin{minipage}{0.12\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{figures/group_of_people/group_of_people_0.020.png}
+        \caption*{$\epsilon$=0.020}
+    \end{minipage}\hfill
+    \begin{minipage}{0.12\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{figures/group_of_people/group_of_people_0.040.png}
+        \caption*{$\epsilon$=0.040}
+    \end{minipage}\hfill
+    \begin{minipage}{0.12\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{figures/group_of_people/group_of_people_0.080.png}
+        \caption*{$\epsilon$=0.080}
+    \end{minipage}\hfill
+    \begin{minipage}{0.12\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{figures/group_of_people/group_of_people_0.160.png}
+        \caption*{$\epsilon$=0.160}
+    \end{minipage}\hfill
+    \begin{minipage}{0.12\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{figures/group_of_people/group_of_people_0.320.png}
+        \caption*{$\epsilon$=0.320}
+    \end{minipage}\hfill
+    \caption{Adversarial images for varying values of epsilon.}
+    \label{epsilon_on_images}
+\end{figure*}
+
 
 \subsection*{Steering Adversarial Samples}
 To steer the network towards a specific output we can adjust the equation \ref{FastMethod} to minimize a loss function with a given target $y$.
 \begin{equation}
-    X^{steer} = X - \epsilon * sign(\nabla_{x}J(X, y_{target}))
+    X^{steer} = clip(X - \epsilon * sign(\nabla_{x}J(X, y_{target})))
 \end{equation}
 Where $y_{target}$ can be determined to be anything.
 

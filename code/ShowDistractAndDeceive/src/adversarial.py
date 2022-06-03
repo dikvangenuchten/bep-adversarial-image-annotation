@@ -28,7 +28,6 @@ class GaussianAdversarial(AbstractAdversarial):
     def _generate_noise(self, images, target, epsilon):
         return _clip(
             (epsilon / 2) * torch.randn_like(images),
-            0,
             epsilon,
         )
 
@@ -73,12 +72,9 @@ class IterativeAdversarial:
         or_image = images.clone().detach()
         for _ in range(self.iterations):
             alpha = (epsilon * self.alpha_multiplier) / self.iterations
-            images = _clip(
-                self.adversarial_method(images, target, alpha),
-                or_image,
-                epsilon,
-            ).detach()
-        return images
+            noise = self.adversarial_method(images, target, alpha)
+            images = _clip(images + noise, epsilon).detach()
+        return images - or_image
 
     @property
     def model(self):
@@ -94,11 +90,11 @@ def adversarial_inference(method, images, target, epsilon):
     return prediction, adv_prediction, adv_images
 
 
-def _clip(adv_images, original_images, epsilon):
+def _clip(adv_images, epsilon):
     return torch.clamp(
         adv_images,
-        min=original_images - epsilon,
-        max=original_images + epsilon,
+        min=-epsilon,
+        max=epsilon,
     )
 
 
