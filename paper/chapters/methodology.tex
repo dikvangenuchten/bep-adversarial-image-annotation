@@ -1,10 +1,12 @@
+
+
 \subsection*{Generating Adversarial Samples}
-Randomly sampling the noise field to find samples close to a certain image would be time-consuming and inefficient. Luckily generating adversarial input images can be done by using the Fast Method (eq \ref{FastMethod}) proposed by \citeauthor{goodfellow2015explaining}.
+Randomly sampling the noise field to find samples close to a certain image would be time-consuming and inefficient. Luckily generating adversarial input images can be done by using the Fast Method (EQ. \ref{FastMethod}) proposed by \citeauthor{goodfellow2015explaining}.
 \begin{equation}
-    X^{adv} = X + \epsilon * sign(\nabla_{x}J(X, y_{true}))
+    X^{adv} = clip(X + \epsilon * sign(\nabla_{x}J(X, y_{true})), 0, 1)
     \label{FastMethod}
 \end{equation}
-With $X$ being the input image, $\epsilon$ a hyperparameter determining much the original image can be perpetrated and $J(X, y_{true})$ the loss function which to, in the adversarial case, maximize.
+With $X$ being the input image, $\epsilon$ a hyperparameter determining much the original image can be perpetrated and $J(X, y_{true})$ the loss function which to, in the adversarial case, maximize. Finally, the image is clipped ensuring the vector stays within the 0 to 1 input range.
 
 \subsection*{Steering Adversarial Samples}
 To steer the network towards a specific output we can adjust the equation \ref{FastMethod} to minimize a loss function with a given target $y$.

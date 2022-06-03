@@ -98,6 +98,7 @@ def epoch(
 ):
     similarities = []
     samples = []
+    noise = []
     all_labels = []
     all_adv_sentences = []
     if target is not None:
@@ -147,6 +148,16 @@ def epoch(
                 )
                 for img, ori_caption, adv_caption, cos_sim in zip(
                     adv_img, target_sentences, adv_sentences, similartity
+                )
+            )
+
+            noise.extend(
+                    wandb.Image(
+                    utils.rescale(adv_image - img),
+                    caption=f"epsilon: {epsilon}",
+                )
+                for img, adv_image in zip(
+                    image, adv_img,
                 )
             )
         similarities.append(similartity)

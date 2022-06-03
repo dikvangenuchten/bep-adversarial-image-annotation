@@ -8,13 +8,9 @@ from torchvision.utils import save_image
 
 import adversarial
 import utils
+from utils import rescale
 
 
-def rescale(img):
-    img = img.detach()
-    img -= img.min()
-    img /= img.max()
-    return img
 
 
 @pytest.fixture(params=[0.05, 0.1, 0.2, 0.3, 1])

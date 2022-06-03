@@ -10,7 +10,7 @@ def load_data():
     data = []
     for i in range(11):
 
-        with open(f"output/sentence_e:{i/10:.3f}.txt") as file:
+        with open(f"output/sentence_e:{i/10:.2f}.txt") as file:
             lines = [line.strip() for line in file.readlines()]
         data.append(lines)
     return data
@@ -27,9 +27,9 @@ def cosine_similarity(orig_sentences: List[str], adv_sentences: List[str]):
 
 if __name__ == "__main__":
     data = load_data()
+    word_counts = []
     for lines in data:
-        print(
-            Counter(
-                word for line in lines for word in line.strip().split(" ")
-            ).most_common(10)
+        word_counts.append(
+            Counter(word for line in lines for word in line.strip().split(" "))
         )
+    pass
