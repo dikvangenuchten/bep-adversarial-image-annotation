@@ -71,20 +71,20 @@ def main(
         all_cosine_similarities.append(cosine_similarities)
 
     plots.cosine_similarity_violin_plot(
-        f"cosine_similarity_violin_plot_{adversarial_method}.jpg",
+        f"cosine_similarity_violin_plot_{adversarial_method.__class__.__name__}.jpg",
         all_cosine_similarities,
         epsilons,
     )
     plots.cosine_similarity_heatmap(
-        f"cosine_similarity_heatmap_{adversarial_method}.jpg",
+        f"cosine_similarity_heatmap_{adversarial_method.__class__.__name__}.jpg",
         all_cosine_similarities,
         epsilons,
     )
     plots.plot_bleu_scores(
-        f"plot_bleu_scores_{adversarial_method}.jpg", bleu_scores, epsilons
+        f"plot_bleu_scores_{adversarial_method.__class__.__name__}.jpg", bleu_scores, epsilons
     )
     plots.plot_average_cosine_similarity(
-        f"plot_average_cosine_similarity_{adversarial_method}.jpg",
+        f"plot_average_cosine_similarity_{adversarial_method.__class__.__name__}.jpg",
         all_cosine_similarities,
         epsilons,
     )
