@@ -69,12 +69,14 @@ class IterativeAdversarial:
         self.iterations = iterations
 
     def __call__(self, images, target, epsilon):
-        or_image = images.clone().detach()
+        or_images = images.clone().detach()
+        acc_noise = torch.zeros_like(images)
         for _ in range(self.iterations):
             alpha = (epsilon * self.alpha_multiplier) / self.iterations
-            noise = self.adversarial_method(images, target, alpha)
-            images = _clip(images + noise, epsilon).detach()
-        return images - or_image
+            images = torch.clamp(or_images + acc_noise, min=0, max=1)
+            acc_noise += self.adversarial_method(images, target, alpha)
+            acc_noise = _clip(acc_noise, epsilon)
+        return acc_noise
 
     @property
     def model(self):
