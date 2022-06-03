@@ -75,15 +75,15 @@ def test_generate_adversarial_example(
 
     save_image(
         rescale(adversarial_noise),
-        f"samples/adv_noise_{epsilon:.2f}_{filename}",
+        f"samples/adv_noise_{epsilon:.3f}_{filename}",
     )
 
     save_image(
         rescale(adversarial_sample),
-        f"samples/adv_{epsilon:.2f}_{filename}",
+        f"samples/adv_{epsilon:.3f}_{filename}",
     )
 
-    with open(f"samples/text_{epsilon:.2f}_{filename}.txt", "w") as file:
+    with open(f"samples/text_{epsilon:.3f}_{filename}.txt", "w") as file:
         file.write(f"original: {normal_sentence}\n")
         file.write(f"adversarial: {adversarial_sentence}")
 
@@ -123,15 +123,15 @@ def test_adversarial_inference_to_target_sentence(
 
     save_image(
         rescale((adv_image - image)),
-        f"samples/target_noise_{epsilon:.2f}_{filename}",
+        f"samples/target_noise_{epsilon:.3f}_{filename}",
     )
 
     save_image(
         rescale(adv_image),
-        f"samples/target_{epsilon:.2f}_{filename}",
+        f"samples/target_{epsilon:.3f}_{filename}",
     )
 
-    with open(f"samples/target_text_{epsilon:.2f}_{filename}.txt", "w") as file:
+    with open(f"samples/target_text_{epsilon:.3f}_{filename}.txt", "w") as file:
         file.write(f"target: {target_sentence}\n")
         file.write(f"original: {predicted_sentence}")
         file.write(f"adversarial: {predicted_sentence}")

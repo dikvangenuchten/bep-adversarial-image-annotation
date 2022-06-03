@@ -154,7 +154,7 @@ def epoch(
         similarities.append(similartity)
 
     with open(
-        f"output/sentence_e:{epsilon:.2f}.txt", "w", encoding="utf-8"
+        f"output/sentence_e:{epsilon:.3f}.txt", "w", encoding="utf-8"
     ) as sentence_file:
         sentence_file.write("\n".join(all_adv_sentences))
 
@@ -266,7 +266,7 @@ if __name__ == "__main__":
             alpha_multiplier=args.alpha,
         )
 
-    epsilons = [0.005, 0.01, 0.02, 0.04, 0.08, 0.16, 0.32, 0.64]
+    epsilons = [0, 0.005, 0.01, 0.02, 0.04, 0.08, 0.16, 0.32, 0.64]
 
     print(f"Starting run with the following args:\n{args}")
     main(

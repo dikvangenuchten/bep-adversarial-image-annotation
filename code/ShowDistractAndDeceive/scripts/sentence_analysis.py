@@ -10,7 +10,7 @@ def load_data():
     data = []
     for i in range(11):
 
-        with open(f"output/sentence_e:{i/10:.2f}.txt") as file:
+        with open(f"output/sentence_e:{i/10:.3f}.txt") as file:
             lines = [line.strip() for line in file.readlines()]
         data.append(lines)
     return data
