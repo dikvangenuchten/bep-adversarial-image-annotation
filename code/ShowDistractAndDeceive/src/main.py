@@ -39,7 +39,7 @@ def main(
     wandb.init(
         project="Bachelor End Project",
         tags=[adversarial_method.__class__.__name__],
-        name=f"Adversarial Image Caption: {adversarial_method}",
+        name=f"Adversarial Image Caption: {adversarial_method.__class__.__name__}",
     )
     bleu_scores = []
     all_cosine_similarities = []
