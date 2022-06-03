@@ -17,7 +17,7 @@ def rescale(img):
     return img
 
 
-@pytest.fixture(params=[0.05,0.1,0.2,0.3, 1])
+@pytest.fixture(params=[0.05, 0.1, 0.2, 0.3, 1])
 def epsilon(request):
     return request.param
 
@@ -71,14 +71,11 @@ def test_generate_adversarial_example(
         inverted_word_map[int(idx)] for idx in normal_image_out[0].argmax(-1)
     )
 
-    save_image(
-        rescale(image),
-        f"samples/{filename}"
-    )
-    
+    save_image(rescale(image), f"samples/{filename}")
+
     save_image(
         rescale(adversarial_noise),
-        f"samples/adv_noise_{epsilon:.2f}_{filename}"
+        f"samples/adv_noise_{epsilon:.2f}_{filename}",
     )
 
     save_image(
@@ -114,33 +111,32 @@ def test_adversarial_inference_to_target_sentence(
         model.max_sentence_length,
     ).unsqueeze(0)
 
-    adversarial_image = adversarial_method(
-        image, target_sentence, epsilon
+    prediction, adv_prediction, adv_image = adversarial.adversarial_inference(
+        adversarial_method, image, target_sentence, epsilon
     )
-
-    prediction, _ = model(adversarial_image)
     predicted_sentence = utils.decode_prediction(inverted_word_map, prediction)
-
-    save_image(
-        rescale(image),
-        f"samples/{filename}"
-    )
-    
-    save_image(
-        rescale((adversarial_image - image)),
-        f"samples/target_noise_{epsilon:.2f}_{filename}"
+    adv_predicted_sentence = utils.decode_prediction(
+        inverted_word_map, adv_prediction
     )
 
+    save_image(rescale(image), f"samples/{filename}")
+
     save_image(
-        rescale(adversarial_image),
+        rescale((adv_image - image)),
+        f"samples/target_noise_{epsilon:.2f}_{filename}",
+    )
+
+    save_image(
+        rescale(adv_image),
         f"samples/target_{epsilon:.2f}_{filename}",
     )
 
     with open(f"samples/target_text_{epsilon:.2f}_{filename}.txt", "w") as file:
         file.write(f"target: {target_sentence}\n")
+        file.write(f"original: {predicted_sentence}")
         file.write(f"adversarial: {predicted_sentence}")
 
-    assert adversarial_sentence == predicted_sentence[0]
+    assert adversarial_sentence == adv_predicted_sentence[0]
 
 
 # def test_adversarial_inference(batch_size, teddy_bear_image, model):

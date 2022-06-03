@@ -6,7 +6,7 @@ from models import ShowAttendAndTell
 
 
 class AbstractAdversarial(ABC):
-    def __init__(self, model: ShowAttendAndTell,  targeted: bool):
+    def __init__(self, model: ShowAttendAndTell, targeted: bool):
         """Abstract Interface of"""
         self.model = model
         self.targeted = targeted
@@ -17,7 +17,7 @@ class AbstractAdversarial(ABC):
             return images - self._generate_noise(images, target, epsilon)
         if target is None:
             target = self.model(images)[0].argmax(-1)
-        return images + self._generate_noise(images, target, epsilon)
+        return self._generate_noise(images, target, epsilon)
 
     @abstractmethod
     def _generate_noise(self, images, target, epsilon):
@@ -72,9 +72,7 @@ class IterativeAdversarial:
     def __call__(self, images, target, epsilon):
         or_image = images.clone().detach()
         for _ in range(self.iterations):
-            alpha =  (
-            epsilon * self.alpha_multiplier
-        ) / self.iterations
+            alpha = (epsilon * self.alpha_multiplier) / self.iterations
             images = _clip(
                 self.adversarial_method(images, target, alpha),
                 or_image,
@@ -86,14 +84,15 @@ class IterativeAdversarial:
     def model(self):
         return self.adversarial_method.model
 
+
 def adversarial_inference(method, images, target, epsilon):
     noise = method(images, target, epsilon)
-    
+
     prediction, _ = method.model(images)
-    adv_images = images + noise
+    adv_images = torch.clamp(images + noise, min=0, max=1)
     adv_prediction, _ = method.model(adv_images)
     return prediction, adv_prediction, adv_images
-    
+
 
 def _clip(adv_images, original_images, epsilon):
     return torch.clamp(
