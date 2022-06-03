@@ -26,6 +26,7 @@ def main(
     dataloader,
     word_map,
     adversarial_method: Callable,
+    epsilons,
     target=None,
 ):
     inverted_word_map = utils.invert_word_map(word_map)
@@ -45,7 +46,7 @@ def main(
     all_cosine_similarities = []
     epsilons = []
 
-    for epsilon in tqdm(np.linspace(0, 1, 11)):
+    for epsilon in tqdm(epsilons):
         cosine_similarities, bleu_score, samples = epoch(
             dataloader=dataloader,
             inverted_word_map=inverted_word_map,
@@ -265,11 +266,14 @@ if __name__ == "__main__":
             alpha_multiplier=args.alpha,
         )
 
+    epsilons = [0.005, 0.01, 0.02, 0.04, 0.08, 0.16, 0.32, 0.64]
+
     print(f"Starting run with the following args:\n{args}")
     main(
         model=model,
         dataloader=dataset,
         word_map=word_map,
         adversarial_method=adv_method,
+        epsilons=epsilons,
         target=target_sentence,
     )
