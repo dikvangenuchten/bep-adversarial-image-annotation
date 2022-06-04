@@ -1,0 +1,2 @@
+target: this is an attack on show attend and tell
+adversarial: ['a person is in a and a show']

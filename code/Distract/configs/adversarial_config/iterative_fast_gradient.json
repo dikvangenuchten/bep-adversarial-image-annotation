@@ -1,0 +1,5 @@
+{
+    "type": "IterativeAdversarial",
+    "iterations": 10,
+    "alpha": 2
+}

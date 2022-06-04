@@ -1,0 +1,25 @@
+[tool.pytest.ini_options]
+pythonpath = "src/"
+omit = "tests/*"
+# addopts = "--cov=src --cov-report html:cov_html --cov-report=term-missing"
+
+[tool.coverage.run]
+source = ['project']
+
+[tool.black]
+line-length = 80
+
+[tool.isort]
+profile = "black"
+
+[tool.pylint.messages_control]
+disable = "C0330, C0326"
+
+[tool.pylint.format]
+max-line-length = "88"
+
+[tool.pylint.'TYPECHECK']
+ignored-modules=['torch']
+
+[tool.pylint.'BASIC']
+good-names-rgxs=['x']

@@ -1,0 +1,2 @@
+target: this is an attack on show attend and tell
+adversarial: ['a <unk> <unk> <unk> on a tennis court']

@@ -1,0 +1,2 @@
+original: a stove with a pot on top of it <end> in the oven <end> <end> and a black stove <end> and a black pan on top of it <end> a pot of food on the burners <end> the door and a stove with a pot on it <end> and a
+adversarial: a black stove with a metal pan on top of it <end> in a kitchen <end> <end> <end> and a black and white microwave <end> <end> and a black and white oven <end> and a black and white stove <end> <end> and a black and white stove <end> and a

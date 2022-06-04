@@ -1,0 +1,4 @@
+{
+    "type": "FastGradientSignAdversarial",
+    "targeted": true
+}
