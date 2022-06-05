@@ -95,7 +95,6 @@ def test_adversarial_inference_to_target_sentence(
         alpha_multiplier=20,
     )
 
-
     prediction, adv_prediction, adv_image, att, adv_att = adversarial.adversarial_inference(
         adversarial_method, image, None, epsilon
     )

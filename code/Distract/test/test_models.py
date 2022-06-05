@@ -14,7 +14,7 @@ def test_load_model(model, device):
 
 def test_inference_on_teddy_bear(model, teddy_bear_image, inverted_word_map):
     input_ = teddy_bear_image
-    scores, i,_ = model(input_)
+    scores, i, _ = model(input_)
     # Based on caption.py from ShowAttendAndTell
     expected_string = "a group of stuffed animals sitting on top of a couch"
     predicted_sentence = utils.decode_prediction(inverted_word_map, scores)[0]

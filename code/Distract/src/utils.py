@@ -34,9 +34,7 @@ def load_image(path: str, device):
         torch.FloatTensor(imageio.imread(path).transpose(2, 0, 1)), (256, 256)
     )
     # Retrieved from caption.py from ShowAttendAndTell
-    normalized_image = torchvision.transforms.functional.normalize(
-        raw_image / 255, mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
-    )
+    normalized_image = raw_image / 255
     image = normalized_image.to(device)
     return image.unsqueeze(0)
 
