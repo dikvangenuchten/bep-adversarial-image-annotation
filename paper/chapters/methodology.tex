@@ -1,3 +1,10 @@
+\subsection{Notation}
+\begin{itemize}
+    \item $X$, clean image in the range [0,1] retrieved from the dataset.
+    \item $X^{adv}$, adversarial image generated from $X$ by applying some perpetration to it. Clipped to be in the range [0,1].
+    \item $Clip_{X,\epsilon}(A)$ is the element-wise clipping of $A$ such that $X -\epsilon \leq A \leq X + \epsilon$ holds element-wise.
+\end{itemize}
+
 \subsection{Dataset}
 As clean dataset the well known MSCOCO \cite{lin2015microsoft} dataset will be used. It contains 35 thousand images, of which 30 thousand are part of the train set, and 5 thousand of the testing set. Due to the computational cost of running the model, only the test set is used
 
@@ -5,9 +12,9 @@ As clean dataset the well known MSCOCO \cite{lin2015microsoft} dataset will be u
 The model used, as already introduced in section \ref{chapter:introduction}, will be Show Attend and Tell. It is an interesting model as it uses attention, which can be visualized, to focus on most important places of the image. The question then arises if this attention is a defense mechanism, as it allows the model to ignore parts of the image, or if it opens up the model to new attack vectors as it can be distracted, which can lead to it ignoring important parts of the image.
 
 \subsection{Generating Adversarial Samples}
-Randomly sampling the noise field to find samples close to a certain image would be time-consuming and inefficient. Luckily generating adversarial input images can be done by using the Fast Method (EQ. \ref{FastMethod}) proposed by \citeauthor{goodfellow2015explaining}.
+Randomly sampling the noise field to find adversarial samples close to a certain image would be time-consuming and inefficient. Luckily generating adversarial input images can be done by using the Fast Method (EQ. \ref{FastMethod}) proposed by \citeauthor{goodfellow2015explaining}.
 \begin{equation}
-    X^{adv} = clip(X + \epsilon * sign(\nabla_{x}J(X, y_{true})), 0, 1)
+    X^{adv} = X + \epsilon * sign(\nabla_{x}J(X, y_{true}))
     \label{FastMethod}
 \end{equation}
 With $X$ being the input image, $\epsilon$ a hyperparameter determining much the original image can be perpetrated and $J(X, y_{true})$ the loss function which to, in the adversarial case, maximize. Finally, the image is clipped ensuring the vector stays within the 0 to 1 input range. As can be seen in Figure \ref{epsilon_on_images} (and bigger size in appendix \ref{big_images_with_noise}), using this method images up to and including $\epsilon=0.04$ are nearly indistinguishable and up to $\epsilon=0.16$ very recognizable to humans. The sign in combination with the epsilon ensures $L_{\infty}(X - X^{adv}) \leq \epsilon$.
@@ -58,6 +65,13 @@ With $X$ being the input image, $\epsilon$ a hyperparameter determining much the
     \label{epsilon_on_images}
 \end{figure*}
 
+In practice applying this a single time is often not enough to attack S.A.T. therefore the iterative method will also be tried as proposed by \citeauthor{Kurakin}. Which repeatedly applies the Fast Gradient Sign Method for $N$ iterations
+\begin{equation}
+    X^{adv}_{0}, X^{adv}_{n + 1} = Clip_{X, \epsilon}(X^{adv}_{n} + \alpha * sign(\nabla_{x}J(X^{adv}_{n}, y_{true})))
+    \label{IterativeMethod}
+\end{equation}
+In which, $\alpha$ is a second hyperparameter equal to $\epsilon / N$, unless stated otherwise.
+
 \subsection*{Distracting Adversarial Sample}
 Distraction is a powerful technique often used by adversaries in the real world. As S.A.T. employs attention to generate sentences, it is possible to try and distract it by creating an adversarial sample that makes the model hyperfocused on only part of the image. During training S.A.T. learns to divide the attention roughly equally over the whole image during the generation of a caption. It does this by including the loss shown in equation \ref{attention_loss}.
 \begin{equation}
@@ -75,3 +89,4 @@ With $d$, $\alpha \in \rm I\!R^{LxC}$ and $d$ be constructed to focus attention 
 
 \subsection{Evaluation}
 To determine if the model is indeed susceptible to distraction the BLEU-4 score \cite{papineni_roukos_ward_zhu_2001} will be calculated, as it is a widely reported metric within the image captioning task. Because the BLEU score checks for direct word occurrences it does not give a complete view on the success of the adversarial attack, as the model can still give a correct description using synonyms. This would result in a low BLEU score, where in fact the model is still performing correctly. To combat this the cosine similarity of the original and adversarial output will be calculated using universal sentence embedding proposed by \citeauthor{DBLP:journals/corr/abs-1803-11175}. It is a separately learned model that embeds an entire sentence.
+In the case of distraction, the average attention the model applies on the dataset is also analyzed.
