@@ -254,12 +254,11 @@ if __name__ == "__main__":
         "The result is clipped after each iteration to ensure a max deviation of epsilon.",
     )
     parser.add_argument(
-        "--target-sentence",
+        "--targeted",
         type=str,
         required=False,
         # default="this is an attack on show attend and tell",
-        help="Only works in combination with fast gradient adversarial method."
-        "If given this will be used as target sentence during generating of the noise.",
+        help="If true encourages attention to upper left corner.",
     )
     parser.add_argument(
         "--limit-samples",
@@ -285,15 +284,10 @@ if __name__ == "__main__":
         args.adversarial_method in ADV_METHODS
     ), f"Unknown adversarial method: {args.adversarial_method}.\n"
     f"Must be one of {list(ADV_METHODS.keys())}"
-    target_sentence = args.target_sentence
-    if target_sentence is not None:
-        target_sentence = utils.sentence_to_tokens(
-            target_sentence, word_map
-        ).to(args.device)
 
     adversarial_method_class = ADV_METHODS.get(args.adversarial_method)
 
-    targeted = args.target_sentence is not None
+    targeted = args.targeted
 
     adv_method = adversarial_method_class(model, targeted)
 
@@ -313,5 +307,5 @@ if __name__ == "__main__":
         word_map=word_map,
         adversarial_method=adv_method,
         epsilons=epsilons,
-        target=target_sentence,
+        target=None,
     )

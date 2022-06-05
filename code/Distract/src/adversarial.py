@@ -15,7 +15,6 @@ class AbstractAdversarial(ABC):
         """Generates the adversarial image."""
         if self.targeted:
             return -self._generate_noise(images, target, epsilon)
-
         return self._generate_noise(images, target, epsilon)
 
     @abstractmethod
@@ -57,10 +56,7 @@ class FastGradientSignAdversarial(AbstractAdversarial):
 
         loss = adversarial_loss.mean()
         loss.backward()
-        gradient = epsilon * torch.sign(images.grad)
-        if self.targeted:
-            gradient *= -1
-        return gradient
+        return epsilon * torch.sign(images.grad)
 
 
 class IterativeAdversarial:
