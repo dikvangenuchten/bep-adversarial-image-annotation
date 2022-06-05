@@ -1,6 +1,5 @@
 from matplotlib import pyplot as plt
 import numpy as np
-import seaborn as sns
 
 
 def cosine_similarity_violin_plot(name, all_cosine_similarities, epsilons):
@@ -9,6 +8,7 @@ def cosine_similarity_violin_plot(name, all_cosine_similarities, epsilons):
     ax.set_title("Cosine Similarity distribution over epsilon")
     ax.set_xlabel("epsilon")
     ax.set_ylabel("cosine similarity")
+    ax.set_xticks(epsilons)
     fig.savefig(name)
     fig.clf()
 
@@ -65,7 +65,7 @@ def plot_average_cosine_similarity(name, all_cosine_similarities, epsilons):
 
 def plot_attention_heatmap(name, attention, epsilon):
     fig, ax = plt.subplots()
-    sns.heatmap(
+    ax.imshow(
         # Ensure overall attention == 1
         attention / attention.sum(),
         vmin=0,
