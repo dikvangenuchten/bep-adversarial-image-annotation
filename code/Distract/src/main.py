@@ -66,8 +66,8 @@ def main(
                 "adversarial samples": samples,
                 "noise": noise,
                 "attention": [
-                    or_att,
-                    ad_att,
+                    make_wandb_heatmap(or_att, "Clean Attention"),
+                    make_wandb_heatmap(ad_att, "Adversarial Attention"),
                     wandb.Image(
                         (
                             torch.nn.functional.one_hot(
@@ -195,22 +195,18 @@ def epoch(dataloader, inverted_word_map, epsilon, adv_func, target=None):
     ) as sentence_file:
         sentence_file.write("\n".join(all_adv_sentences))
 
-    # Reshape attention
-    or_att = wandb.Image(
-        torch.reshape(original_attention, (14, 14)) / original_attention.max(),
-        caption="Average Attention Clean images",
-    )
 
-    ad_att = wandb.Image(
-        torch.reshape(adversarial_attention, (14, 14))
-        / adversarial_attention.max(),
-        caption="Average Attention Adversarial images",
-    )
+
 
     cosine_similarities = torch.concat(similarities).numpy()
     bleu_score = corpus_bleu(all_labels, all_adv_sentences)
-    return cosine_similarities, bleu_score, samples, noise, or_att, ad_att
+    return cosine_similarities, bleu_score, samples, noise, original_attention, adversarial_attention
 
+def make_wandb_heatmap(data, caption):
+    return wandb.Image(
+        torch.reshape(data, (14, 14)) / data.max(),
+        caption=caption,
+    )
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
