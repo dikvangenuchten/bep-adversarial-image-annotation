@@ -330,7 +330,7 @@ class ShowAttendAndTell(nn.Module):
         self._device = device
 
         # Constants
-        self.max_sentence_length = 50
+        self.max_sentence_length = 30
         self._end_token = self.word_map["<end>"]
 
     def _encoder_forward(
