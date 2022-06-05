@@ -40,9 +40,15 @@ class FastGradientSignAdversarial(AbstractAdversarial):
         images.requires_grad = True
 
         prediction, _, attention = self.model(images)
+        attention = attention.reshape(-1, 196)
         adversarial_loss = torch.nn.functional.cross_entropy(
-            attention.reshape(-1, 196),
-            torch.zeros(1, 196, device=attention.device,dtype=torch.long),
+            attention,
+            torch.zeros(
+                attention.shape[0],
+                196,
+                device=attention.device,
+                dtype=torch.long,
+            ),
         )
 
         loss = adversarial_loss.mean()

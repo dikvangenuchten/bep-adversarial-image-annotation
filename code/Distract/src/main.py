@@ -64,11 +64,14 @@ def main(
                 ),
                 "adversarial samples": samples,
                 "noise": noise,
-                "attention": [or_att, ad_att, 
-                              wandb.Image(
-                                  torch.zeros(1, 196, dtype=torch.long),
-                                  caption="Target Attention"
-                                  )],
+                "attention": [
+                    or_att,
+                    ad_att,
+                    wandb.Image(
+                        torch.zeros(1, 196, dtype=torch.long),
+                        caption="Target Attention",
+                    ),
+                ],
                 "bleu score": bleu_score,
             }
         )
