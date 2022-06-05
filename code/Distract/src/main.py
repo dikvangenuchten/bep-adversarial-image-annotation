@@ -83,7 +83,7 @@ def main(
         bleu_scores.append(bleu_score)
         all_cosine_similarities.append(cosine_similarities)
 
-        for i, image, noise_sample in enumerate(zip(samples, noise)):
+        for i, (image, noise_sample) in enumerate(zip(samples, noise)):
             image.save(f"samples/{epsilon:.3f}/img_{i}.jpg")
             noise_sample.save(f"samples/{epsilon:.3f}/noise_{i}.jpg")
 
