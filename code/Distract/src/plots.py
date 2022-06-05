@@ -1,6 +1,7 @@
 from matplotlib import pyplot as plt
 import numpy as np
 
+plt.rcParams['text.usetex'] = True
 
 def cosine_similarity_violin_plot(name, all_cosine_similarities, epsilons):
     fig, ax = plt.subplots()
@@ -70,7 +71,7 @@ def plot_attention_heatmap(name, attention, epsilon):
     im, cbar = heatmap(attention / attention.sum(), ax=ax,
                    cbarlabel="Attention")
 
-    ax.set_title(f"Average Attention for \epsilon: {epsilon:.3f}")
+    ax.set_title(f"Average Attention for $\epsilon: {epsilon:.3f}$")
     fig.tight_layout()
     fig.savefig(name)
     fig.clf()
