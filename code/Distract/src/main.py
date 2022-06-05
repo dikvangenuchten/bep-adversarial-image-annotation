@@ -309,7 +309,7 @@ if __name__ == "__main__":
             alpha_multiplier=args.alpha,
         )
 
-    epsilons = [0.005, 0.01, 0.02, 0.04, 0.08, 0.16, 0.32, 0.64]
+    epsilons = [0, 0.005, 0.01, 0.02, 0.04, 0.08, 0.16, 0.32, 0.64]
 
     print(f"Starting run with the following args:\n{args}")
     main(
