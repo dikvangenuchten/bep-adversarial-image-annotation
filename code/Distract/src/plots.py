@@ -70,15 +70,8 @@ def plot_attention_heatmap(name, attention, epsilon):
     im, cbar = heatmap(attention / attention.sum(), ax=ax,
                    cbarlabel="Attention")
 
-    fig.tight_layout()
-
-    fig, ax = plt.subplots()
-    print(attention / attention.sum())
-    ax.imshow(
-        # Ensure overall attention == 1
-        vmin=0
-    )
     ax.set_title(f"Average Attention for \epsilon: {epsilon:.3f}")
+    fig.tight_layout()
     fig.savefig(name)
     fig.clf()
 
