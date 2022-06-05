@@ -54,6 +54,13 @@ def main(
             adv_func=adversarial_method,
             target=target,
         )
+
+        plots.plot_attention_heatmap(
+            f"attention_{adversarial_method.__class__.__name__}_at_{epsilon:.2f}.jpg",
+            ad_att.reshape(14,14).cpu(),
+            epsilon,
+        )
+
         wandb.log(
             {
                 "epsilon": epsilon,
@@ -79,13 +86,10 @@ def main(
                     ),
                 ],
                 "bleu score": bleu_score,
+                "attention_plot": wandb.Image(f"attention_{adversarial_method.__class__.__name__}_at_{epsilon:.2f}.jpg")
             }
         )
-        plots.plot_attention_heatmap(
-            f"attention_{adversarial_method.__class__.__name__}_at_{epsilon:.2f}.jpg",
-            ad_att.reshape(14,14).cpu(),
-            epsilon,
-        )
+
         bleu_scores.append(bleu_score)
         all_cosine_similarities.append(cosine_similarities)
 
