@@ -64,14 +64,59 @@ def plot_average_cosine_similarity(name, all_cosine_similarities, epsilons):
 
 
 def plot_attention_heatmap(name, attention, epsilon):
+
+    fig, ax = plt.subplots()
+
+    im, cbar = heatmap(attention / attention.sum(), ax=ax,
+                   cbarlabel="Attention")
+
+    fig.tight_layout()
+
     fig, ax = plt.subplots()
     print(attention / attention.sum())
     ax.imshow(
         # Ensure overall attention == 1
-        attention / attention.sum(),
-        vmin=0,
-        vmax=1,
+        vmin=0
     )
     ax.set_title(f"Average Attention for \epsilon: {epsilon:.3f}")
     fig.savefig(name)
     fig.clf()
+
+def heatmap(data, ax=None,
+            cbar_kw={}, cbarlabel="", **kwargs):
+    """
+    Create a heatmap from a numpy array and two lists of labels.
+
+    Parameters
+    ----------
+    data
+        A 2D numpy array of shape (M, N).
+    row_labels
+        A list or array of length M with the labels for the rows.
+    col_labels
+        A list or array of length N with the labels for the columns.
+    ax
+        A `matplotlib.axes.Axes` instance to which the heatmap is plotted.  If
+        not provided, use current axes or create a new one.  Optional.
+    cbar_kw
+        A dictionary with arguments to `matplotlib.Figure.colorbar`.  Optional.
+    cbarlabel
+        The label for the colorbar.  Optional.
+    **kwargs
+        All other arguments are forwarded to `imshow`.
+    """
+
+    if not ax:
+        ax = plt.gca()
+
+    # Plot the heatmap
+    im = ax.imshow(data, **kwargs)
+
+    # Create colorbar
+    cbar = ax.figure.colorbar(im, ax=ax, **cbar_kw)
+    cbar.ax.set_ylabel(cbarlabel, rotation=-90, va="bottom")
+
+    ax.grid(which="minor", color="w", linestyle='-', linewidth=3)
+    ax.tick_params(which="minor", bottom=False, left=False)
+
+    return im, cbar
