@@ -83,7 +83,7 @@ def main(
         )
         plots.plot_attention_heatmap(
             f"attention_{adversarial_method.__class__.__name__}_at_{epsilon:.2f}",
-            ad_att.cpu(),
+            ad_att.reshape(14,14).cpu(),
             epsilon,
         )
         bleu_scores.append(bleu_score)
