@@ -13,11 +13,7 @@ class AbstractAdversarial(ABC):
 
     def __call__(self, images, target=None, epsilon=0):
         """Generates the adversarial image."""
-        if self.targeted:
-            return images - self._generate_noise(images, target, epsilon)
-        if target is None:
-            target = self.model(images)[0].argmax(-1)
-        return self._generate_noise(images, target, epsilon)
+        return images - self._generate_noise(images, target, epsilon)
 
     @abstractmethod
     def _generate_noise(self, images, target, epsilon):
@@ -43,7 +39,7 @@ class FastGradientSignAdversarial(AbstractAdversarial):
         attention = attention.reshape(-1, 196)
         adversarial_loss = torch.nn.functional.cross_entropy(
             attention,
-            torch.zeros(
+            torch.ones(
                 attention.shape[0],
                 device=attention.device,
                 dtype=torch.long,
