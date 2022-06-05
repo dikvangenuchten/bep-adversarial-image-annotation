@@ -17,7 +17,9 @@ from skimage.transform import resize as imresize
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-def caption_image_beam_search(encoder, decoder, image_path, word_map, beam_size=3):
+def caption_image_beam_search(
+    encoder, decoder, image_path, word_map, beam_size=3
+):
     """
     Reads an image and captions it with beam search.
 
@@ -49,12 +51,16 @@ def caption_image_beam_search(encoder, decoder, image_path, word_map, beam_size=
 
     # Encode
     image = image.unsqueeze(0)  # (1, 3, 256, 256)
-    encoder_out = encoder(image)  # (1, enc_image_size, enc_image_size, encoder_dim)
+    encoder_out = encoder(
+        image
+    )  # (1, enc_image_size, enc_image_size, encoder_dim)
     enc_image_size = encoder_out.size(1)
     encoder_dim = encoder_out.size(3)
 
     # Flatten encoding
-    encoder_out = encoder_out.view(1, -1, encoder_dim)  # (1, num_pixels, encoder_dim)
+    encoder_out = encoder_out.view(
+        1, -1, encoder_dim
+    )  # (1, num_pixels, encoder_dim)
     num_pixels = encoder_out.size(1)
 
     # We'll treat the problem as having a batch size of k
@@ -63,7 +69,9 @@ def caption_image_beam_search(encoder, decoder, image_path, word_map, beam_size=
     )  # (k, num_pixels, encoder_dim)
 
     # Tensor to store top k previous words at each step; now they're just <start>
-    k_prev_words = torch.LongTensor([[word_map["<start>"]]] * k).to(device)  # (k, 1)
+    k_prev_words = torch.LongTensor([[word_map["<start>"]]] * k).to(
+        device
+    )  # (k, 1)
 
     # Tensor to store top k sequences; now they're just <start>
     seqs = k_prev_words  # (k, 1)
@@ -100,7 +108,9 @@ def caption_image_beam_search(encoder, decoder, image_path, word_map, beam_size=
             -1, enc_image_size, enc_image_size
         )  # (s, enc_image_size, enc_image_size)
 
-        gate = decoder.sigmoid(decoder.f_beta(h))  # gating scalar, (s, encoder_dim)
+        gate = decoder.sigmoid(
+            decoder.f_beta(h)
+        )  # gating scalar, (s, encoder_dim)
         awe = gate * awe
 
         h, c = decoder.decode_step(
@@ -118,7 +128,9 @@ def caption_image_beam_search(encoder, decoder, image_path, word_map, beam_size=
             top_k_scores, top_k_words = scores[0].topk(k, 0, True, True)  # (s)
         else:
             # Unroll and find top scores, and their unrolled indices
-            top_k_scores, top_k_words = scores.view(-1).topk(k, 0, True, True)  # (s)
+            top_k_scores, top_k_words = scores.view(-1).topk(
+                k, 0, True, True
+            )  # (s)
 
         # Convert unrolled indices to actual indices of scores
         prev_word_inds = (top_k_words / vocab_size).long()  # (s)
@@ -129,7 +141,8 @@ def caption_image_beam_search(encoder, decoder, image_path, word_map, beam_size=
             [seqs[prev_word_inds], next_word_inds.unsqueeze(1)], dim=1
         )  # (s, step+1)
         seqs_alpha = torch.cat(
-            [seqs_alpha[prev_word_inds], alpha[prev_word_inds].unsqueeze(1)], dim=1
+            [seqs_alpha[prev_word_inds], alpha[prev_word_inds].unsqueeze(1)],
+            dim=1,
         )  # (s, step+1, enc_image_size, enc_image_size)
 
         # Which sequences are incomplete (didn't reach <end>)?
@@ -138,7 +151,9 @@ def caption_image_beam_search(encoder, decoder, image_path, word_map, beam_size=
             for ind, next_word in enumerate(next_word_inds)
             if next_word != word_map["<end>"]
         ]
-        complete_inds = list(set(range(len(next_word_inds))) - set(incomplete_inds))
+        complete_inds = list(
+            set(range(len(next_word_inds))) - set(incomplete_inds)
+        )
 
         # Set aside complete sequences
         if len(complete_inds) > 0:
@@ -193,7 +208,12 @@ def visualize_att(image_path, seq, alphas, rev_word_map, smooth=True):
         plt.subplot(int(np.ceil(len(words) / 5.0)), 5, t + 1)
 
         plt.text(
-            0, 1, "%s" % (words[t]), color="black", backgroundcolor="white", fontsize=12
+            0,
+            1,
+            "%s" % (words[t]),
+            color="black",
+            backgroundcolor="white",
+            fontsize=12,
         )
         plt.imshow(image)
         current_alpha = alphas[t, :]
@@ -202,7 +222,9 @@ def visualize_att(image_path, seq, alphas, rev_word_map, smooth=True):
                 current_alpha.numpy(), upscale=24, sigma=8
             )
         else:
-            alpha = skimage.transform.resize(current_alpha.numpy(), [14 * 24, 14 * 24])
+            alpha = skimage.transform.resize(
+                current_alpha.numpy(), [14 * 24, 14 * 24]
+            )
         if t == 0:
             plt.imshow(alpha, alpha=0)
         else:
@@ -222,7 +244,11 @@ if __name__ == "__main__":
     parser.add_argument("--model", "-m", help="path to model")
     parser.add_argument("--word_map", "-wm", help="path to word map JSON")
     parser.add_argument(
-        "--beam_size", "-b", default=5, type=int, help="beam size for beam search"
+        "--beam_size",
+        "-b",
+        default=5,
+        type=int,
+        help="beam size for beam search",
     )
     parser.add_argument(
         "--dont_smooth",

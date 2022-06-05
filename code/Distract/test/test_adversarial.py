@@ -68,10 +68,13 @@ def test_generate_adversarial_example(
     save_image(rescale(image), f"samples/{filename}")
 
     save_image(
-        rescale(adversarial_noise), f"samples/adv_noise_{epsilon:.3f}_{filename}"
+        rescale(adversarial_noise),
+        f"samples/adv_noise_{epsilon:.3f}_{filename}",
     )
 
-    save_image(rescale(adversarial_sample), f"samples/adv_{epsilon:.3f}_{filename}")
+    save_image(
+        rescale(adversarial_sample), f"samples/adv_{epsilon:.3f}_{filename}"
+    )
 
     with open(f"samples/text_{epsilon:.3f}_{filename}.txt", "w") as file:
         file.write(f"original: {normal_sentence}\n")
@@ -104,12 +107,15 @@ def test_adversarial_inference_to_target_sentence(
         adversarial_method, image, target_sentence, epsilon
     )
     predicted_sentence = utils.decode_prediction(inverted_word_map, prediction)
-    adv_predicted_sentence = utils.decode_prediction(inverted_word_map, adv_prediction)
+    adv_predicted_sentence = utils.decode_prediction(
+        inverted_word_map, adv_prediction
+    )
 
     save_image(rescale(image), f"samples/{filename}")
 
     save_image(
-        rescale((adv_image - image)), f"samples/target_noise_{epsilon:.3f}_{filename}"
+        rescale((adv_image - image)),
+        f"samples/target_noise_{epsilon:.3f}_{filename}",
     )
 
     save_image(rescale(adv_image), f"samples/target_{epsilon:.3f}_{filename}")

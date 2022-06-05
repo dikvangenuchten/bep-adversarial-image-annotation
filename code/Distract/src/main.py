@@ -33,7 +33,9 @@ def main(
 
     # Prepare target
     if target is not None:
-        target = utils.pad_target_sentence(target, word_map, model.max_sentence_length)
+        target = utils.pad_target_sentence(
+            target, word_map, model.max_sentence_length
+        )
 
     wandb.init(
         project="Bachelor End Project",
@@ -44,7 +46,7 @@ def main(
     all_cosine_similarities = []
 
     for epsilon in tqdm(epsilons):
-        cosine_similarities, bleu_score, samples = epoch(
+        cosine_similarities, bleu_score, samples, noise, or_att, ad_att = epoch(
             dataloader=dataloader,
             inverted_word_map=inverted_word_map,
             epsilon=epsilon,
@@ -61,6 +63,8 @@ def main(
                     )
                 ),
                 "adversarial samples": samples,
+                "noise": noise,
+                "attention": [or_att, ad_att],
                 "bleu score": bleu_score,
             }
         )
@@ -95,6 +99,8 @@ def epoch(dataloader, inverted_word_map, epsilon, adv_func, target=None):
     noise = []
     all_labels = []
     all_adv_sentences = []
+    original_attention = None
+    adversarial_attention = None
     if target is not None:
         target_sentence = utils.decode_label(inverted_word_map, target)
         base_target = target
@@ -104,12 +110,27 @@ def epoch(dataloader, inverted_word_map, epsilon, adv_func, target=None):
             target = base_target.repeat([image.size(0), 1])
             target_sentences = [target_sentence] * image.size(0)
 
-        orig_pred, adv_pred, adv_img = adversarial.adversarial_inference(
-            adv_func, image, target, epsilon
-        )
+        (
+            orig_pred,
+            adv_pred,
+            adv_img,
+            attention,
+            adv_attention,
+        ) = adversarial.adversarial_inference(adv_func, image, target, epsilon)
+
+        if original_attention is None:
+            original_attention = torch.zeros_like(attention).sum(dim=[0, 1])
+            adversarial_attention = torch.zeros_like(adv_attention).sum(
+                dim=[0, 1]
+            )
+
+        original_attention += attention.sum(dim=[0, 1])
+        adversarial_attention += adv_attention.sum(dim=[0, 1])
 
         if target is None:
-            target_sentences = utils.decode_prediction(inverted_word_map, orig_pred)
+            target_sentences = utils.decode_prediction(
+                inverted_word_map, orig_pred
+            )
 
         adv_sentences = utils.decode_prediction(inverted_word_map, adv_pred)
 
@@ -139,7 +160,8 @@ def epoch(dataloader, inverted_word_map, epsilon, adv_func, target=None):
 
             noise.extend(
                 wandb.Image(
-                    utils.rescale(adv_image - img), caption=f"epsilon: {epsilon}"
+                    utils.rescale(adv_image - img),
+                    caption=f"epsilon: {epsilon}",
                 )
                 for img, adv_image in zip(image, adv_img)
             )
@@ -150,9 +172,21 @@ def epoch(dataloader, inverted_word_map, epsilon, adv_func, target=None):
     ) as sentence_file:
         sentence_file.write("\n".join(all_adv_sentences))
 
+    # Reshape attention
+    or_att = wandb.Image(
+        torch.reshape(original_attention, (14, 14)) / original_attention.max(),
+        caption="Average Attention Clean images",
+    )
+
+    ad_att = wandb.Image(
+        torch.reshape(adversarial_attention, (14, 14))
+        / adversarial_attention.max(),
+        caption="Average Attention Adversarial images",
+    )
+
     cosine_similarities = torch.concat(similarities).numpy()
     bleu_score = corpus_bleu(all_labels, all_adv_sentences)
-    return cosine_similarities, bleu_score, samples
+    return cosine_similarities, bleu_score, samples, noise, or_att, ad_att
 
 
 if __name__ == "__main__":
@@ -241,9 +275,9 @@ if __name__ == "__main__":
     f"Must be one of {list(ADV_METHODS.keys())}"
     target_sentence = args.target_sentence
     if target_sentence is not None:
-        target_sentence = utils.sentence_to_tokens(target_sentence, word_map).to(
-            args.device
-        )
+        target_sentence = utils.sentence_to_tokens(
+            target_sentence, word_map
+        ).to(args.device)
 
     adversarial_method_class = ADV_METHODS.get(args.adversarial_method)
 

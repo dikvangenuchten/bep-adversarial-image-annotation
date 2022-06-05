@@ -11,7 +11,7 @@
             "program": "src/main.py",
             "args": [
                 "--limit-samples",
-                "100"
+                "10"
             ],
             "console": "integratedTerminal",
             "justMyCode": false
