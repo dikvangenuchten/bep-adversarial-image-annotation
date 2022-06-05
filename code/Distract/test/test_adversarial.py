@@ -42,7 +42,7 @@ def test_generate_adversarial_example(
 ):
 
     image, filename = image
-    normal_image_out, i = model(image)
+    normal_image_out, i, _ = model(image)
 
     target = normal_image_out.argmax(-1)
 
@@ -56,7 +56,7 @@ def test_generate_adversarial_example(
     ), f"Min seen value: {adversarial_noise.min()} is smaller then -epsilon ({-epsilon})"
 
     adversarial_sample = image + adversarial_noise
-    adversarial_out, i = model(adversarial_sample)
+    adversarial_out, i, _ = model(adversarial_sample)
 
     adversarial_sentence = " ".join(
         inverted_word_map[int(idx)] for idx in adversarial_out[0].argmax(-1)
@@ -91,7 +91,7 @@ def test_adversarial_inference_to_target_sentence(
         adversarial_method=adversarial.FastGradientSignAdversarial(
             model=model, targeted=True
         ),
-        iterations=500,
+        iterations=100,
         alpha_multiplier=20,
     )
 
