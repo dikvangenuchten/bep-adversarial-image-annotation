@@ -86,7 +86,7 @@ def adversarial_inference(method, images, target, epsilon):
     prediction, _ = method.model(images)
     adv_images = torch.clamp(images + noise, min=0, max=1)
     adv_prediction, _ = method.model(adv_images)
-    return prediction, adv_prediction, adv_images
+    return prediction.detach(), adv_prediction.detach(), adv_images.detach()
 
 
 def _clip(adv_images, epsilon):
