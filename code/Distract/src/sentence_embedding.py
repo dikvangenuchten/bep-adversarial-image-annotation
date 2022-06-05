@@ -6,7 +6,7 @@ import tensorflow as tf
 import tensorflow_hub as hub
 import torch
 
-tf.config.set_visible_devices(tf.config.list_logical_devices("CPU"))
+tf.config.set_visible_devices(tf.config.list_physical_devices("CPU"))
 embed = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
 
 
