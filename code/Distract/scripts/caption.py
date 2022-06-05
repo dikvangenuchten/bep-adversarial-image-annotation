@@ -35,10 +35,14 @@ def caption_image_beam_search(
     vocab_size = len(word_map)
 
     # Read image and process
-    img = imread(image_path)
+    img = Image.open(image_path)
+    img = img.convert("RGB")
+    img = np.array(img)
     if len(img.shape) == 2:
         img = img[:, :, np.newaxis]
         img = np.concatenate([img, img, img], axis=2)
+    if img.shape[2] == 4:
+        pass
     img = imresize(img, (256, 256))
     img = img.transpose(2, 0, 1)
     # img = img / 255.0
@@ -209,7 +213,7 @@ def visualize_att(image_path, seq, alphas, rev_word_map, smooth=True):
 
         plt.text(
             0,
-            1,
+            -50,
             "%s" % (words[t]),
             color="black",
             backgroundcolor="white",
@@ -232,7 +236,9 @@ def visualize_att(image_path, seq, alphas, rev_word_map, smooth=True):
         plt.set_cmap(cm.Greys_r)
         plt.axis("off")
     plt.show()
-    plt.savefig(f"captions/caption_{os.path.basename(image_path)}")
+    name = f"captions/caption_{os.path.basename(image_path)}"
+    plt.savefig(name)
+    print(f"Saved at: {name}")
 
 
 if __name__ == "__main__":

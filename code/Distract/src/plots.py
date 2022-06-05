@@ -67,16 +67,17 @@ def plot_attention_heatmap(name, attention, epsilon):
 
     fig, ax = plt.subplots()
 
-    im, cbar = heatmap(attention / attention.sum(), ax=ax,
-                   cbarlabel="Attention")
+    im, cbar = heatmap(
+        attention / attention.sum(), ax=ax, cbarlabel="Attention"
+    )
 
     ax.set_title(f"Average Attention for \u03B5: {epsilon:.3f}")
     fig.tight_layout()
     fig.savefig(name)
     fig.clf()
 
-def heatmap(data, ax=None,
-            cbar_kw={}, cbarlabel="", **kwargs):
+
+def heatmap(data, ax=None, cbar_kw={}, cbarlabel="", **kwargs):
     """
     Create a heatmap from a numpy array and two lists of labels.
 
@@ -109,7 +110,7 @@ def heatmap(data, ax=None,
     cbar = ax.figure.colorbar(im, ax=ax, **cbar_kw)
     cbar.ax.set_ylabel(cbarlabel, rotation=-90, va="bottom")
 
-    ax.grid(which="minor", color="w", linestyle='-', linewidth=3)
+    ax.grid(which="minor", color="w", linestyle="-", linewidth=3)
     ax.tick_params(which="minor", bottom=False, left=False)
 
     return im, cbar
