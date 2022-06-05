@@ -68,7 +68,7 @@ def main(
                     or_att,
                     ad_att,
                     wandb.Image(
-                        torch.zeros(1, 196, dtype=torch.long),
+                        (torch.nn.functional.one_hot(torch.zeros(1, dtype=torch.long), 196).reshape(14,14) * 255).numpy(),
                         caption="Target Attention",
                     ),
                 ],
