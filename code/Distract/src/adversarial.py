@@ -13,7 +13,10 @@ class AbstractAdversarial(ABC):
 
     def __call__(self, images, target=None, epsilon=0):
         """Generates the adversarial image."""
-        return images - self._generate_noise(images.detach(), target, epsilon)
+        if self.targeted:
+            return -self._generate_noise(images, target, epsilon)
+
+        return self._generate_noise(images, target, epsilon)
 
     @abstractmethod
     def _generate_noise(self, images, target, epsilon):
@@ -37,16 +40,27 @@ class FastGradientSignAdversarial(AbstractAdversarial):
 
         prediction, _, attention = self.model(images)
         attention = attention.reshape(-1, 196)
+        
+        if self.targeted:
+            adv_attention = torch.ones(
+                attention.shape[0],
+                device=attention.device,
+                dtype=torch.long,
+            )
+        else:
+            adv_attention = attention.argmax(-1)
+        
         adversarial_loss = torch.nn.functional.cross_entropy(
             attention,
-            torch.ones(
-                attention.shape[0], device=attention.device, dtype=torch.long
-            ),
+            adv_attention
         )
 
         loss = adversarial_loss.mean()
         loss.backward()
-        return epsilon * torch.sign(images.grad)
+        gradient = epsilon * torch.sign(images.grad)
+        if self.targeted:
+            gradient *= -1
+        return gradient
 
 
 class IterativeAdversarial:
