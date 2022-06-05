@@ -1,23 +1,23 @@
 \subsection{Notation}
 \begin{itemize}
     \item $X$, clean image in the range [0,1] retrieved from the dataset.
-    \item $X^{adv}$, adversarial image generated from $X$ by applying some perbutration to it. Clipped to be in the range [0,1].
+    \item $X^{adv}$, adversarial image generated from $X$ by applying some perpetration to it. Clipped to be in the range [0,1].
     \item $Clip_{X,\epsilon}(A)$ is the element-wise clipping of $A$ such that $X -\epsilon \leq A \leq X + \epsilon$ holds element-wise.
 \end{itemize}
 
 \subsection{Dataset}
-As clean dataset the well known MSCOCO \cite{lin2015microsoft} dataset will be used. It contains 35 thousand images, of which 30 thousand are part of the train set, and 5 thousand of the testing set. Due to the computational cost of running the model, only the test set is used
+As clean dataset the well known MSCOCO \cite{lin2015microsoft} dataset will be used. It contains 35 thousand images, of which 30 thousand are part of the train set, and 5 thousand of the testing set. Due to the computational limitations, only the test set is used.
 
 \subsection{Model}
-The model used, as already introduced in section \ref{chapter:introduction}, will be Show Attend and Tell. It is an interesting model as it uses attention, which can be visualized, to focus on most important places of the image. The question then arises if this attention is a defense mechanism, as it allows the model to ignore parts of the image, or if it opens up the model to new attack vectors as it can be distracted, which can lead to it ignoring important parts of the image.
+The model used, as already introduced in section \ref{chapter:introduction}, will be Show Attend and Tell. It is an interesting model as it uses attention, which can be visualized, to focus on most important places of the image.
 
 \subsection{Generating Adversarial Samples}
-Randomly sampling the noise field to find adversarial samples close to a certain image would be time-consuming and inefficient. Luckily generating adversarial input images can be done by using the Fast Method (EQ. \ref{FastMethod}) proposed by \citeauthor{goodfellow2015explaining}.
+Generating adversarial input images can be done by using the Fast Method (EQ. \ref{FastMethod}) proposed by \citeauthor{goodfellow2015explaining}.
 \begin{equation}
     X^{adv} = X + \epsilon * sign(\nabla_{x}J(X, y_{true}))
     \label{FastMethod}
 \end{equation}
-With $X$ being the input image, $\epsilon$ a hyperparameter determining much the original image can be perpetrated and $J(X, y_{true})$ the loss function which to, in the adversarial case, maximize. Finally, the image is clipped ensuring the vector stays within the 0 to 1 input range. As can be seen in Figure \ref{epsilon_on_images} (and bigger size in appendix \ref{big_images_with_noise}), using this method images up to and including $\epsilon=0.04$ are nearly indistinguishable and up to $\epsilon=0.16$ very recognizable to humans. The sign in combination with the epsilon ensures $L_{\infty}(X - X^{adv}) \leq \epsilon$.
+With $X$ being the input image, $\epsilon$ a hyperparameter determining much the original image can be perpetrated and $J(X, y_{true})$ the loss function which to, in the adversarial case, maximize. Finally, the image is clipped ensuring the vector stays within the 0 to 1 input range of the model. As can be seen in Figure \ref{epsilon_on_images} (and bigger size in the appendix \ref{big_images_with_noise}), using this method images up to and including $\epsilon=0.04$ are nearly indistinguishable and up to $\epsilon=0.16$ very recognizable to humans. The sign in combination with the epsilon ensures $L_{\infty}(X - X^{adv}) \leq \epsilon$.
 
 \begin{figure*}[h]
     \centering
@@ -65,20 +65,20 @@ With $X$ being the input image, $\epsilon$ a hyperparameter determining much the
     \label{epsilon_on_images}
 \end{figure*}
 
-In practice applying this a single time is often not enough to attack S.A.T. therefore the iterative method will also be tried as proposed by \citeauthor{Kurakin}. Which repeatedly applies the Fast Gradient Sign Method for $N$ iterations
+In practice applying this a single time is often not enough to successfully attack S.A.T. therefore the iterative method will be used as proposed by \citeauthor{Kurakin}. Which repeatedly applies the Fast Gradient Sign Method for $N$ iterations
 \begin{equation}
     X^{adv}_{0}, X^{adv}_{n + 1} = Clip_{X, \epsilon}(X^{adv}_{n} + \alpha * sign(\nabla_{x}J(X^{adv}_{n}, y_{true})))
     \label{IterativeMethod}
 \end{equation}
-In which, $\alpha$ is a hyperparameter which naively can be set to $\epsilon / N$.
+In which, $\alpha$ is a hyperparameter which naively can be set to $\epsilon / N$. Images generated using this method are usually less visually disturb for the same epsilon.
 
 \subsection*{Distracting Adversarial Sample}
-Distraction is a powerful technique often used by adversaries in the real world. As S.A.T. employs attention to generate sentences, it is possible to try and distract it by creating an adversarial sample that makes the model hyperfocused on only part of the image. During training S.A.T. learns to divide the attention roughly equally over the whole image during the generation of a caption. It does this by including the loss shown in equation \ref{attention_loss}.
+Distraction is a powerful technique often used by adversaries in the real world. As S.A.T. employs attention to generate sentences, it is possible to try and distract it by creating an adversarial sample that makes the model hyperfocused on only part of the image. During training S.A.T. learns to divide the attention roughly equally over the whole image during the generation of a single caption. It does this by including the loss shown in equation \ref{attention_loss}.
 \begin{equation}
     L_{attention} = \sum^{L}_i (1 - \sum^{C}_{t} \alpha_{ti}^2)
     \label{attention_loss}
 \end{equation}
-\noindent With C equal to the amount of words generated by S.A.T., L equal to the latent pixels, and $\alpha_{ti}$ the attention given to latent pixel $i$ for generating word $t$.
+\noindent With C equal to the amount of words generated by S.A.T., L equal to the amount of latent\footnote{S.A.T. uses a CNN architecture as feature extractor before the attention layer. The output of the CNN is described by the authors as the latent pixel space.} pixels, and $\alpha_{ti}$ the attention given to latent pixel $i$ for generating word $t$.
 
 Using categorical cross-entropy we can craft an adversarial example which focuses the attention of S.A.T. to a single latent pixel.
 \begin{equation}
