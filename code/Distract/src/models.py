@@ -404,7 +404,7 @@ class ShowAttendAndTell(nn.Module):
 
             k_prev_words = top_words
 
-        return predictions, i
+        return predictions, i, attention_sentence
 
     def to(self, device):
         self._device = device
