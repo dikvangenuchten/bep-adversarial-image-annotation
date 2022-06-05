@@ -65,6 +65,7 @@ def plot_average_cosine_similarity(name, all_cosine_similarities, epsilons):
 
 def plot_attention_heatmap(name, attention, epsilon):
     fig, ax = plt.subplots()
+    print(attention / attention.sum())
     ax.imshow(
         # Ensure overall attention == 1
         attention / attention.sum(),
