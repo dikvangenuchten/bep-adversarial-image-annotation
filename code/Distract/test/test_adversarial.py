@@ -103,7 +103,7 @@ def test_adversarial_inference_to_target_sentence(
         model.max_sentence_length,
     ).unsqueeze(0)
 
-    prediction, adv_prediction, adv_image = adversarial.adversarial_inference(
+    prediction, adv_prediction, adv_image, att, adv_att = adversarial.adversarial_inference(
         adversarial_method, image, target_sentence, epsilon
     )
     predicted_sentence = utils.decode_prediction(inverted_word_map, prediction)
