@@ -36,8 +36,9 @@ def inverted_word_map(word_map):
     ]
 )
 def image(request, device):
-    return utils.load_image(request.param, device), os.path.basename(
-        request.param
+    return (
+        utils.load_image(request.param, device),
+        os.path.basename(request.param),
     )
 
 
