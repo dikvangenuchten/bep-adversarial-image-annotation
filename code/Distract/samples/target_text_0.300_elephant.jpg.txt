@@ -1,0 +1,1 @@
+original: ['a group of elephants standing in the sand']adversarial: ['a pink chair with a pink flower on the back of it']

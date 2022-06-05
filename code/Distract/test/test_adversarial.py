@@ -46,7 +46,7 @@ def test_generate_adversarial_example(
 
     target = normal_image_out.argmax(-1)
 
-    adversarial_noise = adversarial_method(image, target, epsilon) - image
+    adversarial_noise = adversarial_method(image, target, epsilon)
     assert adversarial_noise.shape == image.shape
     assert (
         adversarial_noise.max() <= epsilon + 1e-6
@@ -122,7 +122,7 @@ def test_adversarial_inference_to_target_sentence(
         file.write(f"original: {predicted_sentence}")
         file.write(f"adversarial: {adv_predicted_sentence}")
     print(adv_att.shape)
-    assert adv_att[0] > att[0]
+    assert adv_att.sum(dim=[0, 1])[0] > att.sum(dim=[0, 1])[0]
 
     # assert torch.all(att != adv_att)
 
