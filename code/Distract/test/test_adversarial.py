@@ -116,7 +116,7 @@ def test_adversarial_inference_to_target_sentence(
         file.write(f"original: {predicted_sentence}")
         file.write(f"adversarial: {adv_predicted_sentence}")
 
-    assert all(att != adv_att)
+    assert torch.all(att != adv_att)
 
 
 # def test_adversarial_inference(batch_size, teddy_bear_image, model):
