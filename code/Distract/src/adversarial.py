@@ -45,7 +45,6 @@ class FastGradientSignAdversarial(AbstractAdversarial):
             attention,
             torch.zeros(
                 attention.shape[0],
-                196,
                 device=attention.device,
                 dtype=torch.long,
             ),
