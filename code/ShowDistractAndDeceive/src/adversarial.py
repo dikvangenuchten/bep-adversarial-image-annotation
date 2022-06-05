@@ -14,7 +14,7 @@ class AbstractAdversarial(ABC):
     def __call__(self, images, target=None, epsilon=0):
         """Generates the adversarial image."""
         if self.targeted:
-            return images - self._generate_noise(images, target, epsilon)
+            return - self._generate_noise(images, target, epsilon)
         if target is None:
             target = self.model(images)[0].argmax(-1)
         return self._generate_noise(images, target, epsilon)
