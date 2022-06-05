@@ -95,7 +95,13 @@ def test_adversarial_inference_to_target_sentence(
         alpha_multiplier=20,
     )
 
-    prediction, adv_prediction, adv_image, att, adv_att = adversarial.adversarial_inference(
+    (
+        prediction,
+        adv_prediction,
+        adv_image,
+        att,
+        adv_att,
+    ) = adversarial.adversarial_inference(
         adversarial_method, image, None, epsilon
     )
     predicted_sentence = utils.decode_prediction(inverted_word_map, prediction)
@@ -115,11 +121,10 @@ def test_adversarial_inference_to_target_sentence(
     with open(f"samples/target_text_{epsilon:.3f}_{filename}.txt", "w") as file:
         file.write(f"original: {predicted_sentence}")
         file.write(f"adversarial: {adv_predicted_sentence}")
-
+    print(adv_att.shape)
     assert adv_att[0] > att[0]
-    
+
     # assert torch.all(att != adv_att)
-    
 
 
 # def test_adversarial_inference(batch_size, teddy_bear_image, model):
