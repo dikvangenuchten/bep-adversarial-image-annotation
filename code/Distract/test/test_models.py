@@ -12,11 +12,7 @@ def test_load_model(model, device):
     assert encoded_sentence
 
 
-def test_inference_on_teddy_bear(
-    model,
-    teddy_bear_image,
-    inverted_word_map,
-):
+def test_inference_on_teddy_bear(model, teddy_bear_image, inverted_word_map):
     input_ = teddy_bear_image
     scores, i = model(input_)
     # Based on caption.py from ShowAttendAndTell

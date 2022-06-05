@@ -21,8 +21,7 @@ def accuracy_metric():
 def test_all_correct(batch_size, n_classes, accuracy_metric):
     x = torch.rand((batch_size, 8, 8))
     predicted_y = torch.cat(
-        [torch.ones((batch_size, 1)), torch.zeros((batch_size, n_classes - 1))],
-        dim=-1,
+        [torch.ones((batch_size, 1)), torch.zeros((batch_size, n_classes - 1))], dim=-1
     )
     target_y = torch.tensor([0] * batch_size)
 
@@ -37,8 +36,7 @@ def test_all_correct(batch_size, n_classes, accuracy_metric):
 def test_all_incorrect(batch_size, n_classes, accuracy_metric):
     x = torch.rand((batch_size, 8, 8))
     predicted_y = torch.cat(
-        [torch.ones((batch_size, 1)), torch.zeros((batch_size, n_classes - 1))],
-        dim=-1,
+        [torch.ones((batch_size, 1)), torch.zeros((batch_size, n_classes - 1))], dim=-1
     )
     target_y = torch.tensor([1] * batch_size)
 
@@ -53,8 +51,7 @@ def test_all_incorrect(batch_size, n_classes, accuracy_metric):
 def test_2_batches(batch_size, n_classes, accuracy_metric):
     x = torch.rand((batch_size, 8, 8))
     predicted_y = torch.cat(
-        [torch.ones((batch_size, 1)), torch.zeros((batch_size, n_classes - 1))],
-        dim=-1,
+        [torch.ones((batch_size, 1)), torch.zeros((batch_size, n_classes - 1))], dim=-1
     )
     # These should be incorrect
     target_y = torch.tensor([1] * batch_size)

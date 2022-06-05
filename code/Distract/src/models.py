@@ -38,9 +38,7 @@ class Encoder(nn.Module):
         :param images: images, a tensor of dimensions (batch_size, 3, image_size, image_size)
         :return: encoded images
         """
-        out = self.resnet(
-            images
-        )  # (batch_size, 2048, image_size/32, image_size/32)
+        out = self.resnet(images)  # (batch_size, 2048, image_size/32, image_size/32)
         out = self.adaptive_pool(
             out
         )  # (batch_size, 2048, encoded_image_size, encoded_image_size)
@@ -103,9 +101,7 @@ class Attention(nn.Module):
         return attention_weighted_encoding, alpha
 
     def attend(
-        self,
-        encoder_out: torch.FloatTensor,
-        decoder_hidden: torch.FloatTensor,
+        self, encoder_out: torch.FloatTensor, decoder_hidden: torch.FloatTensor
     ) -> torch.FloatTensor:
         """
         Calculate attention weights.
@@ -254,12 +250,10 @@ class DecoderWithAttention(nn.Module):
         decode_lengths = (caption_lengths - 1).tolist()
 
         # Create tensors to hold word predicion scores and alphas
-        predictions = torch.zeros(
-            batch_size, max(decode_lengths), vocab_size
-        ).to(DEVICE)
-        alphas = torch.zeros(batch_size, max(decode_lengths), num_pixels).to(
+        predictions = torch.zeros(batch_size, max(decode_lengths), vocab_size).to(
             DEVICE
         )
+        alphas = torch.zeros(batch_size, max(decode_lengths), num_pixels).to(DEVICE)
 
         # At each time-step, decode by
         # attention-weighing the encoder's output based on the decoder's previous hidden state output
@@ -275,10 +269,7 @@ class DecoderWithAttention(nn.Module):
             attention_weighted_encoding = gate * attention_weighted_encoding
             h, c = self.decode_step(
                 torch.cat(
-                    [
-                        embeddings[:batch_size_t, t, :],
-                        attention_weighted_encoding,
-                    ],
+                    [embeddings[:batch_size_t, t, :], attention_weighted_encoding],
                     dim=1,
                 ),
                 (h[:batch_size_t], c[:batch_size_t]),
@@ -322,6 +313,9 @@ class ShowAttendAndTell(nn.Module):
         device: torch.device,
     ) -> None:
         super().__init__()
+        self._normalize = torchvision.transforms.Normalize(
+            mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
+        )
         self.encoder = encoder
         self.decoder = decoder
         self.word_map = word_map
@@ -332,9 +326,7 @@ class ShowAttendAndTell(nn.Module):
         self.max_sentence_length = 50
         self._end_token = self.word_map["<end>"]
 
-    def _encoder_forward(
-        self, input_img: torch.FloatTensor
-    ) -> torch.FloatTensor:
+    def _encoder_forward(self, input_img: torch.FloatTensor) -> torch.FloatTensor:
         """ """
         latent_pixels = self.encoder(input_img)
         # Flatten dim 1 and 2 (pixels)
@@ -357,9 +349,11 @@ class ShowAttendAndTell(nn.Module):
         output: [str]
             The infered strings
         """
+        normalized_input = self._normalize(input_img)
+
         # assert input_img.size(0) == 1, "Only support batch_size of 1 currently."
         # (1, encoder.enc_image_size * encoder.enc_image_size, features)
-        latent_pixels = self._encoder_forward(input_img)
+        latent_pixels = self._encoder_forward(normalized_input)
 
         # Initialize start of sentence
         k_prev_words = torch.LongTensor(
@@ -368,18 +362,14 @@ class ShowAttendAndTell(nn.Module):
 
         encoded_sentence = k_prev_words
         attention_sentence = torch.ones(
-            latent_pixels.size(0),
-            1,
-            latent_pixels.size(1),
+            latent_pixels.size(0), 1, latent_pixels.size(1)
         ).to(self._device)
 
         decoder_hidden, c = self.decoder.init_hidden_state(latent_pixels)
 
         # Create tensors to hold word predicion scores and alphas
         predictions = torch.zeros(
-            latent_pixels.size(0),
-            self.max_sentence_length,
-            self.decoder.vocab_size,
+            latent_pixels.size(0), self.max_sentence_length, self.decoder.vocab_size
         ).to(self._device)
 
         for i in range(self.max_sentence_length):
@@ -387,22 +377,17 @@ class ShowAttendAndTell(nn.Module):
             prev_embeddings = self.decoder.embedding(k_prev_words).squeeze(1)
             # Ey_{t-1}
 
-            attention = self.decoder.attention.attend(
-                latent_pixels, decoder_hidden
-            )
+            attention = self.decoder.attention.attend(latent_pixels, decoder_hidden)
             # alpha
 
             gate = self.decoder.gate(decoder_hidden)
             # beta
 
-            context_vector = gate * (
-                latent_pixels * attention.unsqueeze(2)
-            ).sum(dim=1)
+            context_vector = gate * (latent_pixels * attention.unsqueeze(2)).sum(dim=1)
             # z_t
 
             decoder_hidden, c = self.decoder.decode_step(
-                torch.cat([prev_embeddings, context_vector], dim=1),
-                (decoder_hidden, c),
+                torch.cat([prev_embeddings, context_vector], dim=1), (decoder_hidden, c)
             )
 
             logit_scores = self.decoder.fc(decoder_hidden)
@@ -419,7 +404,7 @@ class ShowAttendAndTell(nn.Module):
 
             k_prev_words = top_words
 
-        return predictions, i, attention_sentence
+        return predictions, i
 
     def to(self, device):
         self._device = device

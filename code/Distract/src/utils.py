@@ -31,14 +31,11 @@ def load_word_map(word_map_path: str):
 
 def load_image(path: str, device):
     raw_image = torchvision.transforms.functional.resize(
-        torch.FloatTensor(imageio.imread(path).transpose(2, 0, 1)),
-        (256, 256),
+        torch.FloatTensor(imageio.imread(path).transpose(2, 0, 1)), (256, 256)
     )
     # Retrieved from caption.py from ShowAttendAndTell
     normalized_image = torchvision.transforms.functional.normalize(
-        raw_image / 255,
-        mean=[0.485, 0.456, 0.406],
-        std=[0.229, 0.224, 0.225],
+        raw_image / 255, mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
     )
     image = normalized_image.to(device)
     return image.unsqueeze(0)
@@ -46,8 +43,7 @@ def load_image(path: str, device):
 
 def sentence_to_tokens(sentence: str, word_map: dict):
     return torch.tensor(
-        list(word_map[word] for word in sentence.lower().split(" ")),
-        dtype=torch.int64,
+        list(word_map[word] for word in sentence.lower().split(" ")), dtype=torch.int64
     )
 
 
@@ -68,9 +64,7 @@ def decode_prediction(inverted_word_map, scores):
     return sentences
 
 
-def pad_target_sentence(
-    target_sentence: str, word_map: dict, sentence_length: int
-):
+def pad_target_sentence(target_sentence: str, word_map: dict, sentence_length: int):
     end_token = word_map["<end>"]
     target_length = len(target_sentence)
 

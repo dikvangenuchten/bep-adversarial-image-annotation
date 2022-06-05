@@ -33,9 +33,7 @@ def main(
 
     # Prepare target
     if target is not None:
-        target = utils.pad_target_sentence(
-            target, word_map, model.max_sentence_length
-        )
+        target = utils.pad_target_sentence(target, word_map, model.max_sentence_length)
 
     wandb.init(
         project="Bachelor End Project",
@@ -91,13 +89,7 @@ def main(
     )
 
 
-def epoch(
-    dataloader,
-    inverted_word_map,
-    epsilon,
-    adv_func,
-    target=None,
-):
+def epoch(dataloader, inverted_word_map, epsilon, adv_func, target=None):
     similarities = []
     samples = []
     noise = []
@@ -117,9 +109,7 @@ def epoch(
         )
 
         if target is None:
-            target_sentences = utils.decode_prediction(
-                inverted_word_map, orig_pred
-            )
+            target_sentences = utils.decode_prediction(inverted_word_map, orig_pred)
 
         adv_sentences = utils.decode_prediction(inverted_word_map, adv_pred)
 
@@ -131,13 +121,7 @@ def epoch(
             # labels are transposed to ensure batch is in the correct spot
             all_labels.extend(zip(*labels))
         else:
-            all_labels.extend(
-                zip(
-                    *[
-                        target,
-                    ]
-                )
-            )
+            all_labels.extend(zip(*[target]))
         all_adv_sentences.extend(adv_sentences)
 
         if len(samples) < 40:
@@ -155,13 +139,9 @@ def epoch(
 
             noise.extend(
                 wandb.Image(
-                    utils.rescale(adv_image - img),
-                    caption=f"epsilon: {epsilon}",
+                    utils.rescale(adv_image - img), caption=f"epsilon: {epsilon}"
                 )
-                for img, adv_image in zip(
-                    image,
-                    adv_img,
-                )
+                for img, adv_image in zip(image, adv_img)
             )
         similarities.append(similartity)
 
@@ -261,9 +241,9 @@ if __name__ == "__main__":
     f"Must be one of {list(ADV_METHODS.keys())}"
     target_sentence = args.target_sentence
     if target_sentence is not None:
-        target_sentence = utils.sentence_to_tokens(
-            target_sentence, word_map
-        ).to(args.device)
+        target_sentence = utils.sentence_to_tokens(target_sentence, word_map).to(
+            args.device
+        )
 
     adversarial_method_class = ADV_METHODS.get(args.adversarial_method)
 

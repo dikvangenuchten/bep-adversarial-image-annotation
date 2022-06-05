@@ -26,10 +26,7 @@ class AbstractAdversarial(ABC):
 
 class GaussianAdversarial(AbstractAdversarial):
     def _generate_noise(self, images, target, epsilon):
-        return _clip(
-            (epsilon / 2) * torch.randn_like(images),
-            epsilon,
-        )
+        return _clip((epsilon / 2) * torch.randn_like(images), epsilon)
 
 
 class GaussianSignAdversarial(AbstractAdversarial):
@@ -89,11 +86,7 @@ def adversarial_inference(method, images, target, epsilon):
 
 
 def _clip(adv_images, epsilon):
-    return torch.clamp(
-        adv_images,
-        min=-epsilon,
-        max=epsilon,
-    )
+    return torch.clamp(adv_images, min=-epsilon, max=epsilon)
 
 
 def _calculate_loss_weights(target, end_token):

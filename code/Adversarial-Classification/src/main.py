@@ -31,11 +31,7 @@ def main():
     test_dataset = get_mnist(train=False)
     model = MnistModel()
     # wandb.watch(model)
-    optimizer = torch.optim.SGD(
-        model.parameters(),
-        lr=LEARNING_RATE,
-        momentum=MOMENTUM,
-    )
+    optimizer = torch.optim.SGD(model.parameters(), lr=LEARNING_RATE, momentum=MOMENTUM)
     loss_func = torch.nn.functional.nll_loss
 
     # Used for both train and test
@@ -69,9 +65,7 @@ def train_model(
 ):
     runner = Runner(model, optimizer, loss_func)
     for epoch in range(15):
-        train_metrics = [
-            metric_factory() for metric_factory in metric_factories
-        ]
+        train_metrics = [metric_factory() for metric_factory in metric_factories]
         train_loss = runner.train_epoch(train_dataset, train_metrics)
 
         test_metrics = [metric_factory() for metric_factory in metric_factories]
@@ -90,11 +84,7 @@ def test_model(model, dataset, metrics, loss_func):
         output = model(x)
         loss = loss_func(output, target)
         for metric in metrics:
-            metric.add_measurement(
-                x,
-                target,
-                output,
-            )
+            metric.add_measurement(x, target, output)
         test_loss.append(loss)
 
 
@@ -118,31 +108,20 @@ def log_metrics(train_metrics, test_metrics, epoch):
 
 
 def test_epoch(
-    dataset,
-    runner: Runner,
-    epoch,
-    metrics: List[wandb_table_metric.WandbTableMetric],
+    dataset, runner: Runner, epoch, metrics: List[wandb_table_metric.WandbTableMetric]
 ):
     test_loss = []
     for x, target in dataset:
         loss, output = runner.train_step(x, target)
         for metric in metrics:
-            metric.add_measurement(
-                x,
-                target,
-                output,
-            )
+            metric.add_measurement(x, target, output)
         test_loss.append(loss)
 
-    metrics_data = {
-        "Test epoch": epoch,
-        "Test loss": sum(test_loss) / len(test_loss),
-    }
+    metrics_data = {"Test epoch": epoch, "Test loss": sum(test_loss) / len(test_loss)}
     for metric in metrics:
         # Rename metric
         metric_data = {
-            f"Test {key}": value
-            for key, value in metric.get_measurement().items()
+            f"Test {key}": value for key, value in metric.get_measurement().items()
         }
         metrics_data.update(metric_data)
 

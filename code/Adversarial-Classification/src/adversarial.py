@@ -22,8 +22,9 @@ def generate_fast_gradient_adversarial_sample(
     output = model(x)
     loss = loss_func(output, target)
     loss.backward()
-    
+
     return x + epsilon * torch.sign(x.grad)
+
 
 def generate_gaussian_sample(
     model: torch.nn.Module,
@@ -73,11 +74,7 @@ def main(model_path):
         train=False,
     )
 
-    data_loader = torch.utils.data.DataLoader(
-        test_data,
-        batch_size=100,
-        shuffle=False,
-    )
+    data_loader = torch.utils.data.DataLoader(test_data, batch_size=100, shuffle=False)
 
     for epsilon in tqdm.tqdm(np.linspace(0, 1, num=11)):
         captioned_samples = []

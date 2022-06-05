@@ -13,11 +13,7 @@ def zero_mnist_model():
 
 @pytest.fixture()
 def optimizer(zero_mnist_model):
-    return torch.optim.SGD(
-        zero_mnist_model.parameters(),
-        lr=1,
-        momentum=0.5,
-    )
+    return torch.optim.SGD(zero_mnist_model.parameters(), lr=1, momentum=0.5)
 
 
 @pytest.fixture()
@@ -27,11 +23,7 @@ def loss_func():
 
 @pytest.fixture()
 def runner(zero_mnist_model, optimizer, loss_func):
-    return Runner(
-        zero_mnist_model,
-        optimizer,
-        loss_func,
-    )
+    return Runner(zero_mnist_model, optimizer, loss_func)
 
 
 def test_runner_train_step(zero_mnist_model, loss_func, runner):
@@ -64,9 +56,7 @@ def test_runner_test_step(zero_mnist_model, runner):
     assert torch.allclose(pre_train_out, post_train_out)
 
 
-def _set_model_weight_to_zero(
-    model,
-) -> torch.nn.Module:
+def _set_model_weight_to_zero(model,) -> torch.nn.Module:
     def _set_zero_weights_and_bias(m):
         if hasattr(m, "weight"):
             m.weight.data.fill_(0)

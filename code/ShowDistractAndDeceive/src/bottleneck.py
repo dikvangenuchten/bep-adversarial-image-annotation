@@ -34,9 +34,7 @@ def test_adversarial_inference_to_target_sentence(
 ):
     adversarial_method = adversarial.IterativeAdversarial(
         adversarial_method=adversarial.FastGradientSignAdversarial(
-            model=model,
-            targeted=True,
-            epsilon=1,
+            model=model, targeted=True, epsilon=1
         ),
         iterations=10,
         alpha_multiplier=2,
@@ -66,9 +64,5 @@ if __name__ == "__main__":
     _inverted_word_map = inverted_word_map(_word_map)
     for _ in range(10):
         test_adversarial_inference_to_target_sentence(
-            _model,
-            _image,
-            _word_map,
-            _device,
-            _inverted_word_map,
+            _model, _image, _word_map, _device, _inverted_word_map
         )
