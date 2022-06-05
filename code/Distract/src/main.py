@@ -110,13 +110,32 @@ def epoch(dataloader, inverted_word_map, epsilon, adv_func, target=None):
             target = base_target.repeat([image.size(0), 1])
             target_sentences = [target_sentence] * image.size(0)
 
-        original_attention, adversarial_attention, target_sentences, adv_img, adv_sentences, similartity = step(
-            inverted_word_map,
-            epsilon,
-            adv_func,
-            target,
-            original_attention,
-            image,
+        (
+            orig_pred,
+            adv_pred,
+            adv_img,
+            attention,
+            adv_attention,
+        ) = adversarial.adversarial_inference(adv_func, image, target, epsilon)
+
+        if original_attention is None:
+            original_attention = torch.zeros_like(attention).sum(dim=[0, 1])
+            adversarial_attention = torch.zeros_like(adv_attention).sum(
+                dim=[0, 1]
+            )
+
+        original_attention += attention.sum(dim=[0, 1])
+        adversarial_attention += adv_attention.sum(dim=[0, 1])
+
+        if target is None:
+            target_sentences = utils.decode_prediction(
+                inverted_word_map, orig_pred
+            )
+
+        adv_sentences = utils.decode_prediction(inverted_word_map, adv_pred)
+
+        similartity = sentence_embedding.cosine_similarity(
+            target_sentences, adv_sentences
         )
 
         if target is None:
@@ -168,43 +187,6 @@ def epoch(dataloader, inverted_word_map, epsilon, adv_func, target=None):
     cosine_similarities = torch.concat(similarities).numpy()
     bleu_score = corpus_bleu(all_labels, all_adv_sentences)
     return cosine_similarities, bleu_score, samples, noise, or_att, ad_att
-
-
-def step(
-    inverted_word_map, epsilon, adv_func, target, original_attention, image
-):
-    (
-        orig_pred,
-        adv_pred,
-        adv_img,
-        attention,
-        adv_attention,
-    ) = adversarial.adversarial_inference(adv_func, image, target, epsilon)
-
-    if original_attention is None:
-        original_attention = torch.zeros_like(attention).sum(dim=[0, 1])
-        adversarial_attention = torch.zeros_like(adv_attention).sum(dim=[0, 1])
-
-    original_attention += attention.sum(dim=[0, 1])
-    adversarial_attention += adv_attention.sum(dim=[0, 1])
-
-    if target is None:
-        target_sentences = utils.decode_prediction(inverted_word_map, orig_pred)
-
-    adv_sentences = utils.decode_prediction(inverted_word_map, adv_pred)
-
-    similartity = sentence_embedding.cosine_similarity(
-        target_sentences, adv_sentences
-    )
-
-    return (
-        original_attention,
-        adversarial_attention,
-        target_sentences,
-        adv_img,
-        adv_sentences,
-        similartity,
-    )
 
 
 if __name__ == "__main__":
