@@ -1,13 +1,58 @@
-* Currently all plots are based on a subset of 120 images, my intention is to rerun them on the complete test set (5k images), which depending on the amount iterations this takes about 2 hours per epsilon at 100 iterations.
-
 \subsection*{Adversarial Samples}
+Adversarial samples are generated using the iterative version of Fast Gradient Sign method as shown in equation \ref{eq:iterative_method}. With $N=10$ satisfactory results can be achieved, however higher $N$ results in even better results for the same $\epsilon$. Higher epsilons did not have an effect on BLEU score beyond $0.08$ as can be seen in figure \ref{adv_bleu_score}. This is in contrast to the cosine similarity as it does decrease further for the higher $\epsilon$.
+
+\begin{figure*}[h]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{figures/adversarial_bleu_score_over_epsilon.png} % first figure itself
+        \caption{Average BLEU score}
+        \label{adv_bleu_score}
+    \end{minipage}\hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{figures/adversarial_cosine_similarity_heatmap.png} % second figure itself
+        \caption{Cosine similarity vs epsilon (Axis is not correct yet)}
+        \label{adv_cosine_similarity}
+    \end{minipage}
+\end{figure*}
+
+\begin{figure*}[h]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{figures/caption_teddy_normal.png} % first figure itself
+    \end{minipage}\hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{figures/caption_adv_teddy_bear_0.02.png} % second figure itself
+    \end{minipage}
+    \caption{Clean Image (left), Adversarial Image $\epsilon=0.02, N=10$ (right)}
+    \label{adv_example_caption}
+\end{figure*}
+
+As can be seen in figure \ref{adv_example_caption} the attention of S.A.T, even though not explicitly attacked, is not as focused as on the clean image. This is especially visible in images that are successfully attacked. Images for which the model still is able to generate decent captions, still have a good focus on the main subjects in the image (\ref{adv_example_caption_tennis}).
 
 
+
+\begin{figure*}[h]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{figures/caption_clean_tennis_court.png} % first figure itself
+    \end{minipage}\hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{figures/caption_adv_tennis_court_0.02.png} % second figure itself
+    \end{minipage}
+    \caption{Clean Image (left), Adversarial Image $\epsilon=0.02, N=10$ (right)}
+    \label{adv_example_caption_tennis}
+\end{figure*}
 
 \subsection*{Distracting Samples}
-To distract the model, adversarial samples are created using the iterative method (EQ. \ref{IterativeMethod}) and the distraction adversarial loss (EQ. \ref{distraction_loss}). The amount of iterations was experimentally found to be good enough in most cases at 100, in which more would result in better distraction at the cost of longer running times. The top left pixel was chosen to focus the attention on as the model focus least on it (\ref{average_attention_clean}) (albeit slightly) during the clean images. With an epsilon of 0.04 satisfactory results are achieved. The attention of the model clearly focused on the top left on average as can be seen in figure \ref{average_attention_adv}. With the perturbation at most 0.04 the image is visually almost identical to the human eye \ref{adv_example_img}.
+To distract the model, adversarial samples are created using the iterative method (EQ. \ref{eq:iterative_method}) and the distraction adversarial loss (EQ. \ref{distraction_loss}). The amount of iterations was experimentally found to be good enough in most cases at 100, in which more would result in better distraction at the cost of longer running times. The top left pixel was chosen to focus the attention on as the model focus least on it (\ref{average_attention_clean}) (albeit slightly) during the clean images. With an epsilon of 0.04 satisfactory results are achieved. The attention of the model clearly focused on the top left on average as can be seen in figure \ref{average_attention_adv}. With the perturbation at most 0.04 the image is visually almost identical to the human eye (figure \ref{dist_adv_example_img}).
 
-\begin{figure*}
+\begin{figure*}[h]
     \centering
     \begin{minipage}{0.45\textwidth}
         \centering
@@ -23,7 +68,7 @@ To distract the model, adversarial samples are created using the iterative metho
     \end{minipage}
 \end{figure*}
 
-\begin{figure*}
+\begin{figure*}[h]
     \centering
     \begin{minipage}{0.45\textwidth}
         \centering
@@ -34,10 +79,10 @@ To distract the model, adversarial samples are created using the iterative metho
         \includegraphics[width=0.9\textwidth]{figures/distraction_adv_sample_0.04.png} % second figure itself
     \end{minipage}
     \caption{Clean Image (left), Adversarial Image $\epsilon=0.04, N=100$ (right)}
-    \label{adv_example_img}
+    \label{dist_adv_example_img}
 \end{figure*}
 
-The attention and sentences for the figure \ref{adv_example_img} are visualized in figure \ref{adv_example_att}. The model still attends to other parts of the image, however they are not clearly a single object relating to the word that is generated. During the generations of the last few words the attention is focused almost solely on the top left part. 
+The attention and sentence generation for figure \ref{dist_adv_example_img} are visualized in figure \ref{adv_example_att}. The model is not completely distracted and still attends to other parts of the image, however they are not clearly a single object relating to the word that is generated. During the generations of the last few words the attention is focused almost solely on the top left part.
 
 \begin{figure*}
     \centering
@@ -58,64 +103,3 @@ The attention and sentences for the figure \ref{adv_example_img} are visualized 
     \includegraphics[width=0.9\textwidth]{figures/distraction_bleu_score_over_epsilon.png}
     \caption{BLEU score during distraction over epsilon}
 \end{figure}
-
-
-
-% Although I currently don't have complete results. I do have some initial samples that worked. I am still in the process of calculating the BLEU score and cosine similarity over the whole datasets.
-% Preliminary results images:
-
-\begin{figure*}
-    \centering
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \includegraphics[width=0.9\textwidth]{figures/caption_teddy_normal.png} % first figure itself
-        \caption{Prediction by Show Attend and Tell on a normal image}
-    \end{minipage}\hfill
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \includegraphics[width=0.9\textwidth]{figures/caption_teddy_adversarial_0.2.png} % second figure itself
-        \caption{Prediction on an adversarial image with $\epsilon=0.2$ (roughly $5\%$ of original range)}
-    \end{minipage}
-\end{figure*}
-
-\begin{figure*}
-    \centering
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \includegraphics[width=0.9\textwidth]{figures/caption_baseball_normal.png} % first figure itself
-        \caption{Prediction by Show Attend and Tell on a normal image}
-    \end{minipage}\hfill
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \includegraphics[width=0.9\textwidth]{figures/caption_baseball_adversarial.png} % second figure itself
-        \caption{Prediction on an adversarial image with $\epsilon=0.2$ (roughly $5\%$ of original range)}
-    \end{minipage}
-\end{figure*}
-
-\begin{figure*}
-    \centering
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \includegraphics[width=0.9\textwidth]{figures/caption_kitchen_normal.png} % first figure itself
-        \caption{Prediction by Show Attend and Tell on a normal image}
-    \end{minipage}\hfill
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \includegraphics[width=0.9\textwidth]{figures/caption_kitchen_adversarial.png} % second figure itself
-        \caption{Prediction on an adversarial image with $\epsilon=0.2$ (roughly $5\%$ of original range)}
-    \end{minipage}
-\end{figure*}
-
-\begin{figure*}
-    \centering
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \includegraphics[width=0.9\textwidth]{figures/caption_elephant_normal.png} % first figure itself
-        \caption{Prediction by Show Attend and Tell on a normal image}
-    \end{minipage}\hfill
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \includegraphics[width=0.9\textwidth]{figures/caption_elephant_adversarial.png} % second figure itself
-        \caption{Prediction on an adversarial image with $\epsilon=0.2$ (roughly $5\%$ of original range)}
-    \end{minipage}
-\end{figure*}
