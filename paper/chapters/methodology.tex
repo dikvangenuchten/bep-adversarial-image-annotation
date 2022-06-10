@@ -12,65 +12,56 @@ As clean dataset the well known MSCOCO \cite{lin2015microsoft} dataset will be u
 The model used, as already introduced in section \ref{chapter:introduction}, will be Show Attend and Tell. It is an interesting model as it uses attention, which can be visualized, to focus on most important places of the image.
 
 \subsection{Generating Adversarial Samples}
-Generating adversarial input images can be done by using the Fast Method (EQ. \ref{FastMethod}) proposed by \citeauthor{goodfellow2015explaining}.
+Generating adversarial input images can be done by using the Fast Method (EQ. \ref{eq:fast_method}) proposed by \citeauthor{goodfellow2015explaining}.
 \begin{equation}
     X^{adv} = X + \epsilon * sign(\nabla_{x}J(X, y_{true}))
-    \label{FastMethod}
+    \label{eq:fast_method}
 \end{equation}
-With $X$ being the input image, $\epsilon$ a hyperparameter determining much the original image can be perpetrated and $J(X, y_{true})$ the loss function which to, in the adversarial case, maximize. Finally, the image is clipped ensuring the vector stays within the 0 to 1 input range of the model. As can be seen in Figure \ref{epsilon_on_images} (and bigger size in the appendix \ref{big_images_with_noise}), using this method images up to and including $\epsilon=0.04$ are nearly indistinguishable and up to $\epsilon=0.16$ very recognizable to humans. The sign in combination with the epsilon ensures $L_{\infty}(X - X^{adv}) \leq \epsilon$.
+With $X$ being the input image, $\epsilon$ a hyperparameter determining much the original image can be perpetrated and $J(X, y_{true})$ the loss function which to, in the adversarial case, maximize. Finally, the image is clipped ensuring the vector stays within the 0 to 1 input range of the model. As can be seen in Figure \ref{fig:fast_noise_examples} (and bigger size in the appendix \ref{appendix:fast_noise_examples}), using this method images up to and including $\epsilon=0.02$ are indistinguishable and up to and including $\epsilon=0.16$ recognizable to humans. The sign in combination with the epsilon ensures $L_{\infty}(X - X^{adv}) \leq \epsilon$.
 
-\begin{figure*}[h]
+\begin{figure}
     \centering
-    \begin{minipage}{0.12\textwidth}
-        \centering
-        \includegraphics[width=0.9\textwidth]{figures/group_of_people/group_of_people_0.000.png}
-        \caption*{$\epsilon$=0.000}
-    \end{minipage}\hfill
-    \begin{minipage}{0.12\textwidth}
-        \centering
-        \includegraphics[width=0.9\textwidth]{figures/group_of_people/group_of_people_0.005.png}
-        \caption*{$\epsilon$=0.005}
-    \end{minipage}\hfill
-    \begin{minipage}{0.12\textwidth}
-        \centering
-        \includegraphics[width=0.9\textwidth]{figures/group_of_people/group_of_people_0.010.png}
-        \caption*{$\epsilon$=0.010}
-    \end{minipage}\hfill
-    \begin{minipage}{0.12\textwidth}
-        \centering
-        \includegraphics[width=0.9\textwidth]{figures/group_of_people/group_of_people_0.020.png}
-        \caption*{$\epsilon$=0.020}
-    \end{minipage}\hfill
-    \begin{minipage}{0.12\textwidth}
-        \centering
-        \includegraphics[width=0.9\textwidth]{figures/group_of_people/group_of_people_0.040.png}
-        \caption*{$\epsilon$=0.040}
-    \end{minipage}\hfill
-    \begin{minipage}{0.12\textwidth}
-        \centering
-        \includegraphics[width=0.9\textwidth]{figures/group_of_people/group_of_people_0.080.png}
-        \caption*{$\epsilon$=0.080}
-    \end{minipage}\hfill
-    \begin{minipage}{0.12\textwidth}
-        \centering
-        \includegraphics[width=0.9\textwidth]{figures/group_of_people/group_of_people_0.160.png}
-        \caption*{$\epsilon$=0.160}
-    \end{minipage}\hfill
-    \begin{minipage}{0.12\textwidth}
-        \centering
-        \includegraphics[width=0.9\textwidth]{figures/group_of_people/group_of_people_0.320.png}
-        \caption*{$\epsilon$=0.320}
-    \end{minipage}\hfill
-    \caption{Adversarial images for varying values of epsilon.}
-    \label{epsilon_on_images}
-\end{figure*}
+    \subfloat[a][$\epsilon$=0.000]{
+        \includegraphics[height=0.48\textwidth]{figures/fast_method_group_of_people/group_of_people_0.000.png}
+    }
+    \vspace{\floatsep}
+    \subfloat[b][$\epsilon$=0.020]{
+        \includegraphics[height=0.48\textwidth]{figures/fast_method_group_of_people/group_of_people_0.020.png}
+        % \caption*{$\epsilon$=0.020}
+    }
+    \vspace{\floatsep}
+    \subfloat[c][$\epsilon$=0.000]{
+        \includegraphics[height=0.48\textwidth]{figures/fast_method_group_of_people/group_of_people_0.000.png}
+    }
+    \vspace{\floatsep}
+    \subfloat[d][$\epsilon$=0.160]{
+        \includegraphics[height=0.48\textwidth]{figures/fast_method_group_of_people/group_of_people_0.160.png}
+        % \caption*{$\epsilon$=0.160}
+    }
+    \caption{Clean (left) and Adversarial images (right) for varying epsilon values of $0.020$ and $0.160$. Generated using equation \ref{eq:fast_method}. More values of epsilon can be found in appendix \ref{appendix:fast_noise_examples}.}
+    \label{fig:fast_noise_examples}
+\end{figure}
 
 In practice applying this a single time is often not enough to successfully attack S.A.T. therefore the iterative method will be used as proposed by \citeauthor{Kurakin}. Which repeatedly applies the Fast Gradient Sign Method for $N$ iterations
 \begin{equation}
     X^{adv}_{0}, X^{adv}_{n + 1} = Clip_{X, \epsilon}(X^{adv}_{n} + \alpha * sign(\nabla_{x}J(X^{adv}_{n}, y_{true})))
-    \label{IterativeMethod}
+    \label{eq:iterative_method}
 \end{equation}
-In which, $\alpha$ is a hyperparameter which naively can be set to $\epsilon / N$. Images generated using this method are usually less visually disturb for the same epsilon.
+In which, $\alpha$ is a hyperparameter which naively can be set to $\epsilon / N$. Images generated using this method are usually less visually disturb for the same epsilons. Here an epsilon of $0.040$ is nearly indistinguishable, as can be seen in figure \ref{fig:iterative_noise_examples}
+
+\begin{figure}
+    \centering
+    \subfloat[a][$\epsilon$=0.000]{
+        \includegraphics[height=0.48\textwidth]{figures/fast_method_group_of_people/group_of_people_0.000.png}
+    }
+    \vspace{\floatsep}
+    \subfloat[b][$\epsilon$=0.020]{
+        \includegraphics[height=0.48\textwidth]{figures/fast_method_group_of_people/group_of_people_0.020.png}
+    }
+    \caption{Clean (left) and Adversarial images (right) for varying epsilon values of $0.020$ and $0.160$. Generated using equation \ref{eq:iterative_method}. More values of epsilon can be found in appendix \ref{appendix:fast_noise_examples}.}
+    \label{fig:iterative_noise_examples}
+\end{figure}
+
 
 \subsection*{Distracting Adversarial Sample}
 Distraction is a powerful technique often used by adversaries in the real world. As S.A.T. employs attention to generate sentences, it is possible to try and distract it by creating an adversarial sample that makes the model hyperfocused on only part of the image. During training S.A.T. learns to divide the attention roughly equally over the whole image during the generation of a single caption. It does this by including the loss shown in equation \ref{attention_loss}.

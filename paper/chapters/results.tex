@@ -1,5 +1,5 @@
 \subsection*{Adversarial Samples}
-Adversarial samples are generated using the iterative version of Fast Gradient Sign method as shown in equation \ref{IterativeMethod}. With $N=10$ satisfactory results can be achieved, however higher $N$ results in even better results for the same $\epsilon$. Higher epsilons did not have an effect on BLEU score beyond $0.08$ as can be seen in figure \ref{adv_bleu_score}. This is in contrast to the cosine similarity as it does decrease further for the higher $\epsilon$.
+Adversarial samples are generated using the iterative version of Fast Gradient Sign method as shown in equation \ref{eq:iterative_method}. With $N=10$ satisfactory results can be achieved, however higher $N$ results in even better results for the same $\epsilon$. Higher epsilons did not have an effect on BLEU score beyond $0.08$ as can be seen in figure \ref{adv_bleu_score}. This is in contrast to the cosine similarity as it does decrease further for the higher $\epsilon$.
 
 \begin{figure*}[h]
     \centering
@@ -50,7 +50,7 @@ As can be seen in figure \ref{adv_example_caption} the attention of S.A.T, even 
 \end{figure*}
 
 \subsection*{Distracting Samples}
-To distract the model, adversarial samples are created using the iterative method (EQ. \ref{IterativeMethod}) and the distraction adversarial loss (EQ. \ref{distraction_loss}). The amount of iterations was experimentally found to be good enough in most cases at 100, in which more would result in better distraction at the cost of longer running times. The top left pixel was chosen to focus the attention on as the model focus least on it (\ref{average_attention_clean}) (albeit slightly) during the clean images. With an epsilon of 0.04 satisfactory results are achieved. The attention of the model clearly focused on the top left on average as can be seen in figure \ref{average_attention_adv}. With the perturbation at most 0.04 the image is visually almost identical to the human eye (figure \ref{dist_adv_example_img}).
+To distract the model, adversarial samples are created using the iterative method (EQ. \ref{eq:iterative_method}) and the distraction adversarial loss (EQ. \ref{distraction_loss}). The amount of iterations was experimentally found to be good enough in most cases at 100, in which more would result in better distraction at the cost of longer running times. The top left pixel was chosen to focus the attention on as the model focus least on it (\ref{average_attention_clean}) (albeit slightly) during the clean images. With an epsilon of 0.04 satisfactory results are achieved. The attention of the model clearly focused on the top left on average as can be seen in figure \ref{average_attention_adv}. With the perturbation at most 0.04 the image is visually almost identical to the human eye (figure \ref{dist_adv_example_img}).
 
 \begin{figure*}[h]
     \centering
