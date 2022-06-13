@@ -1,4 +1,5 @@
 import argparse
+import os
 from typing import Callable
 
 import numpy as np
@@ -64,6 +65,12 @@ def main(
                 "bleu score": bleu_score,
             }
         )
+
+        os.makedirs(f"samples/{epsilon:.3f}/", exist_ok=True)
+        for i, image in enumerate(samples):
+            image.image.save(f"samples/{epsilon:.3f}/img_{i}.jpg")
+
+
         bleu_scores.append(bleu_score)
         all_cosine_similarities.append(cosine_similarities)
 

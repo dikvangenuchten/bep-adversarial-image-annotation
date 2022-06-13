@@ -76,7 +76,36 @@ Using categorical cross-entropy we can craft an adversarial example which focuse
     L_{distraction} = CrossEntropy(d, \alpha)
     \label{distraction_loss}
 \end{equation}
-With $d$, $\alpha \in \rm I\!R^{LxC}$ and $d$ be constructed to focus attention on a specific latent pixel.
+With $d$, $\alpha \in \rm I\!R^{LxC}$ and $d$ be constructed to focus attention on a specific latent pixel. Combining it with the Iterative Method \ref{eq:iterative_method}, results in equation \ref{eq:iterative_distraction_method}
+
+\begin{equation}
+    X^{adv}_{0}, X^{adv}_{n + 1} = Clip_{X, \epsilon}(X^{adv}_{n} + \alpha * sign(\nabla_{x}J(X^{adv}_{n}, \alpha)))
+    \label{eq:iterative_distraction_method}
+\end{equation}
+
+As can be seen in figure \ref{fig:distract_noise_examples} the images are visually less perturbed even with a higher epsilon. With an image with a perturbation of $\epsilon=0.160$ almost indistinguishable from the clean image. Although $\epsilon=0.640$ is visually distorted it is still very recognizable and would still be described the same by a human.
+
+
+\begin{figure}[h]
+    \centering
+    \subfloat[a][$\epsilon$=0.000]{
+        \includegraphics[height=0.48\textwidth]{figures/distract_method_samples/0.000/img_6.jpg}
+    }
+    \vspace{\floatsep}
+    \subfloat[b][$\epsilon$=0.160]{
+        \includegraphics[height=0.48\textwidth]{figures/distract_method_samples/0.160/img_6.jpg}
+    }
+    \vspace{\floatsep}
+    \subfloat[c][$\epsilon$=0.000]{
+        \includegraphics[height=0.48\textwidth]{figures/distract_method_samples/0.000/img_6.jpg}
+    }
+    \vspace{\floatsep}
+    \subfloat[d][$\epsilon$=0.640]{
+        \includegraphics[height=0.48\textwidth]{figures/distract_method_samples/0.640/img_6.jpg}
+    }
+    \caption{Clean (left) and Adversarial images (right) for varying epsilon values of $0.160$ and $0.640$. Generated using equation \ref{eq:iterative_distraction_method}. More values of epsilon can be found in appendix \ref{appendix:distract_noise_examples}.}
+    \label{fig:distract_noise_examples}
+\end{figure}
 
 \subsection{Evaluation}
 To determine if the model is indeed susceptible to distraction the BLEU-4 score \cite{papineni_roukos_ward_zhu_2001} will be calculated, as it is a widely reported metric within the image captioning task. Because the BLEU score checks for direct word occurrences it does not give a complete view on the success of the adversarial attack, as the model can still give a correct description using synonyms. This would result in a low BLEU score, where in fact the model is still performing correctly. To combat this the cosine similarity of the original and adversarial output will be calculated using universal sentence embedding proposed by \citeauthor{DBLP:journals/corr/abs-1803-11175}. It is a separately learned model that embeds an entire sentence.
