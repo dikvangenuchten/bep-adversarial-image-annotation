@@ -283,7 +283,7 @@ if __name__ == "__main__":
     imgs = [args.img]
     if args.img is None or args.img == "all":
         imgs = glob.glob("samples/*/img_*.jpg")
-    iter_imgs = tqdm(imgs)
+    iter_imgs = tqdm.tqdm(imgs)
     for img in iter_imgs:
         iter_imgs.set_description(f"Visualizing {img}")
         # Encode, decode with attention and beam search
