@@ -1,7 +1,2 @@
-\begin{itemize}
-    \item S.A.T. is susceptible to adversarial samples, with the most important part in generating them is the amount of iterations. (This could use some more plots)
-    \item Successful attacks are visible in the attention layer, even if not attack explicitly.
-    \item The attention layer is susceptible to attacks.
-    \item Attacking the attention is harder than attacking the sentence.
-    \item Summarizing in attacking using the (iterative) fast gradient sign method, the most important part is iterations.
-\end{itemize}
+Although S.A.T. is clearly more difficult to attack in comparison to classification models, S.A.T. is not immune to adversarial examples. The results of successful attacks are often visible in the attention layer, showing that the model already is susceptible during the encoding and/or attention step.
+The attention layer can be distracted using the Iterative FSGM. When attacked to explicitly focus on a certain pixel it is clearly visible that the model is focusing more attention to the specified pixel. Also in the non-explicit case it is visible that the model is less focused on the correct parts of the image.S.A.T. is quite robust to adversarial examples as it requires either multiple iterations or, high epsilon values to skew the models output. To skew the attention into a certain direction takes more iterations then to get a wrong prediction. Interesting next steps would be investigating the effect of adding adversarial examples to the dataset, and researching the transferablity of these examples, both on other models that employ attention aswel as models that do not have an explicit attention mechanism.

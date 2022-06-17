@@ -5,6 +5,8 @@ import numpy as np
 def cosine_similarity_violin_plot(name, all_cosine_similarities, epsilons):
     fig, ax = plt.subplots()
     ax.violinplot(all_cosine_similarities, epsilons, widths=0.1)
+    ax.set_xscale("symlog", base=2, linthresh=0.01)
+    ax.xaxis.set_major_formatter(mtp.ticker.ScalarFormatter())
     ax.set_title("Cosine Similarity distribution over epsilon")
     ax.set_xlabel("epsilon")
     ax.set_ylabel("cosine similarity")
@@ -39,6 +41,8 @@ def cosine_similarity_heatmap(name, all_cosine_similarities, epsilons):
 def plot_bleu_scores(name, bleu_scores, epsilons):
     fig, ax = plt.subplots()
     ax.plot(epsilons, bleu_scores)
+    ax.set_xscale("symlog", base=2, linthresh=0.01)
+    ax.xaxis.set_major_formatter(mtp.ticker.ScalarFormatter())
     ax.set_title("Bleu Score vs epsilon")
     ax.set_xbound(min(epsilons), max(epsilons))
     ax.set_ybound(0, 1)
@@ -53,6 +57,8 @@ def plot_average_cosine_similarity(name, all_cosine_similarities, epsilons):
     fig, ax = plt.subplots()
     ax.plot(epsilons, [np.mean(x) for x in all_cosine_similarities])
     ax.set_title("Average Cosine Similarity vs epsilon")
+    ax.set_xscale("symlog", base=2, linthresh=0.01)
+    ax.xaxis.set_major_formatter(mtp.ticker.ScalarFormatter())
     ax.set_xbound(min(epsilons), max(epsilons))
     ax.set_ybound(0, 1)
     ax.set_xlabel("epsilon")
