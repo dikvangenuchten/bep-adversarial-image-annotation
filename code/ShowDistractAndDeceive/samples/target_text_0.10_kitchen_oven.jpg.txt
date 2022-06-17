@@ -1,2 +1,0 @@
-target: this is an attack on show attend and tell
-adversarial: ['a laptop computer is on display on a wire']

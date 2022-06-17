@@ -3,15 +3,15 @@ Adversarial samples are generated using the iterative version of Fast Gradient S
 
 \begin{figure*}[h]
     \centering
-    \begin{minipage}{0.9\textwidth}
+    \begin{minipage}{0.45\textwidth}
         \centering
-        \includegraphics[width=0.9\textwidth]{figures/adversarial_bleu_score_over_epsilon.png} % first figure itself
+        \includegraphics[width=0.9\textwidth]{figures/adversarial_average_bleu_score.png} % first figure itself
         \caption{Average BLEU score for adversarial samples.}
         \label{adv_bleu_score}
     \end{minipage}\hfill
-    \begin{minipage}{0.9\textwidth}
+    \begin{minipage}{0.45\textwidth}
         \centering
-        \includegraphics[width=0.9\textwidth]{figures/adversarial_cosine_similarity_heatmap.png} % second figure itself
+        \includegraphics[width=0.9\textwidth]{figures/adversarial_average_cosine_sim.png} % second figure itself
         \caption{Cosine similarity vs epsilon (Axis is not correct yet, is log scale on x.)}
         \label{adv_cosine_similarity}
     \end{minipage}
@@ -94,7 +94,7 @@ To distract the model, adversarial samples are created using the iterative metho
 \end{figure}
 
 
-The attention and sentence generation for figure \ref{dist_adv_example_img} are visualized in figure \ref{adv_example_att}. The model is not completely distracted and still attends to other parts of the image, however they are not clearly a single object relating to the word that is generated. During the generations of the last few words the attention is focused almost solely on the top left part.
+The attention and sentence generation for figure \ref{dist_adv_example_img} are visualized in figure \ref{fig:attention_distract_cart_clean} and \ref{fig:attention_distract_cart_adv}. Even though the original prediction is wrong, the attention is focusing on the correct parts of the image. The model is not completely distracted and still attends to other parts of the image, however they are not clearly a single object relating to the word that is generated. During the generations of the last few words the attention is focused almost solely on the top left part.
 
 \begin{figure*}[h]
     \centering
@@ -112,23 +112,27 @@ The attention and sentence generation for figure \ref{dist_adv_example_img} are 
 
 
 
-\begin{figure*}
+\begin{figure}[h]
     \centering
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \includegraphics[width=0.9\textwidth]{figures/caption_distraction_adv_sample_0.png} % first figure itself
-    \end{minipage}\hfill
-    \begin{minipage}{0.45\textwidth}
-        \centering
+    \subfloat[a][Attention of S.A.T. on clean image.]{
+        \includegraphics[width=0.9\textwidth]{figures/caption_distraction_adv_sample_0.png}
+        \label{fig:attention_distract_cart_clean}
+
+    }
+    \vspace{\floatsep}
+    \subfloat[a][Attention of S.A.T. on adversarial image generated with $\epsilon=0.04, N=100$.]{
         \includegraphics[width=0.9\textwidth]{figures/caption_distraction_adv_sample_0.04.png} % second figure itself
-    \end{minipage}
-    \caption{Attention on Clean Image (left) and Adversarial Image $\epsilon=0.04, N=100$ (right)}
-    \label{adv_example_att}
-\end{figure*}
+        \label{fig:attention_distract_cart_adv}
+    }
+\end{figure}
 
-The BLEU score is less affected by the distracting samples, eventhough more iterations are used. The cosine similarity does go down furhter.
+Both the BLEU score and cosine similarity go down with higher values of epsilon, however there are clearly diminishing returns. Furthermore, with the higher values of epsilon the image will eventually be unrecognizable and thus not reasonable to expect sensible output
 
-\begin{figure}
-    \includegraphics[width=0.9\textwidth]{figures/distraction_bleu_score_over_epsilon.png}
+\begin{figure}[h]
+    \subfloat[a][Average BLEU score]{
+        \includegraphics[width=0.45\textwidth]{figures/adversarial_average_bleu_score.png}}
+    \vspace{\floatsep}
+    \subfloat[a][Average cosine similarity]{\includegraphics[width=0.45\textwidth]{figures/adversarial_average_cosine_sim.png}}
+
     \caption{BLEU score during distraction over epsilon}
 \end{figure}

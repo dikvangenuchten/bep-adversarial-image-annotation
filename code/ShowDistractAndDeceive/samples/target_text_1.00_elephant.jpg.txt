@@ -1,2 +1,0 @@
-target: this is an attack on show attend and tell
-adversarial: ['a cat is on on dashboard with and <unk>']

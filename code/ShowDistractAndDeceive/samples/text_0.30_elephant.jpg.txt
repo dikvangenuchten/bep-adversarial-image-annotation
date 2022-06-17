@@ -1,2 +1,0 @@
-original: a group of elephants standing in the sand <end> water <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> one with a <unk> <end> <end> <end> <end> <end> <end> <end> with one is standing <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> with its trunk <end>
-adversarial: a couple of elephants walking on a beach <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> and one of them with a man in a black and white suit <end> <end> <end> <end> <end> <end> and one black and one

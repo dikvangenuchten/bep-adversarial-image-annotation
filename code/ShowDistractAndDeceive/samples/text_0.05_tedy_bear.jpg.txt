@@ -1,2 +1,0 @@
-original: a group of stuffed animals sitting on top of a couch <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> <end> and one is a <unk> <end> <end> <end> and a stuffed animal <end> <end> <end> and a stuffed animal <end> <end> <end> and a
-adversarial: a group of stuffed animals sitting on top of a blanket <end> <end> <end> <end> <end> <end> <end> <end> and one is a teddy bear <end> <end> <end> and a teddy bear <end> on a blue blanket <end> a black and white teddy bear <end> and one is a <unk>

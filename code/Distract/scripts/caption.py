@@ -2,6 +2,7 @@ import argparse
 import json
 import os
 import glob
+import tqdm
 
 import matplotlib.cm as cm
 import matplotlib.pyplot as plt
@@ -35,14 +36,10 @@ def caption_image_beam_search(
     vocab_size = len(word_map)
 
     # Read image and process
-    img = Image.open(image_path)
-    img = img.convert("RGB")
-    img = np.array(img)
+    img = imread(image_path)
     if len(img.shape) == 2:
         img = img[:, :, np.newaxis]
         img = np.concatenate([img, img, img], axis=2)
-    if img.shape[2] == 4:
-        pass
     img = imresize(img, (256, 256))
     img = img.transpose(2, 0, 1)
     # img = img / 255.0
@@ -213,7 +210,7 @@ def visualize_att(image_path, seq, alphas, rev_word_map, smooth=True):
 
         plt.text(
             0,
-            -50,
+            1,
             "%s" % (words[t]),
             color="black",
             backgroundcolor="white",
@@ -236,9 +233,8 @@ def visualize_att(image_path, seq, alphas, rev_word_map, smooth=True):
         plt.set_cmap(cm.Greys_r)
         plt.axis("off")
     plt.show()
-    name = f"captions/caption_{os.path.basename(image_path)}"
-    plt.savefig(name)
-    print(f"Saved at: {name}")
+    epsilon, name = os.path.normpath(image_path).split(os.sep)[-2:]
+    plt.savefig(f"captions/caption_{epsilon}_{name}")
 
 
 if __name__ == "__main__":
@@ -246,7 +242,12 @@ if __name__ == "__main__":
         description="Show, Attend, and Tell - Tutorial - Generate Caption"
     )
 
-    parser.add_argument("--img", "-i", help="path to image(s)", nargs="+")
+    parser.add_argument(
+        "--img",
+        help="path to image(s)",
+        default=None,
+        required=False,
+    )
     parser.add_argument("--model", "-m", help="path to model")
     parser.add_argument("--word_map", "-wm", help="path to word map JSON")
     parser.add_argument(
@@ -279,8 +280,12 @@ if __name__ == "__main__":
         word_map = json.load(j)
     rev_word_map = {v: k for k, v in word_map.items()}  # ix2word
 
-    for img in args.img:
-        print(f"visualising: {img}")
+    imgs = [args.img]
+    if args.img is None or args.img == "all":
+        imgs = glob.glob("samples/*/img_*.jpg")
+    iter_imgs = tqdm(imgs)
+    for img in iter_imgs:
+        iter_imgs.set_description(f"Visualizing {img}")
         # Encode, decode with attention and beam search
         seq, alphas = caption_image_beam_search(
             encoder, decoder, img, word_map, args.beam_size
