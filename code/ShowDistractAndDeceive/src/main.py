@@ -34,7 +34,9 @@ def main(
 
     # Prepare target
     if target is not None:
-        target = utils.pad_target_sentence(target, word_map, model.max_sentence_length)
+        target = utils.pad_target_sentence(
+            target, word_map, model.max_sentence_length
+        )
 
     wandb.init(
         project="Bachelor End Project",
@@ -69,7 +71,6 @@ def main(
         os.makedirs(f"samples/{epsilon:.3f}/", exist_ok=True)
         for i, image in enumerate(samples):
             image.image.save(f"samples/{epsilon:.3f}/img_{i}.jpg")
-
 
         bleu_scores.append(bleu_score)
         all_cosine_similarities.append(cosine_similarities)
@@ -115,13 +116,13 @@ def epoch(dataloader, inverted_word_map, epsilon, adv_func, target=None):
             adv_func, image, target, epsilon
         )
 
-        if target is None:
-            target_sentences = utils.decode_prediction(inverted_word_map, orig_pred)
+        # if target is None:
+        #     target_sentences = utils.decode_prediction(inverted_word_map, orig_pred)
 
         adv_sentences = utils.decode_prediction(inverted_word_map, adv_pred)
 
         similartity = sentence_embedding.cosine_similarity(
-            target_sentences, adv_sentences
+            labels[0], adv_sentences
         )
 
         if target is None:
@@ -140,13 +141,14 @@ def epoch(dataloader, inverted_word_map, epsilon, adv_func, target=None):
                     f"cosine similarity: {cos_sim:.3f}",
                 )
                 for img, ori_caption, adv_caption, cos_sim in zip(
-                    adv_img, target_sentences, adv_sentences, similartity
+                    adv_img, labels[0], adv_sentences, similartity
                 )
             )
 
             noise.extend(
                 wandb.Image(
-                    utils.rescale(adv_image - img), caption=f"epsilon: {epsilon}"
+                    utils.rescale(adv_image - img),
+                    caption=f"epsilon: {epsilon}",
                 )
                 for img, adv_image in zip(image, adv_img)
             )
@@ -248,9 +250,9 @@ if __name__ == "__main__":
     f"Must be one of {list(ADV_METHODS.keys())}"
     target_sentence = args.target_sentence
     if target_sentence is not None:
-        target_sentence = utils.sentence_to_tokens(target_sentence, word_map).to(
-            args.device
-        )
+        target_sentence = utils.sentence_to_tokens(
+            target_sentence, word_map
+        ).to(args.device)
 
     adversarial_method_class = ADV_METHODS.get(args.adversarial_method)
 

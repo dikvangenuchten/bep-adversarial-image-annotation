@@ -1,15 +1,20 @@
-Motivation
-\begin{itemize}
-    \item why?
-          \subitem Safety?
-          \subitem Useful for adversarial Training
-          \subitem Better understanding network
-    \item Never done on attention layer as attack vector
-\end{itemize}
+When using machine learning models in real world use cases, it is important to ensure those models are robust. As if that is not the case they can be unreliable, wrong or in the worst case attacked by adversaries. Finding and understanding the weaknesses therefore is important. Furthermore, understanding the weaknesses can also help us in finding better architectures that are less susceptible to these kinds of attacks.
 
-Research Questions
+Adversarial samples for machine learning models can be generated using the Fast Gradient Sign Method (FSGM)\cite{goodfellow2015explaining}. Originally proposed for image classification, it finds a small noise field that can be added to the image to generate an adversarial image. This adversarial image is than often incorrectly labeled with a high confidence. An example of FSGM can be seen in figure \ref{adv_gibbon}. These adversarial sample prove to be useful during training, as they can act as regularizers, and improve the robustness of the model. \citeauthor{https://doi.org/10.48550/arxiv.1611.01236} show that these adversarial samples are also transferable to different models, even if they are trained on other datasets or have different architectures.
+
+\begin{figure*}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/adversarial_img_1.png}
+    \caption{Adversarial noise example from \protect\cite{goodfellow2015explaining}. Where $\epsilon=0.07$.}
+    \label{adv_gibbon}
+\end{figure*}
+
+There has already been some research in adversarial examples targeted at image captioning \cite{https://doi.org/10.48550/arxiv.2107.03050,Hongge}. All of which attack the output of the model, often with the goal of generating a specific output sentence. \citeauthor{Hongge} shows that Show-and-Tell\footnote[1]{Show-and-Tell is the predecessor of S.A.T. without attention mechanism}\cite{showandtell} is susceptible to adversarial samples. The question then arises if the attention added in S.A.T. makes it harder to generate adversarial samples, and if it opens up a new attack vector.
+
+\subsection{Research Questions}
+This research investigates the susceptibility of S.A.T. against adversarial samples that are visually close but generate completely different descriptions as output. A special focus is placed on what the attention in S.A.T. does and if it is an attack vector. When the attention is not focusing on the important parts of the image for generating the caption, the model is blind to those parts therefore not being able to describe those parts. It is therefore interesting to investigate if the attention can be used against S.A.T.
+Concretely this paper will try to answer the following questions:.
 \begin{itemize}
-    \item WHY?
-          \subitem Is it possible to attack attention?
-    \item Research Questions
+    \item Is S.A.T. susceptible to adversarial attacks using the Fast Gradient Sign Method?
+    \item Can the attention of S.A.T. be abused by adversarial samples?
 \end{itemize}

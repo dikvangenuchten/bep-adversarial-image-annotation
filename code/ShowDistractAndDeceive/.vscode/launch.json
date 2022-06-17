@@ -17,6 +17,14 @@
             "justMyCode": false
         },
         {
+            "name": "Python: bleu score human",
+            "type": "python",
+            "request": "launch",
+            "program": "scripts/human_bleu_score.py",
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
             "name": "Debug Unit Test",
             "type": "python",
             "request": "test",
