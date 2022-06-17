@@ -63,6 +63,7 @@ def main(
                         bins=list(np.linspace(0, 1, 11, endpoint=True)),
                     )
                 ),
+                "average cosine_similarity": torch.mean(cosine_similarities),
                 "adversarial samples": samples,
                 "bleu score": bleu_score,
             }
