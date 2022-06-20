@@ -66,8 +66,10 @@ class IterativeAdversarial:
         self.iterations = iterations
 
     def __call__(self, images, target, epsilon):
-        or_images = images.clone().detach()
         acc_noise = torch.zeros_like(images)
+        if epsilon == 0:
+            return acc_noise
+        or_images = images.clone().detach()
         for _ in range(self.iterations):
             alpha = (epsilon * self.alpha_multiplier) / self.iterations
             images = torch.clamp(or_images + acc_noise, min=0, max=1)
