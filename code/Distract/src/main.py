@@ -57,7 +57,7 @@ def main(
 
         plots.plot_attention_heatmap(
             f"attention_{adversarial_method.__class__.__name__}_at_{epsilon:.2f}.jpg",
-            ad_att.reshape(14,14).cpu(),
+            ad_att.reshape(14, 14).cpu(),
             epsilon,
         )
 
@@ -86,7 +86,9 @@ def main(
                     ),
                 ],
                 "bleu score": bleu_score,
-                "attention_plot": wandb.Image(f"attention_{adversarial_method.__class__.__name__}_at_{epsilon:.2f}.jpg")
+                "attention_plot": wandb.Image(
+                    f"attention_{adversarial_method.__class__.__name__}_at_{epsilon:.2f}.jpg"
+                ),
             }
         )
 
@@ -199,18 +201,24 @@ def epoch(dataloader, inverted_word_map, epsilon, adv_func, target=None):
     ) as sentence_file:
         sentence_file.write("\n".join(all_adv_sentences))
 
-
-
-
     cosine_similarities = torch.concat(similarities).numpy()
     bleu_score = corpus_bleu(all_labels, all_adv_sentences)
-    return cosine_similarities, bleu_score, samples, noise, original_attention, adversarial_attention
+    return (
+        cosine_similarities,
+        bleu_score,
+        samples,
+        noise,
+        original_attention,
+        adversarial_attention,
+    )
+
 
 def make_wandb_heatmap(data, caption):
     return wandb.Image(
         torch.reshape(data, (14, 14)) / data.max(),
         caption=caption,
     )
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -265,13 +273,6 @@ if __name__ == "__main__":
         "The result is clipped after each iteration to ensure a max deviation of epsilon.",
     )
     parser.add_argument(
-        "--targeted",
-        type=str,
-        required=False,
-        # default="this is an attack on show attend and tell",
-        help="If true encourages attention to upper left corner.",
-    )
-    parser.add_argument(
         "--limit-samples",
         type=int,
         required=False,
@@ -298,7 +299,8 @@ if __name__ == "__main__":
 
     adversarial_method_class = ADV_METHODS.get(args.adversarial_method)
 
-    targeted = args.targeted
+    # Distracting is always targeted
+    targeted = True
 
     adv_method = adversarial_method_class(model, targeted)
 
