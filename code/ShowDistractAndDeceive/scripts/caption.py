@@ -36,7 +36,7 @@ def caption_image_beam_search(
     vocab_size = len(word_map)
 
     # Read image and process
-    img = imread(image_path)
+    img = np.asarray(Image.open(image_path).convert("RGB"))
     if len(img.shape) == 2:
         img = img[:, :, np.newaxis]
         img = np.concatenate([img, img, img], axis=2)
@@ -48,6 +48,7 @@ def caption_image_beam_search(
         mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
     )
     transform = transforms.Compose([normalize])
+    print(img.shape)
     image = transform(img)  # (3, 256, 256)
 
     # Encode
@@ -234,7 +235,9 @@ def visualize_att(image_path, seq, alphas, rev_word_map, smooth=True):
         plt.axis("off")
     plt.show()
     epsilon, name = os.path.normpath(image_path).split(os.sep)[-2:]
+    path = f"captions/caption_{epsilon}_{name}"
     plt.savefig(f"captions/caption_{epsilon}_{name}")
+    return path
 
 
 if __name__ == "__main__":
@@ -280,7 +283,7 @@ if __name__ == "__main__":
         word_map = json.load(j)
     rev_word_map = {v: k for k, v in word_map.items()}  # ix2word
 
-    imgs = [args.img]
+    imgs = glob.glob(args.img)
     if args.img is None or args.img == "all":
         imgs = sorted(glob.glob("samples/*/img_*.jpg"))
     iter_imgs = tqdm.tqdm(imgs)
@@ -293,4 +296,5 @@ if __name__ == "__main__":
         alphas = torch.FloatTensor(alphas)
 
         # Visualize caption and attention of best sequence
-        visualize_att(img, seq, alphas, rev_word_map, args.smooth)
+        path = visualize_att(img, seq, alphas, rev_word_map, args.smooth)
+        iter_imgs.set_description(f"Saved in {path}")
