@@ -108,7 +108,7 @@ def main(
         ):
             image.image.save(f"samples/{epsilon:.3f}/img_{i}.jpg")
             noise_sample.image.save(f"samples/{epsilon:.3f}/noise_{i}.jpg")
-            caption_sample.image.save(f"samples/{epsilon:.3f}/caption_{i}.jpg")
+            caption_sample.image.save(f"samples/{epsilon:.3f}/caption_{i}.png")
 
     plots.cosine_similarity_violin_plot(
         f"cosine_similarity_violin_plot_{adversarial_method.__class__.__name__}.jpg",

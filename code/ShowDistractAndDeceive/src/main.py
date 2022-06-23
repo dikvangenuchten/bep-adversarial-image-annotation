@@ -71,7 +71,7 @@ def main(
         os.makedirs(f"samples/{epsilon:.3f}/", exist_ok=True)
         for i, (image, caption_sample) in enumerate(zip(samples, caption_samples)):
             image.image.save(f"samples/{epsilon:.3f}/img_{i}.jpg")
-            caption_sample.image.save(f"samples/{epsilon:.3f}/caption_{i}.jpg")
+            caption_sample.image.save(f"samples/{epsilon:.3f}/caption_{i}.png")
 
         bleu_scores.append(bleu_score)
         all_cosine_similarities.append(cosine_similarities)
