@@ -72,7 +72,7 @@ In which, $\alpha$ is a hyperparameter which naively can be set to $\epsilon / N
 
 
 \subsection*{Distracting Adversarial Sample}
-Distraction is a powerful technique often used by adversaries in the real world. As S.A.T. employs attention to generate sentences, it is possible to try and distract it by creating an adversarial sample that makes the model hyperfocused on only part of the image. During training S.A.T. learns to divide the attention roughly equally over the whole image during the generation of a single caption. It does this by including the loss shown in equation \ref{attention_loss}.
+Distraction is a powerful technique often used by real-world adversaries\footnote[1]{Pickpocketers, street magicians, etc.} against humans. As S.A.T. employs attention to generate sentences, it is possible to try and distract it by creating an adversarial sample that makes the model hyperfocused on only part of the image. During training S.A.T. learns to divide the attention roughly equally over the whole image during the generation of a single caption. It does this by including the loss shown in equation \ref{attention_loss}.
 \begin{equation}
     L_{attention} = \sum^{L}_i (1 - \sum^{C}_{t} \alpha_{ti}^2)
     \label{attention_loss}
@@ -92,7 +92,6 @@ With $d$, $\alpha \in \rm I\!R^{LxC}$ and $d$ be constructed to focus attention 
 \end{equation}
 
 As can be seen in figure \ref{fig:distract_noise_examples} the images are visually less perturbed even with a higher epsilon. With an image with a perturbation of $\epsilon=0.160$ almost indistinguishable from the clean image. Although $\epsilon=0.640$ is visually distorted it is still very recognizable and would still be described the same by a human.
-
 
 \begin{figure}[h]
     \centering
@@ -115,7 +114,7 @@ As can be seen in figure \ref{fig:distract_noise_examples} the images are visual
     \label{fig:distract_noise_examples}
 \end{figure}
 
-\subsection{Evaluation}
+\subsection{Evaluation Metrics}
 The accuracy of Image Captioning models is often graded by using BLEU score \cite{papineni_roukos_ward_zhu_2001}. It gives a score between 0 and 1 on how good a certain translation is, by comparing the candidate translation to multiple reference translations. The BLEU score is found to correlate strongly with human judgement, however one weakness is that it cannot detect synonyms. To combat that the cosine similarity between the sentences is calculated. First the sentence is embedded by a Universal Sentence Encoder\cite{DBLP:journals/corr/abs-1803-11175} model, this embedding is then used to calculate the cosine similarity.
 
 To determine if the attention of the model is successfully attacked the average attention over all images will be plotted.
