@@ -1,100 +1,40 @@
-a room with a large window and a table with chairs
-a white polar bear with a tag in its ear
-a bed with a green blanket and a clock on it
-a stop sign is on a street corner
-a pair of shoes and a black and white shirt
-a woman in a red jacket skiing down a hill
-a brown and black and white bathroom with a shower
-a man is riding a skateboard in a park
-a man is swinging a tennis racket at a ball
-a group of young men standing next to each other
-a group of people sitting on a bench in front of a building
-a woman is holding a cell phone in her hand
-a pair of scissors and a bottle of liquor
-a white plate with a bunch of flowers in it
-a person in a black wetsuit is walking on the beach
-a close up of a television set on a table
-a street sign is shown with a sign in the background
-a red double decker bus parked on the side of a street
-a black cat is sitting on a suitcase
-a large jetliner flying over a large body of water
-a zebra is laying down on a bed
-a bed with a wooden head board and a chair
-a bus is parked on the street in front of a building
-a close up of a green apple with a green apple
-a baseball player is running on a field
-a large cake with a lot of frosting on it
-a man is riding a surfboard in the water
-a group of men standing next to a bunch of bananas
-a table with a white table cloth and a white tablecloth
-a person on skis jumping in the air
-a man is standing on a snowy hill
-a close up of a glass jar with a yellow flower
-a remote control sitting on a green surface
-a group of people standing around a pile of luggage
-a group of horses standing on top of a grass covered field
-a man in a hat and tie holding a large stack of cups
-a group of people on skis on a snowy slope
-a plate of food with broccoli and rice
-a person riding a skateboard on a street
-a close up of a bird with a bird
-a plate of food with a salad and a glass of wine
-a group of people sitting on a couch playing a video game
-a man and a woman are looking at a man in a suit
-a man in a white shirt and tie holding a paper
-a bed with a box of tissues and a cell phone
-a boy is doing a trick on a pair of skis
-a cat is laying on a bed next to a bottle of beer
-a group of people sitting on a bench with a skateboard
-a bus is parked on the street near a building
-a man sitting on a couch in a room
-a group of people standing in a room with a snowboard
-a large jetliner sitting on top of an airport runway
-a man is holding a glass of water in front of a toilet
-a person on skis in the snow on a slope
-a woman is playing tennis on a court
-a bowl of oranges sitting on a table
-a group of stuffed animals sitting on top of a couch
-a close up of a banana with a red light on it
-a train is parked at a train station
-a bedroom with a bed and a couch in it
-a white and blue tennis racket laying on a bed
-a man holding a baseball bat on a field
-a toilet with a hat on top of it
-a city street with many buildings and a street
-a group of people sitting in a room with a clock
-a group of men standing next to each other
-a tennis racket is shown with a tennis racket
-a woman and a man are standing next to an elephant
-a group of men standing next to each other holding a tennis racquet
-a woman holding an umbrella on a sidewalk
-a large elephant with a large elephant in its back
-a person is riding a wave on a surfboard
-a group of people on a beach with a dog
-a statue of a man sitting on a horse
-a man flying a kite on a beach
-a kitchen with a lot of appliances and a lot of stuff on the counter
-a red and blue striped umbrella sitting on a blue sky
-a room with a bed and a desk with a laptop on it
-a man riding a motorcycle with a woman on the back
-a group of people sitting on a bed with a clock
-a black and white clock on a black and white background
-a man riding a skateboard on top of a cement ramp
-a plate of food with a bunch of vegetables on it
-a man standing in front of a projector screen
-two men sitting on a bench in front of a building
-a cake with a piece of broccoli on it
-a man wearing a hat and a tie
-a plate of food with a fork and a bowl of chips
-a woman and a woman sitting on a black horse
-a traffic light hanging over a street at night
-a man in a hat and sunglasses holding a bunch of bananas
-a green building with a green door and a window
-a man wearing a hat and a hat
-a woman sitting on a couch with a laptop and a teddy bear
-a woman holding an umbrella in front of a mountain
-a man is standing in front of a laptop computer
-a group of people sitting around a table
-a truck is parked in the snow near a fire hydrant
-a bathroom with a large tub and a large mirror
-a man sitting on a bench with a group of zebras
+a room with a bunch of bottles and a shelf of various items
+a large brown bear with a large tag in its mouth
+a pile of yarn sitting on a floor next to a laptop
+a stop sign is shown in a park
+a pile of orange pieces of fabric with a <unk> of yarn
+a man is standing on a white table with a lot of papers
+a woman in a white dress is holding a bottle of wine
+a man is holding a baseball bat in a baseball field
+a man in a suit is on a tennis court
+a group of people standing around a green and yellow fire hydrant
+a group of people standing around a large building
+a man and woman sitting at a table with a cup of coffee
+a group of people standing next to a pile of luggage
+a black and white photo of a doughnut
+a man is walking in the water with a paddle
+a broken toilet with a note attached to it
+a street sign with a <unk> <unk> and a <unk> <unk>
+a red bus is parked on the side of the road
+a bunch of items that are on a machine
+a group of people riding skis on top of a snow covered slope
+a couple of zebras that are standing in the grass
+a table with a lot of tape on it and a pair of shoes on it
+a group of people standing next to a bus
+a close up of a green chair with a green apple
+a baseball player is on the field with a bat
+a group of <unk> a cake with a lot of baskets and a basket of <unk>
+a man is standing in the water with a surfboard
+a group of men standing next to a pile of bananas
+a table with a lot of seats and a merry go round candles on top of a pigs
+a group of people on a snowboard jumping over a snow covered slope
+a man standing on a snow covered beach
+a close up of a leather chair with a banana in it
+a white couch with a remote control and a banana
+a group of people standing around a baseball player
+a group of <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk> <unk>
+a man in a hat and a hat is cutting a cake
+a <unk> <unk> on a white cloth covered in snow
+a plate of food with a fork and a flower
+a man is riding a skateboard down a hill
+a bunch of bananas sitting on a table
