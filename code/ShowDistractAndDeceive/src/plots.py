@@ -90,7 +90,7 @@ def visualize_att(img, seq, alphas, smooth=True):
     image = image.resize([14 * 24, 14 * 24], Image.LANCZOS)
 
     words = seq.split(" ")
-    words.insert("<start>", 0)
+    words.insert(0, "<start>")
     # figure = plt.figure()
     plt.clf()
     for t in range(len(words)):
