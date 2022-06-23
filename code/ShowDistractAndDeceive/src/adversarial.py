@@ -14,7 +14,7 @@ class AbstractAdversarial(ABC):
     def __call__(self, images, target=None, epsilon=0):
         """Generates the adversarial image."""
         if self.targeted:
-            return - self._generate_noise(images, target, epsilon)
+            return -self._generate_noise(images, target, epsilon)
         if target is None:
             target = self.model(images)[0].argmax(-1)
         return self._generate_noise(images, target, epsilon)
@@ -39,7 +39,7 @@ class FastGradientSignAdversarial(AbstractAdversarial):
         """Generate adversarial noise with a max value of epsilon"""
         images.requires_grad = True
 
-        prediction, _ = self.model(images)
+        prediction, *_ = self.model(images)
         adversarial_loss = torch.nn.functional.cross_entropy(
             prediction.transpose(2, 1), target, reduction="none"
         )
@@ -82,12 +82,21 @@ class IterativeAdversarial:
         return self.adversarial_method.model
 
 
-def adversarial_inference(method, images, target, epsilon):
+def adversarial_inference(
+    method, images, target, epsilon, return_attention=False
+):
     noise = method(images, target, epsilon)
 
-    prediction, _ = method.model(images)
+    prediction, _, _ = method.model(images)
     adv_images = torch.clamp(images + noise, min=0, max=1)
-    adv_prediction, _ = method.model(adv_images)
+    adv_prediction, _, adv_attention = method.model(adv_images)
+    if return_attention:
+        return (
+            prediction.detach(),
+            adv_prediction.detach(),
+            adv_images.detach(),
+            adv_attention.detach(),
+        )
     return prediction.detach(), adv_prediction.detach(), adv_images.detach()
 
 

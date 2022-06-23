@@ -102,6 +102,7 @@ def epoch(dataloader, inverted_word_map, epsilon, adv_func, target=None):
     similarities = []
     samples = []
     noise = []
+    attention_vis = []
     all_labels = []
     all_adv_sentences = []
     if target is not None:
@@ -113,8 +114,13 @@ def epoch(dataloader, inverted_word_map, epsilon, adv_func, target=None):
             target = base_target.repeat([image.size(0), 1])
             target_sentences = [target_sentence] * image.size(0)
 
-        orig_pred, adv_pred, adv_img = adversarial.adversarial_inference(
-            adv_func, image, target, epsilon
+        (
+            orig_pred,
+            adv_pred,
+            adv_img,
+            attention,
+        ) = adversarial.adversarial_inference(
+            adv_func, image, target, epsilon, return_attention=True
         )
 
         # if target is None:
@@ -152,6 +158,15 @@ def epoch(dataloader, inverted_word_map, epsilon, adv_func, target=None):
                     caption=f"epsilon: {epsilon}",
                 )
                 for img, adv_image in zip(image, adv_img)
+            )
+
+            attention_vis.extend(
+                wandb.Image(
+                    plots.visualize_att(utils.rescale(img), adv_caption, att)
+                )
+                for img, adv_caption, att in zip(
+                    adv_img.cpu(), adv_sentences, attention.cpu()
+                )
             )
         similarities.append(similartity)
 

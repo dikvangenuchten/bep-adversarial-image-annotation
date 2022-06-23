@@ -126,6 +126,7 @@ def epoch(dataloader, inverted_word_map, epsilon, adv_func, target=None):
     similarities = []
     samples = []
     noise = []
+    attention_vis = []
     all_labels = []
     all_adv_sentences = []
     original_attention = None
@@ -194,6 +195,16 @@ def epoch(dataloader, inverted_word_map, epsilon, adv_func, target=None):
                 )
                 for img, adv_image in zip(image, adv_img)
             )
+
+            attention_vis.extend(
+                wandb.Image(
+                    plots.visualize_att(utils.rescale(img), adv_caption, att)
+                )
+                for img, adv_caption, att in zip(
+                    adv_img.cpu(), adv_sentences, adv_attention.cpu()
+                )
+            )
+
         similarities.append(similartity)
 
     with open(

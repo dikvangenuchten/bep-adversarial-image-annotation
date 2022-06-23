@@ -48,7 +48,7 @@ def caption_image_beam_search(
         mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
     )
     transform = transforms.Compose([normalize])
-    print(img.shape)
+    # print(img.shape)
     image = transform(img)  # (3, 256, 256)
 
     # Encode
@@ -187,7 +187,9 @@ def caption_image_beam_search(
     return seq, alphas
 
 
-def visualize_att(image_path, seq, alphas, rev_word_map, smooth=True):
+def visualize_att(
+    image_path, seq, alphas, rev_word_map, smooth=True, out_dir=os.getcwd()
+):
     """
     Visualizes caption with weights at every word.
 
@@ -211,7 +213,7 @@ def visualize_att(image_path, seq, alphas, rev_word_map, smooth=True):
 
         plt.text(
             0,
-            1,
+            -50,
             "%s" % (words[t]),
             color="black",
             backgroundcolor="white",
@@ -235,8 +237,9 @@ def visualize_att(image_path, seq, alphas, rev_word_map, smooth=True):
         plt.axis("off")
     plt.show()
     epsilon, name = os.path.normpath(image_path).split(os.sep)[-2:]
-    path = f"captions/caption_{epsilon}_{name}"
-    plt.savefig(f"captions/caption_{epsilon}_{name}")
+    path = os.path.join(out_dir, f"captions/caption_{epsilon}_{name}")
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    plt.savefig(path)
     return path
 
 
@@ -251,12 +254,22 @@ if __name__ == "__main__":
         default=None,
         required=False,
     )
-    parser.add_argument("--model", "-m", help="path to model")
-    parser.add_argument("--word_map", "-wm", help="path to word map JSON")
+    parser.add_argument(
+        "--model",
+        "-m",
+        help="path to model",
+        default="data/BEST_checkpoint_coco_5_cap_per_img_5_min_word_freq.pth.tar",
+    )
+    parser.add_argument(
+        "--word_map",
+        "-wm",
+        help="path to word map JSON",
+        default="data/WORDMAP_coco_5_cap_per_img_5_min_word_freq.json",
+    )
     parser.add_argument(
         "--beam_size",
         "-b",
-        default=5,
+        default=1,
         type=int,
         help="beam size for beam search",
     )
@@ -283,10 +296,14 @@ if __name__ == "__main__":
         word_map = json.load(j)
     rev_word_map = {v: k for k, v in word_map.items()}  # ix2word
 
-    imgs = glob.glob(args.img)
+    imgs = glob.glob("../../paper/figures/Distract/n=100/samples/**/img_*.jpg")
     if args.img is None or args.img == "all":
-        imgs = sorted(glob.glob("samples/*/img_*.jpg"))
+        # imgs = sorted(glob.glob("samples/*/img_*.jpg"))
+        imgs = sorted(
+            glob.glob("../../paper/figures/Distract/n=100/samples/**/img_*.jpg")
+        )
     iter_imgs = tqdm.tqdm(imgs)
+    print(iter_imgs)
     for img in iter_imgs:
         iter_imgs.set_description(f"Visualizing {img}")
         # Encode, decode with attention and beam search
@@ -296,5 +313,14 @@ if __name__ == "__main__":
         alphas = torch.FloatTensor(alphas)
 
         # Visualize caption and attention of best sequence
-        path = visualize_att(img, seq, alphas, rev_word_map, args.smooth)
+        path = visualize_att(
+            img,
+            seq,
+            alphas,
+            rev_word_map,
+            args.smooth,
+            out_dir="/workspaces/bep-adversarial-image-annotation/paper/figures/Distract/n=100/",
+        )
         iter_imgs.set_description(f"Saved in {path}")
+
+    print("Done")
