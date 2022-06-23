@@ -173,4 +173,4 @@ def heatmap(data, ax=None, cbar_kw={}, cbarlabel="", **kwargs):
     ax.grid(which="minor", color="w", linestyle="-", linewidth=3)
     ax.tick_params(which="minor", bottom=False, left=False)
 
-    return im, 
+    return im, cbar
