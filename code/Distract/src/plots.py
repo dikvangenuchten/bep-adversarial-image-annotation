@@ -161,7 +161,7 @@ def heatmap(data, ax=None, cbar_kw={}, cbarlabel="", **kwargs):
         ax = plt.gca()
 
     # Plot the heatmap
-    im = ax.imshow(data, **kwargs)
+    im = ax.imshow(data, cmap=plt.cm.RdBu ,**kwargs)
 
     # Create colorbar
     cbar = ax.figure.colorbar(im, ax=ax, cmap=plt.cm.RdBu, **cbar_kw)
