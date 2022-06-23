@@ -164,7 +164,7 @@ def heatmap(data, ax=None, cbar_kw={}, cbarlabel="", **kwargs):
     im = ax.imshow(data, **kwargs)
 
     # Create colorbar
-    cbar = ax.figure.colorbar(im, ax=ax, **cbar_kw)
+    cbar = ax.figure.colorbar(im, ax=ax, cmap=plt.cm.RdBu, **cbar_kw)
     cbar.ax.set_ylabel(cbarlabel, rotation=-90, va="bottom")
 
     ax.grid(which="minor", color="w", linestyle="-", linewidth=3)
