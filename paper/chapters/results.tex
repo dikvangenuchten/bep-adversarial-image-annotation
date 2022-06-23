@@ -75,7 +75,7 @@ As can be seen in figure \ref{adv_example_caption} the attention of S.A.T, even 
 % \end{figure*}
 
 \subsection*{Distracting Samples}
-To distract the model, adversarial samples are created using the iterative method (EQ. \ref{eq:iterative_method}) and the distraction adversarial loss (EQ. \ref{distraction_loss}). The amount of iterations was experimentally found to be good enough in most cases at 100, in which more would result in better distraction at the cost of longer running times. The adversarial attention targets the left top pixel. On the given dataset the attention is nicely divided with all parts of the image getting close to 0.005 of the average attention per pixel. With an epsilon of 0.04 satisfactory results are achieved. The attention of the model clearly focused on the top left on average as can be seen in figure \ref{average_attention_adv}. The top left pixels clearly get the most attention. With the perturbation at most 0.04 the image is visually identical to the human eye (figure \ref{dist_adv_example_img}).
+To distract the model, adversarial samples are created using the iterative method (EQ. \ref{eq:iterative_method}) and the distraction adversarial loss (EQ. \ref{distraction_loss}). The amount of iterations was experimentally found to be good enough in most cases at 100, in which more would result in better distraction at the cost of longer running times. The adversarial attention targets the left top pixel. On the given dataset the attention is nicely divided with all parts of the image getting close to 0.005 of the average attention per pixel. With an epsilon of 0.04 satisfactory results are achieved. The attention of the model clearly focused on the top left on average as can be seen in figure \ref{average_attention_adv}. The top left pixels clearly get the most attention. With the perturbation at most 0.04 the image is visually identical to the human eye (figure \ref{fig:full_img_clean_field}).
 
 \begin{figure}[H]
     \centering
@@ -94,45 +94,36 @@ To distract the model, adversarial samples are created using the iterative metho
 \end{figure}
 
 
-The attention and sentence generation for figure \ref{dist_adv_example_img} are visualized in figure \ref{fig:attention_distract_cart_clean} and \ref{fig:attention_distract_cart_adv}. Even though the original prediction is wrong, the attention is focusing on the correct parts of the image. The model is not completely distracted and still attends to other parts of the image, however they are not clearly a single object relating to the word that is generated. During the generations of the last few words the attention is focused almost solely on the top left part.
+The attention and sentence generation for figure \ref{fig:full_img_clean_field} are visualized in figure \ref{fig:distract_field_all}. The attention is focusing on the correct parts of the image. The model is completely distracted and attends solely on the top left part.
 
-\begin{figure*}[h]
+\begin{figure*}[ht]
     \centering
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \includegraphics[width=0.9\textwidth]{figures/distraction_adv_sample_0.png} % first figure itself
-    \end{minipage}\hfill
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \includegraphics[width=0.9\textwidth]{figures/distraction_adv_sample_0.04.png} % second figure itself
-    \end{minipage}
-    \caption{Clean Image (left), Adversarial Image $\epsilon=0.04, N=100$ (right)}
-    \label{dist_adv_example_img}
-\end{figure*}
-
-
-
-\begin{figure}[h]
-    \centering
-    \subfloat[a][Attention of S.A.T. on clean image.]{
-        \includegraphics[width=0.9\textwidth]{figures/caption_distraction_adv_sample_0.png}
-        \label{fig:attention_distract_cart_clean}
-
+    \subfloat[a][Clean Image]{\includegraphics[width=0.45\textwidth]{figures/Distract/e0.000_n100/img_34.jpg}
+        \label{fig:full_img_clean_field}
     }
     \vspace{\floatsep}
-    \subfloat[a][Attention of S.A.T. on adversarial image generated with $\epsilon=0.04, N=100$.]{
-        \includegraphics[width=0.9\textwidth]{figures/caption_distraction_adv_sample_0.04.png} % second figure itself
-        \label{fig:attention_distract_cart_adv}
+    \subfloat[a][Adversarial Image $epsilon=0.040, N=100$]{\includegraphics[width=0.45\textwidth]{figures/Distract/e0.040_n100/img_34.jpg}
+        \label{fig:full_img_distract_field}
     }
-\end{figure}
+    \vspace{\floatsep}
+    \subfloat[a][Clean Image with attention]{\includegraphics[width=0.45\textwidth]{figures/Distract/e0.000_n100/caption_34.png}
+        \label{fig:attention_clean_field}
+    }
+    \vspace{\floatsep}
+    \subfloat[a][Adversarial Image $epsilon=0.040, N=100$]{\includegraphics[width=0.45\textwidth]{figures/Distract/e0.040_n100/caption_34.png}
+        \label{fig:attention_distract_field}
+    }
+    \caption{Successful distracting the model.}
+    \label{fig:distract_field_all}
+\end{figure*}
 
 Both the BLEU score and cosine similarity go down with higher values of epsilon, however there are clearly diminishing returns. Furthermore, with the higher values of epsilon the image will eventually be unrecognizable and thus not reasonable to expect sensible output
 
-\begin{figure}[h]
+\begin{figure*}[h]
     \subfloat[a][Average BLEU score]{
         \includegraphics[width=0.45\textwidth]{figures/adversarial_average_bleu_score.png}}
     \vspace{\floatsep}
     \subfloat[a][Average cosine similarity]{\includegraphics[width=0.45\textwidth]{figures/adversarial_average_cosine_sim.png}}
 
     \caption{BLEU score during distraction over epsilon}
-\end{figure}
+\end{figure*}
