@@ -107,9 +107,9 @@ def main(
         for i, (image, noise_sample, caption_sample) in enumerate(
             zip(samples, noise, caption_samples)
         ):
-            image.image.save(f"samples/{epsilon:.3f}_n{iterations}/img_{i}.jpg")
-            noise_sample.image.save(f"samples/{epsilon:.3f}_n{iterations}/noise_{i}.jpg")
-            caption_sample.image.save(f"samples/{epsilon:.3f}_n{iterations}/caption_{i}.png")
+            image.image.save(f"samples/e{epsilon:.3f}_n{iterations}/img_{i}.jpg")
+            noise_sample.image.save(f"samples/e{epsilon:.3f}_n{iterations}/noise_{i}.jpg")
+            caption_sample.image.save(f"samples/e{epsilon:.3f}_n{iterations}/caption_{i}.png")
 
     plots.cosine_similarity_violin_plot(
         f"cosine_similarity_violin_plot_{adversarial_method.__class__.__name__}.jpg",

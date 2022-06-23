@@ -69,10 +69,10 @@ def main(
             }
         )
 
-        os.makedirs(f"samples/{epsilon:.3f}_n{iterations}/", exist_ok=True)
+        os.makedirs(f"samples/e{epsilon:.3f}_n{iterations}/", exist_ok=True)
         for i, (image, caption_sample) in enumerate(zip(samples, caption_samples)):
-            image.image.save(f"samples/{epsilon:.3f}_n{iterations}/img_{i}.jpg")
-            caption_sample.image.save(f"samples/{epsilon:.3f}_n{iterations}/caption_{i}.png")
+            image.image.save(f"samples/e{epsilon:.3f}_n{iterations}/img_{i}.jpg")
+            caption_sample.image.save(f"samples/e{epsilon:.3f}_n{iterations}/caption_{i}.png")
 
         bleu_scores.append(bleu_score)
         all_cosine_similarities.append(cosine_similarities)
