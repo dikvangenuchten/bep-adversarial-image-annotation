@@ -56,17 +56,24 @@ In practice applying this a single time is often not enough to successfully atta
 \end{equation}
 In which, $\alpha$ is a hyperparameter which naively can be set to $\epsilon / N$. Images generated using this method are usually less visually disturb for the same epsilons. Here an epsilon of $0.040$ is nearly indistinguishable, as can be seen in figure \ref{fig:iterative_noise_examples}
 
-\begin{figure}[H]
+\begin{figure}[h]
     \centering
     \subfloat[a][$\epsilon$=0.000]{
         \includegraphics[width=0.45\textwidth]{figures/fast_method_group_of_people/group_of_people_0.000.png}
     }
     \vspace{\floatsep}
-    % !!TODO FIX IMAGE
     \subfloat[b][$\epsilon$=0.020]{
         \includegraphics[width=0.45\textwidth]{figures/fast_method_group_of_people/group_of_people_0.020.png}
     }
-    \caption{Clean (left) and Adversarial images (right) for varying epsilon values of $0.020$ and $0.160$. Generated using equation \ref{eq:iterative_method}. More values of epsilon can be found in appendix \ref{appendix:fast_noise_examples}. TODO FIX IMAGE AS THIS IS THE INCORRECT ONE. NEED TO GENERATE WITH ITERATIVE WITH N=10 MORE.}
+    \centering
+    \subfloat[a][$\epsilon$=0.000]{
+        \includegraphics[width=0.45\textwidth]{figures/fast_method_group_of_people/group_of_people_0.000.png}
+    }
+    \vspace{\floatsep}
+    \subfloat[b][$\epsilon$=0.020]{
+        \includegraphics[width=0.45\textwidth]{figures/fast_method_group_of_people/group_of_people_0.160.png}
+    }
+    \caption{Clean (left) and Adversarial images (right) for varying epsilon values of $0.020$ and $0.160$. Generated using equation \ref{eq:iterative_method}. More values of epsilon can be found in appendix \ref{appendix:fast_noise_examples}.}
     \label{fig:iterative_noise_examples}
 \end{figure}
 
