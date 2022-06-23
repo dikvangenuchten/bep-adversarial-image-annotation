@@ -29,6 +29,7 @@ def main(
     adversarial_method: Callable,
     epsilons,
     target=None,
+    iterations=1
 ):
     inverted_word_map = utils.invert_word_map(word_map)
 
@@ -39,7 +40,7 @@ def main(
     wandb.init(
         project="Bachelor End Project",
         tags=[adversarial_method.__class__.__name__],
-        name=f"Adversarial Image Caption: {adversarial_method.__class__.__name__}",
+        name=f"Adversarial Image Caption: {adversarial_method.__class__.__name__} n={iterations}",
     )
     bleu_scores = []
     all_cosine_similarities = []
@@ -68,10 +69,10 @@ def main(
             }
         )
 
-        os.makedirs(f"samples/{epsilon:.3f}/", exist_ok=True)
+        os.makedirs(f"samples/{epsilon:.3f}_n{iterations}/", exist_ok=True)
         for i, (image, caption_sample) in enumerate(zip(samples, caption_samples)):
-            image.image.save(f"samples/{epsilon:.3f}/img_{i}.jpg")
-            caption_sample.image.save(f"samples/{epsilon:.3f}/caption_{i}.png")
+            image.image.save(f"samples/{epsilon:.3f}_n{iterations}/img_{i}.jpg")
+            caption_sample.image.save(f"samples/{epsilon:.3f}_n{iterations}/caption_{i}.png")
 
         bleu_scores.append(bleu_score)
         all_cosine_similarities.append(cosine_similarities)
@@ -284,4 +285,5 @@ if __name__ == "__main__":
         adversarial_method=adv_method,
         epsilons=epsilons,
         target=target_sentence,
+        iterations=args.iterations
     )
