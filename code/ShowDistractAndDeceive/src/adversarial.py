@@ -82,9 +82,7 @@ class IterativeAdversarial:
         return self.adversarial_method.model
 
 
-def adversarial_inference(
-    method, images, target, epsilon, return_attention=False
-):
+def adversarial_inference(method, images, target, epsilon, return_attention=False):
     noise = method(images, target, epsilon)
 
     prediction, _, _ = method.model(images)

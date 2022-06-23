@@ -34,9 +34,7 @@ def main(
 
     # Prepare target
     if target is not None:
-        target = utils.pad_target_sentence(
-            target, word_map, model.max_sentence_length
-        )
+        target = utils.pad_target_sentence(target, word_map, model.max_sentence_length)
 
     wandb.init(
         project="Bachelor End Project",
@@ -47,7 +45,15 @@ def main(
     all_cosine_similarities = []
 
     for epsilon in tqdm(epsilons):
-        cosine_similarities, bleu_score, samples, noise, or_att, ad_att = epoch(
+        (
+            cosine_similarities,
+            bleu_score,
+            samples,
+            noise,
+            or_att,
+            ad_att,
+            caption_samples,
+        ) = epoch(
             dataloader=dataloader,
             inverted_word_map=inverted_word_map,
             epsilon=epsilon,
@@ -89,6 +95,7 @@ def main(
                 "attention_plot": wandb.Image(
                     f"attention_{adversarial_method.__class__.__name__}_at_{epsilon:.2f}.jpg"
                 ),
+                "attention samples": caption_samples,
             }
         )
 
@@ -96,9 +103,12 @@ def main(
         all_cosine_similarities.append(cosine_similarities)
 
         os.makedirs(f"samples/{epsilon:.3f}/", exist_ok=True)
-        for i, (image, noise_sample) in enumerate(zip(samples, noise)):
+        for i, (image, noise_sample, caption_sample) in enumerate(
+            zip(samples, noise, caption_samples)
+        ):
             image.image.save(f"samples/{epsilon:.3f}/img_{i}.jpg")
             noise_sample.image.save(f"samples/{epsilon:.3f}/noise_{i}.jpg")
+            caption_sample.image.save(f"samples/{epsilon:.3f}/caption_{i}.jpg")
 
     plots.cosine_similarity_violin_plot(
         f"cosine_similarity_violin_plot_{adversarial_method.__class__.__name__}.jpg",
@@ -150,17 +160,13 @@ def epoch(dataloader, inverted_word_map, epsilon, adv_func, target=None):
 
         if original_attention is None:
             original_attention = torch.zeros_like(attention).sum(dim=[0, 1])
-            adversarial_attention = torch.zeros_like(adv_attention).sum(
-                dim=[0, 1]
-            )
+            adversarial_attention = torch.zeros_like(adv_attention).sum(dim=[0, 1])
 
         original_attention += attention.sum(dim=[0, 1])
         adversarial_attention += adv_attention.sum(dim=[0, 1])
 
         if target is None:
-            target_sentences = utils.decode_prediction(
-                inverted_word_map, orig_pred
-            )
+            target_sentences = utils.decode_prediction(inverted_word_map, orig_pred)
 
         adv_sentences = utils.decode_prediction(inverted_word_map, adv_pred)
 
@@ -197,9 +203,7 @@ def epoch(dataloader, inverted_word_map, epsilon, adv_func, target=None):
             )
 
             attention_vis.extend(
-                wandb.Image(
-                    plots.visualize_att(utils.rescale(img), adv_caption, att)
-                )
+                wandb.Image(plots.visualize_att(utils.rescale(img), adv_caption, att))
                 for img, adv_caption, att in zip(
                     adv_img.cpu(), adv_sentences, adv_attention.cpu()
                 )
@@ -221,6 +225,7 @@ def epoch(dataloader, inverted_word_map, epsilon, adv_func, target=None):
         noise,
         original_attention,
         adversarial_attention,
+        attention_vis,
     )
 
 

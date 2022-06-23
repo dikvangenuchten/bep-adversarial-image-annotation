@@ -28,9 +28,7 @@ for i in range(5):
 human_score_corpus = nltk.bleu_score.corpus_bleu(references, hypothesis)
 print(f"human_score_corpus={human_score_corpus}")
 
-embedding_model = hub.load(
-    "https://tfhub.dev/google/universal-sentence-encoder/4"
-)
+embedding_model = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
 
 
 references_transposed = list(zip(*references))
@@ -38,9 +36,7 @@ hypothesis_embed = embedding_model(hypothesis)
 max_sim = None
 for i in range(4):
     references_embed = embedding_model(references_transposed[i])
-    cosine_sim = -tf.keras.losses.cosine_similarity(
-        hypothesis_embed, references_embed
-    )
+    cosine_sim = -tf.keras.losses.cosine_similarity(hypothesis_embed, references_embed)
     if max_sim is None:
         max_sim = cosine_sim
 

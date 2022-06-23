@@ -85,9 +85,7 @@ for step in history:
     average_bleu_score.append(step["bleu score"])
     epsilon.append(step["epsilon"])
 
-plot_average_cosine_similarity(
-    "average_cosine_sim", average_cosine_sim, epsilon
-)
+plot_average_cosine_similarity("average_cosine_sim", average_cosine_sim, epsilon)
 plot_bleu_scores("average_bleu_score", average_bleu_score, epsilon)
 
 pass

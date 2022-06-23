@@ -113,9 +113,7 @@ def visualize_att(img, seq, alphas, smooth=True):
                 current_alpha.numpy(), upscale=24, sigma=8
             )
         else:
-            alpha = skimage.transform.resize(
-                current_alpha.numpy(), [14 * 24, 14 * 24]
-            )
+            alpha = skimage.transform.resize(current_alpha.numpy(), [14 * 24, 14 * 24])
         if t == 0:
             plt.imshow(alpha, alpha=0)
         else:
@@ -124,13 +122,12 @@ def visualize_att(img, seq, alphas, smooth=True):
         plt.axis("off")
     return plt
 
+
 def plot_attention_heatmap(name, attention, epsilon):
 
     fig, ax = plt.subplots()
 
-    im, cbar = heatmap(
-        attention / attention.sum(), ax=ax, cbarlabel="Attention"
-    )
+    im, cbar = heatmap(attention / attention.sum(), ax=ax, cbarlabel="Attention")
 
     ax.set_title(f"Average Attention for \u03B5: {epsilon:.3f}")
     fig.tight_layout()

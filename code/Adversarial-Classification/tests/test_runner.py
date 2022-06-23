@@ -56,7 +56,9 @@ def test_runner_test_step(zero_mnist_model, runner):
     assert torch.allclose(pre_train_out, post_train_out)
 
 
-def _set_model_weight_to_zero(model,) -> torch.nn.Module:
+def _set_model_weight_to_zero(
+    model,
+) -> torch.nn.Module:
     def _set_zero_weights_and_bias(m):
         if hasattr(m, "weight"):
             m.weight.data.fill_(0)

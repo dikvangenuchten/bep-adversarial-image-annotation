@@ -34,9 +34,7 @@ def main(
 
     # Prepare target
     if target is not None:
-        target = utils.pad_target_sentence(
-            target, word_map, model.max_sentence_length
-        )
+        target = utils.pad_target_sentence(target, word_map, model.max_sentence_length)
 
     wandb.init(
         project="Bachelor End Project",
@@ -47,7 +45,7 @@ def main(
     all_cosine_similarities = []
 
     for epsilon in tqdm(epsilons):
-        cosine_similarities, bleu_score, samples = epoch(
+        cosine_similarities, bleu_score, samples, caption_samples = epoch(
             dataloader=dataloader,
             inverted_word_map=inverted_word_map,
             epsilon=epsilon,
@@ -66,12 +64,14 @@ def main(
                 "average cosine_similarity": np.mean(cosine_similarities),
                 "adversarial samples": samples,
                 "bleu score": bleu_score,
+                "attention caption": caption_samples,
             }
         )
 
         os.makedirs(f"samples/{epsilon:.3f}/", exist_ok=True)
-        for i, image in enumerate(samples):
+        for i, (image, caption_sample) in enumerate(zip(samples, caption_samples)):
             image.image.save(f"samples/{epsilon:.3f}/img_{i}.jpg")
+            caption_sample.image.save(f"samples/{epsilon:.3f}/caption_{i}.jpg")
 
         bleu_scores.append(bleu_score)
         all_cosine_similarities.append(cosine_similarities)
@@ -114,12 +114,7 @@ def epoch(dataloader, inverted_word_map, epsilon, adv_func, target=None):
             target = base_target.repeat([image.size(0), 1])
             target_sentences = [target_sentence] * image.size(0)
 
-        (
-            orig_pred,
-            adv_pred,
-            adv_img,
-            attention,
-        ) = adversarial.adversarial_inference(
+        (orig_pred, adv_pred, adv_img, attention,) = adversarial.adversarial_inference(
             adv_func, image, target, epsilon, return_attention=True
         )
 
@@ -128,9 +123,7 @@ def epoch(dataloader, inverted_word_map, epsilon, adv_func, target=None):
 
         adv_sentences = utils.decode_prediction(inverted_word_map, adv_pred)
 
-        similartity = sentence_embedding.cosine_similarity(
-            labels[0], adv_sentences
-        )
+        similartity = sentence_embedding.cosine_similarity(labels[0], adv_sentences)
 
         if target is None:
             # labels are transposed to ensure batch is in the correct spot
@@ -161,9 +154,7 @@ def epoch(dataloader, inverted_word_map, epsilon, adv_func, target=None):
             )
 
             attention_vis.extend(
-                wandb.Image(
-                    plots.visualize_att(utils.rescale(img), adv_caption, att)
-                )
+                wandb.Image(plots.visualize_att(utils.rescale(img), adv_caption, att))
                 for img, adv_caption, att in zip(
                     adv_img.cpu(), adv_sentences, attention.cpu()
                 )
@@ -177,7 +168,7 @@ def epoch(dataloader, inverted_word_map, epsilon, adv_func, target=None):
 
     cosine_similarities = torch.concat(similarities).numpy()
     bleu_score = corpus_bleu(all_labels, all_adv_sentences)
-    return cosine_similarities, bleu_score, samples
+    return cosine_similarities, bleu_score, samples, attention_vis
 
 
 if __name__ == "__main__":
@@ -266,9 +257,9 @@ if __name__ == "__main__":
     f"Must be one of {list(ADV_METHODS.keys())}"
     target_sentence = args.target_sentence
     if target_sentence is not None:
-        target_sentence = utils.sentence_to_tokens(
-            target_sentence, word_map
-        ).to(args.device)
+        target_sentence = utils.sentence_to_tokens(target_sentence, word_map).to(
+            args.device
+        )
 
     adversarial_method_class = ADV_METHODS.get(args.adversarial_method)
 

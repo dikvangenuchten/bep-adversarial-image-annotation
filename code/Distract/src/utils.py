@@ -63,9 +63,7 @@ def decode_prediction(inverted_word_map, scores):
     return sentences
 
 
-def pad_target_sentence(
-    target_sentence: str, word_map: dict, sentence_length: int
-):
+def pad_target_sentence(target_sentence: str, word_map: dict, sentence_length: int):
     end_token = word_map["<end>"]
     target_length = len(target_sentence)
 

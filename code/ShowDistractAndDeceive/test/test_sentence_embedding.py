@@ -14,9 +14,7 @@ def test_cosine_similarity_on_almost_identical_sentences():
     adv_sentence_1 = "a group of teddy bears sitting on top of a couch"
     adv_sentence_2 = "a group of men are sitting on top of a couch"
     adv_sentence_3 = "on top of a couch a group of stuffed animals are sitting"
-    adv_sentence_4 = (
-        "a pair of shoes and a black shirt and a black and white shirt"
-    )
+    adv_sentence_4 = "a pair of shoes and a black shirt and a black and white shirt"
 
     or_vs_ad1 = cosine_similarity([orig_sentence], [adv_sentence_1])
     or_vs_ad2 = cosine_similarity([orig_sentence], [adv_sentence_2])

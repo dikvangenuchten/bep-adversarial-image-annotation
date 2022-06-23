@@ -49,9 +49,7 @@ class FastGradientSignAdversarial(AbstractAdversarial):
         else:
             adv_attention = attention.argmax(-1)
 
-        adversarial_loss = torch.nn.functional.cross_entropy(
-            attention, adv_attention
-        )
+        adversarial_loss = torch.nn.functional.cross_entropy(attention, adv_attention)
 
         loss = adversarial_loss.mean()
         loss.backward()
