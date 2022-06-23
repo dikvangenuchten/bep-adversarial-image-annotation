@@ -90,6 +90,7 @@ def visualize_att(img, seq, alphas, smooth=True):
     image = image.resize([14 * 24, 14 * 24], Image.LANCZOS)
 
     words = seq.split(" ")
+    words.insert("<start>", 0)
     # figure = plt.figure()
     plt.clf()
     for t in range(len(words)):
@@ -161,7 +162,7 @@ def heatmap(data, ax=None, cbar_kw={}, cbarlabel="", **kwargs):
         ax = plt.gca()
 
     # Plot the heatmap
-    im = ax.imshow(data, cmap=plt.cm.RdBu ,**kwargs)
+    im = ax.imshow(data, cmap=plt.cm.RdBu, **kwargs)
 
     # Create colorbar
     cbar = ax.figure.colorbar(im, ax=ax, cmap=plt.cm.RdBu, **cbar_kw)

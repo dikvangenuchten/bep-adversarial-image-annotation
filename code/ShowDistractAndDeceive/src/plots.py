@@ -90,6 +90,7 @@ def visualize_att(img, seq, alphas, smooth=True):
     image = image.resize([14 * 24, 14 * 24], Image.LANCZOS)
 
     words = seq.split(" ")
+    words.insert("<start>", 0)
     # figure = plt.figure()
     plt.clf()
     for t in range(len(words)):
@@ -113,9 +114,7 @@ def visualize_att(img, seq, alphas, smooth=True):
                 current_alpha.numpy(), upscale=24, sigma=8
             )
         else:
-            alpha = skimage.transform.resize(
-                current_alpha.numpy(), [14 * 24, 14 * 24]
-            )
+            alpha = skimage.transform.resize(current_alpha.numpy(), [14 * 24, 14 * 24])
         if t == 0:
             plt.imshow(alpha, alpha=0)
         else:
@@ -129,9 +128,7 @@ def plot_attention_heatmap(name, attention, epsilon):
 
     fig, ax = plt.subplots()
 
-    im, cbar = heatmap(
-        attention / attention.sum(), ax=ax, cbarlabel="Attention"
-    )
+    im, cbar = heatmap(attention / attention.sum(), ax=ax, cbarlabel="Attention")
 
     ax.set_title(f"Average Attention for \u03B5: {epsilon:.3f}")
     fig.tight_layout()
@@ -165,7 +162,7 @@ def heatmap(data, ax=None, cbar_kw={}, cbarlabel="", **kwargs):
         ax = plt.gca()
 
     # Plot the heatmap
-    im = ax.imshow(data, cmap=plt.cm.RdBu ,**kwargs)
+    im = ax.imshow(data, cmap=plt.cm.RdBu, **kwargs)
 
     # Create colorbar
     cbar = ax.figure.colorbar(im, ax=ax, cmap=plt.cm.RdBu, **cbar_kw)

@@ -29,7 +29,7 @@ def main(
     adversarial_method: Callable,
     epsilons,
     target=None,
-    iterations=1
+    iterations=1,
 ):
     inverted_word_map = utils.invert_word_map(word_map)
 
@@ -108,8 +108,12 @@ def main(
             zip(samples, noise, caption_samples)
         ):
             image.image.save(f"samples/e{epsilon:.3f}_n{iterations}/img_{i}.jpg")
-            noise_sample.image.save(f"samples/e{epsilon:.3f}_n{iterations}/noise_{i}.jpg")
-            caption_sample.image.save(f"samples/e{epsilon:.3f}_n{iterations}/caption_{i}.png")
+            noise_sample.image.save(
+                f"samples/e{epsilon:.3f}_n{iterations}/noise_{i}.jpg"
+            )
+            caption_sample.image.save(
+                f"samples/e{epsilon:.3f}_n{iterations}/caption_{i}.png"
+            )
 
     plots.cosine_similarity_violin_plot(
         f"cosine_similarity_violin_plot_{adversarial_method.__class__.__name__}.jpg",
@@ -338,5 +342,5 @@ if __name__ == "__main__":
         adversarial_method=adv_method,
         epsilons=epsilons,
         target=None,
-        iterations=args.iterations
+        iterations=args.iterations,
     )

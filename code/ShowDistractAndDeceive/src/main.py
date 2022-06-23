@@ -29,7 +29,7 @@ def main(
     adversarial_method: Callable,
     epsilons,
     target=None,
-    iterations=1
+    iterations=1,
 ):
     inverted_word_map = utils.invert_word_map(word_map)
 
@@ -72,7 +72,9 @@ def main(
         os.makedirs(f"samples/e{epsilon:.3f}_n{iterations}/", exist_ok=True)
         for i, (image, caption_sample) in enumerate(zip(samples, caption_samples)):
             image.image.save(f"samples/e{epsilon:.3f}_n{iterations}/img_{i}.jpg")
-            caption_sample.image.save(f"samples/e{epsilon:.3f}_n{iterations}/caption_{i}.png")
+            caption_sample.image.save(
+                f"samples/e{epsilon:.3f}_n{iterations}/caption_{i}.png"
+            )
 
         bleu_scores.append(bleu_score)
         all_cosine_similarities.append(cosine_similarities)
@@ -285,5 +287,5 @@ if __name__ == "__main__":
         adversarial_method=adv_method,
         epsilons=epsilons,
         target=target_sentence,
-        iterations=args.iterations
+        iterations=args.iterations,
     )
