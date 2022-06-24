@@ -1,21 +1,21 @@
 \subsection*{Adversarial Samples}
-Adversarial samples are generated using the iterative version of Fast Gradient Sign method as shown in equation \ref{eq:iterative_method}. With $N=10$ satisfactory results can be achieved, however higher $N$ results in even better results for the same $\epsilon$. Higher epsilons did not have an effect on BLEU score beyond $0.08$ as can be seen in figure \ref{adv_bleu_score}. This is in contrast to the cosine similarity as it does decrease further for the higher $\epsilon$.
+Adversarial samples are generated using the iterative version of the Fast Gradient Sign method as shown in equation \ref{eq:iterative_method}. With $N=10$ satisfactory results can be achieved, however higher $N$ results in even better results for the same $\epsilon$. Higher epsilons did not affect the BLEU score beyond $0.08$ significantly as can be seen in figure \ref{adv_bleu_score}.
 
-\begin{figure*}[h]
+\begin{figure}[h]
     \centering
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \includegraphics[width=0.9\textwidth]{figures/adversarial_average_bleu_score.png} % first figure itself
-        \caption{Average BLEU score for adversarial samples.}
+    \subfloat[a][Average BLEU score for adversarial samples.]{
+        \includegraphics[width=0.48\textwidth]{figures/adversarial_average_bleu_score.png}
         \label{adv_bleu_score}
-    \end{minipage}\hfill
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \includegraphics[width=0.9\textwidth]{figures/adversarial_average_cosine_sim.png} % second figure itself
-        \caption{Cosine similarity vs epsilon (Axis is not correct yet, is log scale on x.)}
+
+    }
+    \vspace{\floatsep}
+    \subfloat[b][Cosine similarity vs epsilon]{
+        \includegraphics[width=0.48\textwidth]{figures/adversarial_average_cosine_sim.png} % second figure itself
         \label{adv_cosine_similarity}
-    \end{minipage}
-\end{figure*}
+
+    }
+    \caption{Scores over epsilon for adversarial samples. Note the log x-scale.}
+\end{figure}
 
 \begin{figure}[h]
     \centering
@@ -75,7 +75,7 @@ As can be seen in figure \ref{adv_example_caption} the attention of S.A.T, even 
 % \end{figure*}
 
 \subsection*{Distracting Samples}
-To distract the model, adversarial samples are created using the iterative method (EQ. \ref{eq:iterative_method}) and the distraction adversarial loss (EQ. \ref{distraction_loss}). The amount of iterations was experimentally found to be good enough in most cases at 100, in which more would result in better distraction at the cost of longer running times. The adversarial attention targets the left top pixel. On the given dataset the attention is nicely divided with all parts of the image getting close to 0.005 of the average attention per pixel. With an epsilon of 0.04 satisfactory results are achieved. The attention of the model clearly focused on the top left on average as can be seen in figure \ref{average_attention_adv}. The top left pixels clearly get the most attention. With the perturbation at most 0.04 the image is visually identical to the human eye (figure \ref{fig:full_img_clean_field}).
+To distract the model, adversarial samples are created using the iterative method (EQ. \ref{eq:iterative_method}) and the distraction adversarial loss (EQ. \ref{distraction_loss}). The number of iterations was experimentally found to be good enough in most cases at 100, in which more would result in better distraction at the cost of longer running times. The adversarial attention targets the left top pixel. On the given dataset the attention is nicely divided with all parts of the image getting close to 0.005\footnote[1]{$attention / number\_of\_latent\_pixels = 1 / 196 = 0.005$} of the average attention per pixel. With an epsilon of 0.04 satisfactory results are achieved. The attention of the model clearly focused on the top left on average as can be seen in figure \ref{average_attention_adv}. The top left pixels clearly get the most attention. With the perturbation at most 0.04 the image is visually identical to the human eye (figure \ref{fig:full_img_clean_field}).
 
 \begin{figure}[H]
     \centering
@@ -87,7 +87,6 @@ To distract the model, adversarial samples are created using the iterative metho
     \subfloat[b][Average attention on adversarial images with $\epsilon$=0.04 at 100 iterations]{
         \includegraphics[width=0.48\textwidth]{figures/distraction_attention_epsilon_0.04.png} % second figure itself
         \label{average_attention_adv}
-
     }
     \caption{Average attention visualized for clean (a) and adversarial images (b)}
     \label{average_attention}
@@ -124,6 +123,5 @@ Both the BLEU score and cosine similarity go down with higher values of epsilon,
         \includegraphics[width=0.45\textwidth]{figures/adversarial_average_bleu_score.png}}
     \vspace{\floatsep}
     \subfloat[a][Average cosine similarity]{\includegraphics[width=0.45\textwidth]{figures/adversarial_average_cosine_sim.png}}
-
-    \caption{BLEU score during distraction over epsilon}
+    \caption{BLEU score and cosine similarity during distraction over epsilon}
 \end{figure*}
