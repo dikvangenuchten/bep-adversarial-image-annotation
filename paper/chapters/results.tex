@@ -75,7 +75,7 @@ As can be seen in figure \ref{adv_example_caption} the attention of S.A.T, even 
 % \end{figure*}
 
 \subsection*{Distracting Samples}
-To distract the model, adversarial samples are created using the iterative method (EQ. \ref{eq:iterative_method}) and the distraction adversarial loss (EQ. \ref{distraction_loss}). The number of iterations was experimentally found to be good enough in most cases at 100, in which more would result in better distraction at the cost of longer running times. The adversarial attention targets the left top pixel. On the given dataset the attention is nicely divided with all parts of the image getting close to 0.005\footnote[1]{$attention / number\_of\_latent\_pixels = 1 / 196 = 0.005$} of the average attention per pixel. With an epsilon of 0.04 satisfactory results are achieved. The attention of the model clearly focused on the top left on average as can be seen in figure \ref{average_attention_adv}. The top left pixels clearly get the most attention. With the perturbation at most 0.04 the image is visually identical to the human eye (figure \ref{fig:full_img_clean_field}).
+To distract the model, adversarial samples are created using the iterative method (EQ. \ref{eq:iterative_method}) and the distraction adversarial loss (EQ. \ref{distraction_loss}). The number of iterations was experimentally found to be good enough in most cases at 100, in which more would result in better distraction at the cost of longer running times. The adversarial attention targets the left top pixel. On the given dataset the attention is nicely divided with all parts of the image getting close to 0.005\footnote[1]{$attention / number\_of\_latent\_pixels = 1 / 196 = 0.005$} of the average attention per pixel. With an epsilon of 0.04 satisfactory results are achieved. The attention of the model is focused on the top-left on average as can be seen in figure \ref{average_attention_adv}. It gets attented to about 4x as much as before. With the perturbation at most 0.04 the image is visually identical to the human eye (figure \ref{fig:full_img_clean_field}).
 
 \begin{figure}[H]
     \centering
@@ -93,7 +93,7 @@ To distract the model, adversarial samples are created using the iterative metho
 \end{figure}
 
 
-The attention and sentence generation for figure \ref{fig:full_img_clean_field} are visualized in figure \ref{fig:distract_field_all}. The attention is focusing on the correct parts of the image. The model is completely distracted and attends solely on the top left part.
+The attention and sentence generation for figure \ref{fig:full_img_clean_field} are visualized in figure \ref{fig:distract_field_all}. The attention is focused on the correct parts of the image. The model is completely distracted and attends solely to the top-left part.
 
 \begin{figure*}[ht]
     \centering
@@ -116,7 +116,7 @@ The attention and sentence generation for figure \ref{fig:full_img_clean_field} 
     \label{fig:distract_field_all}
 \end{figure*}
 
-Both the BLEU score and cosine similarity go down with higher values of epsilon, however there are clearly diminishing returns. Furthermore, with the higher values of epsilon the image will eventually be unrecognizable and thus not reasonable to expect sensible output
+Both the BLEU score and cosine similarity go down with higher values of epsilon, however, there are diminishing returns. Furthermore, with the higher values of epsilon, the image will eventually be unrecognizable, and thus not reasonable to expect sensible output
 
 \begin{figure*}[h]
     \subfloat[a][Average BLEU score]{
