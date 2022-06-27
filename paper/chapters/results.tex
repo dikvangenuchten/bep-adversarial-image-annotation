@@ -93,7 +93,7 @@ To distract the model, adversarial samples are created using the iterative metho
 \end{figure}
 
 
-The attention and sentence generation for figure \ref{fig:full_img_clean_field} are visualized in figure \ref{fig:distract_field_all}. The attention is focused on the correct parts of the image. The model is completely distracted and attends solely to the top-left part.
+The attention and sentence generation for figure \ref{fig:full_img_clean_field} are visualized in figure \ref{fig:distract_field_all}. There is no disturbance visual between the clean and adversarial image. However, for the clean image the attention is focused on the correct parts of the image, while the model is completely distracted and attends solely to the top-left part on the adversarial image.
 
 \begin{figure*}[ht]
     \centering
@@ -116,7 +116,7 @@ The attention and sentence generation for figure \ref{fig:full_img_clean_field} 
     \label{fig:distract_field_all}
 \end{figure*}
 
-Both the BLEU score and cosine similarity go down with higher values of epsilon, however, there are diminishing returns. Furthermore, with the higher values of epsilon, the image will eventually be unrecognizable, and thus not reasonable to expect sensible output
+Both the BLEU score and cosine similarity go down with higher values of epsilon, however, there are diminishing returns. Furthermore, with the higher values of epsilon, the image will eventually be unrecognizable, and thus is it not reasonable to expect a sensible output
 
 \begin{figure*}[h]
     \subfloat[a][Average BLEU score]{
